@@ -1,0 +1,15 @@
+<Project>
+    <PropertyGroup>
+        <Version>1.0.8</Version>
+        <Authors>damon</Authors>
+        <Company>Nerosoft Ltd.</Company>
+        <Product>Starfish</Product>
+        <Copyright>© 2018-$([System.DateTime]::Now.Year) Nerosoft. All Rights Reserved.</Copyright>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>disable</Nullable>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+</Project>
