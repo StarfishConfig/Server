@@ -12,4 +12,9 @@
 		<ProjectReference Include="..\Starfish.Transit\Starfish.Transit.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+		<PackageReference Include="Euonia.Application" />
+		<PackageReference Include="Euonia.Mapping.Automapper" />
+	</ItemGroup>
+
 </Project>

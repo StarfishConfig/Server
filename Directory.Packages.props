@@ -23,7 +23,6 @@
         <PackageVersion Include="Euonia.Domain" Version="$(EuoniaPackageVersion)" />
         <PackageVersion Include="Euonia.Hosting" Version="$(EuoniaPackageVersion)" />
         <PackageVersion Include="Euonia.Hosting.Serilog" Version="$(EuoniaPackageVersion)" />
-        <PackageVersion Include="Euonia.Linq" Version="$(EuoniaPackageVersion)" />
         <PackageVersion Include="Euonia.Mapping.Automapper" Version="$(EuoniaPackageVersion)" />
         <PackageVersion Include="Euonia.Modularity" Version="$(EuoniaPackageVersion)" />
         <PackageVersion Include="Euonia.Pipeline" Version="$(EuoniaPackageVersion)" />
@@ -51,7 +50,7 @@
         <PackageVersion Include="Refit.HttpClientFactory" Version="$(RefitPackageVersion)" />
         <PackageVersion Include="Refit.Newtonsoft.Json" Version="$(RefitPackageVersion)" />
         <PackageVersion Include="StackExchange.Redis" Version="2.8.41" />
-        <PackageVersion Include="Swashbuckle.AspNetCore" Version="9.0.1" />
+        <PackageVersion Include="Swashbuckle.AspNetCore" Version="9.0.6" />
         <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.12.1" />
     </ItemGroup>
     <ItemGroup>
