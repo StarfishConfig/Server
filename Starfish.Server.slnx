@@ -1,8 +1,16 @@
 <Solution>
     <Folder Name="/Solutions/">
-        <File Path="README.md"/>
-        <File Path="NuGet.config"/>
-        <File Path="Directory.Packages.props"/>
+        <File Path="README.md" />
+        <File Path="global.props" />
+        <File Path="NuGet.config" />
+        <File Path="Directory.Packages.props" />
     </Folder>
-    <Folder Name="/Source/"/>
+    <Folder Name="/Source/">
+        <File Path="Source/common.props" />
+        <Project Path="Source/Starfish.Application/Starfish.Application.csproj" Id="579e2bfe-45b9-496a-a552-4e83340a0974" />
+        <Project Path="Source/Starfish.Domain/Starfish.Domain.csproj" Id="e76b62d0-3aa0-417f-8c37-987affc2fe79" />
+        <Project Path="Source/Starfish.Host/Starfish.Host.csproj" Id="25907fd8-5c26-4aa7-8e1e-90c477127341" />
+        <Project Path="Source/Starfish.Transit/Starfish.Transit.csproj" Id="6a33edd6-67e9-4a44-86cf-fa4b30cbae4d" />
+    </Folder>
+    <Folder Name="/Tests/" />
 </Solution>
