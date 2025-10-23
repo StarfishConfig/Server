@@ -1,0 +1,8 @@
+<Solution>
+    <Folder Name="/Solutions/">
+        <File Path="README.md"/>
+        <File Path="NuGet.config"/>
+        <File Path="Directory.Packages.props"/>
+    </Folder>
+    <Folder Name="/Source/"/>
+</Solution>
