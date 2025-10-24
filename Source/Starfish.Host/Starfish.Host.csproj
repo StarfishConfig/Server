@@ -27,6 +27,7 @@
 		<PackageReference Include="Euonia.Hosting" />
 		<PackageReference Include="Euonia.Hosting.Serilog" />
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+        <PackageReference Include="Microsoft.FeatureManagement.AspNetCore" />
 		<PackageReference Include="Swashbuckle.AspNetCore" />
 	</ItemGroup>
 
