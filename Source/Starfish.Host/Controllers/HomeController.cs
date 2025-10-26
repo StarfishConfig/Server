@@ -1,12 +1,25 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Nerosoft.Starfish.Host.Controllers
+namespace Nerosoft.Starfish.Host.Controllers;
+
+/// <inheritdoc />
+[Route("{controller=Home}/{action=Index}")]
+[ApiExplorerSettings(IgnoreApi = true)]
+[AllowAnonymous]
+public class HomeController : Controller
 {
-    public class HomeController : Controller
+    /// <summary>
+    /// The home page.
+    /// </summary>
+    /// <returns></returns>
+    public IActionResult Index()
     {
-        public IActionResult Index()
+        var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+        return environment switch
         {
-            return View();
-        }
+            "Development" => Redirect("/swagger"),
+            _ => Content($"@ {DateTime.Today.Year} Nerosoft.")
+        };
     }
 }
