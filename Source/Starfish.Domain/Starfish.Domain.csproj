@@ -11,6 +11,8 @@
 	<ItemGroup>
 		<PackageReference Include="Euonia.Business" />
 		<PackageReference Include="Euonia.Domain" />
+        <PackageReference Include="IdentityModel" />
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
 	</ItemGroup>
 
 </Project>

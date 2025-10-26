@@ -51,7 +51,7 @@
         <PackageVersion Include="Refit.Newtonsoft.Json" Version="$(RefitPackageVersion)" />
         <PackageVersion Include="StackExchange.Redis" Version="2.8.41" />
         <PackageVersion Include="Swashbuckle.AspNetCore" Version="9.0.6" />
-        <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.12.1" />
+        <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.14.0" />
     </ItemGroup>
     <ItemGroup>
         <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.6" />
