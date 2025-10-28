@@ -23,6 +23,7 @@
         <PackageVersion Include="Euonia.Domain" Version="$(EuoniaPackageVersion)" />
         <PackageVersion Include="Euonia.Hosting" Version="$(EuoniaPackageVersion)" />
         <PackageVersion Include="Euonia.Hosting.Serilog" Version="$(EuoniaPackageVersion)" />
+		<PackageVersion Include="Euonia.Linq" Version="$(EuoniaPackageVersion)" />
         <PackageVersion Include="Euonia.Mapping.Automapper" Version="$(EuoniaPackageVersion)" />
         <PackageVersion Include="Euonia.Modularity" Version="$(EuoniaPackageVersion)" />
         <PackageVersion Include="Euonia.Pipeline" Version="$(EuoniaPackageVersion)" />
@@ -57,9 +58,9 @@
         <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.6" />
         <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.6" />
         <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.6" />
-        <PackageVersion Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0-preview.3.efcore.9.0.0" />
+        <PackageVersion Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0" />
         <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
-        <PackageVersion Include="MongoDB.EntityFrameworkCore" Version="9.0.0" />
+        <PackageVersion Include="MongoDB.EntityFrameworkCore" Version="9.0.3" />
     </ItemGroup>
     
     <!-- Tests -->
