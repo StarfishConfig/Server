@@ -11,6 +11,7 @@
         <Project Path="Source/Starfish.Domain/Starfish.Domain.csproj" Id="e76b62d0-3aa0-417f-8c37-987affc2fe79" />
         <Project Path="Source/Starfish.Host/Starfish.Host.csproj" Id="25907fd8-5c26-4aa7-8e1e-90c477127341" />
         <Project Path="Source/Starfish.Repository/Starfish.Repository.csproj" Id="22aa3de9-96a3-47c6-957c-e64f8776413b" />
+        <Project Path="Source/Starfish.Toolkit/Starfish.Toolkit.csproj" Id="66e5c40b-45cf-4e30-adf5-c6a8872a63d5" />
         <Project Path="Source/Starfish.Transit/Starfish.Transit.csproj" Id="6a33edd6-67e9-4a44-86cf-fa4b30cbae4d" />
     </Folder>
     <Folder Name="/Tests/" />
