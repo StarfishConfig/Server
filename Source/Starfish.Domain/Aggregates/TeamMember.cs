@@ -7,6 +7,9 @@ namespace Nerosoft.Starfish.Domain;
 /// </summary>
 public class TeamMember : Entity<long>, IHasCreateTime
 {
+    /// <summary>
+    /// Default constructor for ORM.
+    /// </summary>
     private TeamMember()
     {
     }

@@ -8,10 +8,17 @@ namespace Nerosoft.Starfish.Domain;
 /// </summary>
 public sealed class User : Aggregate<long>, IHasCreateTime, IHasUpdateTime, ITombstone
 {
+    /// <summary>
+    /// Prevents a default instance of the <see cref="User"/> class from being created.
+    /// </summary>
     private User()
     {
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="User"/> class.
+    /// </summary>
+    /// <param name="username"></param>
     private User(string username)
         : this()
     {
@@ -169,25 +176,29 @@ public sealed class User : Aggregate<long>, IHasCreateTime, IHasUpdateTime, ITom
     internal void IncrementAccessFailedCount()
     {
         AccessFailedCount++;
-        if (AccessFailedCount > 5)
-        {
-            LockoutEnd = DateTime.UtcNow.AddMinutes(15);
-        }
 
-        if (AccessFailedCount == 6)
+        switch (AccessFailedCount)
         {
-            RaiseEvent(new UserLockedEvent(Id, LockoutEnd!.Value));
+            case < 10:
+                break;
+            case 10:
+                LockoutEnd = DateTime.UtcNow.AddMinutes(15);
+                RaiseEvent(new UserLockedEvent(Id, LockoutEnd!.Value));
+                break;
+            case > 10:
+                LockoutEnd = LockoutEnd!.Value + TimeSpan.FromMinutes(5 * (AccessFailedCount - 10));
+                break;
         }
     }
 
     /// <summary>
-    /// Unlocks the user account.
+    /// Resets the access failed count and unlocks the account.
     /// </summary>
-    internal void UnlockAccount()
+    internal void ResetAccessFailedCount()
     {
         AccessFailedCount = 0;
         LockoutEnd = null;
-        
+
         RaiseEvent(new UserUnlockedEvent(Id));
     }
 }

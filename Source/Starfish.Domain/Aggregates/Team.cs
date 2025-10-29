@@ -8,7 +8,7 @@ namespace Nerosoft.Starfish.Domain;
 public class Team : Aggregate<long>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="Team"/> class.
+    /// Default constructor for ORM.
     /// </summary>
     private Team()
     {
@@ -59,6 +59,7 @@ public class Team : Aggregate<long>
             MemberCount = 0,
             Members = []
         };
+        aggregate.AddMember(ownerId);
         aggregate.RaiseEvent(new TeamCreatedEvent { Name = name, OwnerId = ownerId });
         return aggregate;
     }
