@@ -13,6 +13,14 @@ public sealed class User : Aggregate<long>, IHasCreateTime, IHasUpdateTime, ITom
     /// </summary>
     private User()
     {
+        Register<UserEmailChangedEvent>(@event =>
+        {
+            Email = @event.NewValue.Normalize(TextCaseType.Lower);
+        });
+        Register<UserPhoneChangedEvent>(@event =>
+        {
+            Phone = @event.NewValue.Normalize(TextCaseType.Lower);
+        });
     }
 
     /// <summary>
@@ -135,9 +143,7 @@ public sealed class User : Aggregate<long>, IHasCreateTime, IHasUpdateTime, ITom
             return;
         }
 
-        var @event = new UserEmailChangedEvent(Id, Email, email);
-        Email = email.Normalize(TextCaseType.Lower);
-        RaiseEvent(@event);
+        RaiseEvent(new UserEmailChangedEvent(Id, Email, email));
     }
 
     /// <summary>
@@ -151,9 +157,7 @@ public sealed class User : Aggregate<long>, IHasCreateTime, IHasUpdateTime, ITom
             return;
         }
 
-        var @event = new UserPhoneChangedEvent(Id, Phone, phone);
-        Phone = phone.Normalize(TextCaseType.Lower);
-        RaiseEvent(@event);
+        RaiseEvent(new UserPhoneChangedEvent(Id, Phone, phone));
     }
 
     /// <summary>
