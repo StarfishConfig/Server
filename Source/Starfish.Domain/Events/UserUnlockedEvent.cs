@@ -7,4 +7,17 @@ namespace Nerosoft.Starfish.Domain;
 /// </summary>
 public class UserUnlockedEvent : DomainEvent
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="UserUnlockedEvent"/> class.
+    /// </summary>
+    /// <param name="userId"></param>
+    public UserUnlockedEvent(long userId)
+    {
+        UserId = userId;
+    }
+
+    /// <summary>
+    /// Gets the identifier of the unlocked user.
+    /// </summary>
+    public long UserId { get; }
 }

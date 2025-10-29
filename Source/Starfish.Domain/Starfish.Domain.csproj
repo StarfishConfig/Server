@@ -14,5 +14,9 @@
         <PackageReference Include="IdentityModel" />
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
 	</ItemGroup>
+    
+    <ItemGroup>
+        <ProjectReference Include="..\Starfish.Toolkit\Starfish.Toolkit.csproj" />
+    </ItemGroup>
 
 </Project>

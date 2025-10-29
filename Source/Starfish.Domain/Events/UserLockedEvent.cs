@@ -8,7 +8,23 @@ namespace Nerosoft.Starfish.Domain;
 public class UserLockedEvent : DomainEvent
 {
     /// <summary>
-    /// Gets or sets the unique identifier of the locked user.
+    /// Initializes a new instance of the <see cref="UserLockedEvent"/> class.
     /// </summary>
-    public string Username { get; set; }
+    /// <param name="userId"></param>
+    /// <param name="lockoutEnd"></param>
+    public UserLockedEvent(long userId, DateTime lockoutEnd)
+    {
+        UserId = userId;
+        LockoutEnd = lockoutEnd;
+    }
+
+    /// <summary>
+    /// Gets the identifier of the locked user.
+    /// </summary>
+    public long UserId { get; }
+
+    /// <summary>
+    /// Gets the lockout end time.
+    /// </summary>
+    public DateTime LockoutEnd { get; }
 }
