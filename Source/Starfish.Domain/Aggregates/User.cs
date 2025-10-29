@@ -136,7 +136,7 @@ public sealed class User : Aggregate<long>, IHasCreateTime, IHasUpdateTime, ITom
         }
 
         var @event = new UserEmailChangedEvent(Id, Email, email);
-        Email = email;
+        Email = email.Normalize(TextCaseType.Lower);
         RaiseEvent(@event);
     }
 
@@ -152,7 +152,7 @@ public sealed class User : Aggregate<long>, IHasCreateTime, IHasUpdateTime, ITom
         }
 
         var @event = new UserPhoneChangedEvent(Id, Phone, phone);
-        Phone = phone;
+        Phone = phone.Normalize(TextCaseType.Lower);
         RaiseEvent(@event);
     }
 
