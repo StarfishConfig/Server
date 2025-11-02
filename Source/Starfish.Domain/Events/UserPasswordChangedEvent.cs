@@ -7,6 +7,11 @@ namespace Nerosoft.Starfish.Domain;
 /// </summary>
 public class UserPasswordChangedEvent : DomainEvent
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="UserPasswordChangedEvent"/> class.
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <param name="changeType"></param>
     public UserPasswordChangedEvent(long userId, string changeType)
     {
         UserId = userId;

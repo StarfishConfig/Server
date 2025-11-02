@@ -5,13 +5,17 @@ namespace Nerosoft.Starfish.Domain;
 /// <summary>
 /// Defines a team within the system.
 /// </summary>
-public class Team : Aggregate<long>
+public sealed class Team : Aggregate<long>
 {
     /// <summary>
     /// Default constructor for ORM.
     /// </summary>
     private Team()
     {
+        Register<TeamNameChangedEvent>(@event =>
+        {
+            Name = @event.NewValue;
+        });
     }
 
     private Team(string name)
@@ -81,7 +85,7 @@ public class Team : Aggregate<long>
             return;
         }
 
-        Name = name;
+        RaiseEvent(new TeamNameChangedEvent(Id, Name, name));
     }
 
     /// <summary>
