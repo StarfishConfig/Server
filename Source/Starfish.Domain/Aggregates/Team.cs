@@ -16,6 +16,10 @@ public sealed class Team : Aggregate<long>
         {
             Name = @event.NewValue;
         });
+        Register<TeamOwnerChangedEvent>(@event =>
+        {
+            OwnerId = @event.OldValue;
+        });
     }
 
     private Team(string name)
@@ -43,6 +47,11 @@ public sealed class Team : Aggregate<long>
     /// Gets or sets the number of members in the team.
     /// </summary>
     public int MemberCount { get; set; }
+
+    /// <summary>
+    /// Gets or sets the number of projects associated with the team.
+    /// </summary>
+    public int ProjectCount { get; set; }
 
     /// <summary>
     /// Gets or sets the collection of team members.
@@ -153,5 +162,45 @@ public sealed class Team : Aggregate<long>
         }
 
         RemoveMember(member);
+    }
+
+    /// <summary>
+    /// Sets the project count for the team.
+    /// </summary>
+    /// <param name="count"></param>
+    internal void SetProjectCount(int count)
+    {
+        ProjectCount = count;
+    }
+
+    /// <summary>
+    /// Transfers ownership of the team to a new owner.
+    /// </summary>
+    /// <param name="ownerId"></param>
+    /// <param name="retainAsMember"></param>
+    /// <exception cref="ArgumentNullException"></exception>
+    internal void TransferOwnership(long ownerId, bool retainAsMember = true)
+    {
+        if (ownerId == 0)
+        {
+            throw new ArgumentNullException(nameof(ownerId));
+        }
+
+        if (ownerId == OwnerId)
+        {
+            return;
+        }
+
+        if (Members.All(t => t.UserId != ownerId))
+        {
+            throw new InvalidOperationException("The new owner must be a member of the team.");
+        }
+
+        RaiseEvent(new TeamOwnerChangedEvent(Id, OwnerId, ownerId));
+
+        if (!retainAsMember)
+        {
+            RemoveMember(OwnerId);
+        }
     }
 }
