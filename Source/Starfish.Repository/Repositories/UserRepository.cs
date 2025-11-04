@@ -1,0 +1,54 @@
+using Nerosoft.Euonia.Linq;
+using Nerosoft.Euonia.Repository;
+using Nerosoft.Starfish.Domain;
+
+namespace Nerosoft.Starfish.Repository;
+
+/// <summary>
+/// Repository for managing User entities.
+/// </summary>
+internal class UserRepository : BaseRepository<IdentityDataContext, User, long>, IUserRepository
+{
+    /// <summary>
+    /// Initializes a new instance of the <see cref="UserRepository"/> class.
+    /// </summary>
+    /// <param name="provider"></param>
+    public UserRepository(IContextProvider provider)
+        : base(provider)
+    {
+    }
+
+    public Task<User> FindByUsernameAsync(string username, bool tracking, CancellationToken cancellationToken = default)
+    {
+        return GetAsync(t => t.Username == username, tracking, [], cancellationToken);
+    }
+
+    public Task<bool> CheckUsernameExistsAsync(string username, CancellationToken cancellationToken = default)
+    {
+        var specification = UserSpecification.UsernameEquals(username);
+        var predicate = specification.Satisfy();
+        return AnyAsync(predicate, null, cancellationToken);
+    }
+
+    public Task<bool> CheckEmailExistsAsync(string email, long ignoreId, CancellationToken cancellationToken = default)
+    {
+        ISpecification<User>[] specifications =
+        [
+            UserSpecification.EmailEquals(email),
+            UserSpecification.IdNotEquals(ignoreId)
+        ];
+        var predicate = new CompositeSpecification<User>(PredicateOperator.AndAlso, specifications).Satisfy();
+        return AnyAsync(predicate, null, cancellationToken);
+    }
+
+    public Task<bool> CheckPhoneExistsAsync(string phone, long ignoreId, CancellationToken cancellationToken = default)
+    {
+        ISpecification<User>[] specifications =
+        [
+            UserSpecification.EmailEquals(phone),
+            UserSpecification.IdNotEquals(ignoreId)
+        ];
+        var predicate = new CompositeSpecification<User>(PredicateOperator.AndAlso, specifications).Satisfy();
+        return AnyAsync(predicate, null, cancellationToken);
+    }
+}
