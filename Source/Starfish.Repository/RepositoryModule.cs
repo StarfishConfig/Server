@@ -12,7 +12,7 @@ namespace Nerosoft.Starfish.Repository;
 /// Defines the repository module for the Starfish application.
 /// </summary>
 [DependsOn(typeof(DomainServiceModule))]
-internal class RepositoryModule : ModuleContextBase
+public class RepositoryModule : ModuleContextBase
 {
     private const string CONNECTION_STRING_PATTERN = @"^(?<dbtype>(?:\w|\-)+):\/\/(?<conn>.*)";
 
@@ -53,7 +53,7 @@ internal class RepositoryModule : ModuleContextBase
         context.Services.AddUnitOfWork();
 
         context.Services.AddKeyedSingleton<IModelBuilder, IdentityModelBuilder>("IdentityModelBuilder");
-        context.Services.AddKeyedSingleton<IModelBuilder, ConfigurationModelBuilder>("ConfigurationModelBuilder");
+        context.Services.AddKeyedSingleton<IModelBuilder, ProjectModelBuilder>("ProjectModelBuilder");
 
         context.Services.AddDbContextFactory<IdentityDataContext>((_, options) =>
         {
@@ -61,9 +61,9 @@ internal class RepositoryModule : ModuleContextBase
             ConfigureDatabaseType(options, connectionString);
         });
 
-        context.Services.AddDbContextFactory<ConfigurationDataContext>((_, options) =>
+        context.Services.AddDbContextFactory<ProjectDataContext>((_, options) =>
         {
-            var connectionString = Configuration.GetConnectionString("ConfigurationConnection");
+            var connectionString = Configuration.GetConnectionString("ProjectConnection");
             ConfigureDatabaseType(options, connectionString);
         });
     }

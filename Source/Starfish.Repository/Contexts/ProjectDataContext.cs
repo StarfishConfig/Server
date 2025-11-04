@@ -4,16 +4,16 @@ using Nerosoft.Euonia.Repository.EfCore;
 
 namespace Nerosoft.Starfish.Repository;
 
-internal sealed class ConfigurationDataContext : DataContextBase<ConfigurationDataContext>
+internal sealed class ProjectDataContext : DataContextBase<ProjectDataContext>
 {
     private readonly IModelBuilder _builder;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ConfigurationDataContext"/> class.
+    /// Initializes a new instance of the <see cref="ProjectDataContext"/> class.
     /// </summary>
     /// <param name="options"></param>
     /// <param name="builder"></param>
-    public ConfigurationDataContext(DbContextOptions<ConfigurationDataContext> options, [FromKeyedServices("ConfigurationModelBuilder")] IModelBuilder builder)
+    public ProjectDataContext(DbContextOptions<ProjectDataContext> options, [FromKeyedServices("ProjectModelBuilder")] IModelBuilder builder)
         : base(options)
     {
         _builder = builder;
