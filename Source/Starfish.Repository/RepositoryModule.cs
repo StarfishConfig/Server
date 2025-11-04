@@ -1,4 +1,6 @@
-﻿using Nerosoft.Euonia.Modularity;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Nerosoft.Euonia.Modularity;
+using Nerosoft.Euonia.Repository;
 using Nerosoft.Starfish.Domain;
 
 namespace Nerosoft.Starfish.Repository;
@@ -31,8 +33,20 @@ internal class RepositoryModule : ModuleContextBase
     };
 
     /// <inheritdoc />
+    public override void AheadConfigureServices(ServiceConfigurationContext context)
+    {
+        Configure<UnitOfWorkOptions>(options =>
+        {
+            options.IsTransactional = false;
+        });
+    }
+
+    /// <inheritdoc />
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        base.ConfigureServices(context);
+        context.Services.AddContextProvider();
+        context.Services.AddUnitOfWork();
+
+        //var 
     }
 }
