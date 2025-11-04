@@ -1,5 +1,7 @@
+using Nerosoft.Euonia.Bus;
 using Nerosoft.Euonia.Business;
 using Nerosoft.Euonia.Claims;
+using Nerosoft.Euonia.Modularity;
 
 namespace Nerosoft.Starfish.Domain;
 
@@ -23,4 +25,14 @@ public abstract class CommandObjectBase<T> : CommandObject<T>, IHasLazyServicePr
     /// Gets the current user identity from the lazy service provider.
     /// </summary>
     protected virtual UserPrincipal Identity => LazyServiceProvider.GetRequiredService<UserPrincipal>();
+
+    /// <summary>
+    /// Gets the message bus from the lazy service provider.
+    /// </summary>
+    protected virtual IBus Bus => LazyServiceProvider.GetRequiredService<IBus>();
+
+    /// <summary>
+    /// Gets the request context accessor from the lazy service provider.
+    /// </summary>
+    protected virtual IRequestContextAccessor RequestContextAccessor => LazyServiceProvider.GetRequiredService<IRequestContextAccessor>();
 }
