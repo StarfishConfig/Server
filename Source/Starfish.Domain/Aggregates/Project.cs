@@ -5,7 +5,7 @@ namespace Nerosoft.Starfish.Domain;
 /// <summary>
 /// Defines the project aggregate.
 /// </summary>
-public sealed class Project : Aggregate<long>
+internal sealed class Project : Aggregate<long>
 {
     /// <summary>
     /// Default constructor for ORM.
