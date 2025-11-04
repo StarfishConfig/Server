@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Text.RegularExpressions;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Nerosoft.Euonia.Modularity;
 using Nerosoft.Euonia.Repository;
 using Nerosoft.Starfish.Domain;
@@ -11,6 +14,8 @@ namespace Nerosoft.Starfish.Repository;
 [DependsOn(typeof(DomainServiceModule))]
 internal class RepositoryModule : ModuleContextBase
 {
+    private const string CONNECTION_STRING_PATTERN = @"^(?<dbtype>(?:\w|\-)+):\/\/(?<conn>.*)";
+
     /// <summary>
     /// Defines a mapping of database type aliases to their corresponding DatabaseType enum values.
     /// </summary>
@@ -47,6 +52,77 @@ internal class RepositoryModule : ModuleContextBase
         context.Services.AddContextProvider();
         context.Services.AddUnitOfWork();
 
-        //var 
+        context.Services.AddKeyedSingleton<IModelBuilder, IdentityModelBuilder>("IdentityModelBuilder");
+        context.Services.AddKeyedSingleton<IModelBuilder, ConfigurationModelBuilder>("ConfigurationModelBuilder");
+
+        context.Services.AddDbContextFactory<IdentityDataContext>((_, options) =>
+        {
+            var connectionString = Configuration.GetConnectionString("IdentityConnection");
+            ConfigureDatabaseType(options, connectionString);
+        });
+
+        context.Services.AddDbContextFactory<ConfigurationDataContext>((_, options) =>
+        {
+            var connectionString = Configuration.GetConnectionString("ConfigurationConnection");
+            ConfigureDatabaseType(options, connectionString);
+        });
+    }
+
+    private static void ConfigureDatabaseType(DbContextOptionsBuilder options, string connectionString)
+    {
+        var match = Regex.Match(connectionString, CONNECTION_STRING_PATTERN);
+        if (!match.Success)
+        {
+            throw new ArgumentException("Invalid connection string format.");
+        }
+
+        var databaseType = match.Groups["dbtype"].Value;
+        var connection = match.Groups["conn"].Value;
+
+        if (_databaseTypeAlias.TryGetValue(databaseType, out var dbType))
+        {
+            switch (dbType)
+            {
+                case DatabaseType.SqlServer:
+                    options.UseSqlServer(connection, builder =>
+                    {
+                        builder.EnableRetryOnFailure(3, TimeSpan.FromSeconds(2), null);
+                        builder.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);
+                    });
+                    break;
+                case DatabaseType.MySql:
+                    options.UseMySql(connection, ServerVersion.AutoDetect(connection), builder =>
+                    {
+                        builder.EnableRetryOnFailure(3, TimeSpan.FromSeconds(2), null);
+                        builder.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);
+                    });
+                    break;
+                case DatabaseType.PostgreSql:
+                    options.UseNpgsql(connection, builder =>
+                    {
+                        builder.EnableRetryOnFailure(3, TimeSpan.FromSeconds(2), null);
+                        builder.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);
+                    });
+                    break;
+                case DatabaseType.Sqlite:
+                    options.UseSqlite(connection, builder =>
+                    {
+                        builder.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);
+                    });
+                    break;
+                case DatabaseType.MongoDb:
+                    options.UseMongoDB(connection, "");
+                    break;
+                case DatabaseType.InMemory:
+                    options.UseInMemoryDatabase("Starfish");
+                    break;
+                default:
+                    throw new NotSupportedException($"Database type '{databaseType}' is not supported.");
+            }
+        }
+        else
+        {
+            throw new ArgumentException($"Unknown database type alias: '{databaseType}'");
+        }
     }
 }
