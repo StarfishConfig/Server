@@ -14,6 +14,7 @@
         <Project Path="Source/Starfish.Repository/Starfish.Repository.csproj" />
         <Project Path="Source/Starfish.Toolkit/Starfish.Toolkit.csproj" />
         <Project Path="Source/Starfish.Transit/Starfish.Transit.csproj" />
+        <Project Path="Source/Starfish.Webapi/Starfish.Webapi.csproj" Id="f5e7ebb4-6c27-4d62-b03b-bf6ef3198c48" />
     </Folder>
     <Folder Name="/Tests/" />
 </Solution>
