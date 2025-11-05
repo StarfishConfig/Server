@@ -4,7 +4,7 @@ using IdentityModel;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Nerosoft.Starfish.Host;
+namespace Nerosoft.Starfish.Webapi;
 
 /// <summary>
 /// The extensions for startup configuration.

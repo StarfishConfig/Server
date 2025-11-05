@@ -1,6 +1,6 @@
 using Microsoft.OpenApi.Models;
 
-namespace Nerosoft.Starfish.Host;
+namespace Nerosoft.Starfish.Webapi;
 
 /// <summary>
 /// Extensions for Swagger integration.

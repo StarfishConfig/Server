@@ -1,10 +1,11 @@
-using Microsoft.AspNetCore.Hosting.Server.Features;
+﻿using Microsoft.AspNetCore.Hosting.Server.Features;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.FeatureManagement;
 using Nerosoft.Euonia.Hosting;
 using Nerosoft.Euonia.Modularity;
 using Serilog;
 
-namespace Nerosoft.Starfish.Host;
+namespace Nerosoft.Starfish.Webapi;
 
 /// <summary>
 /// The host service module for the Starfish application.
@@ -30,6 +31,10 @@ internal class HostServiceModule : ModuleContextBase
         });
         context.Services.AddHealthChecks();
         context.Services.AddControllers();
+        // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+        context.Services.AddOpenApi();
+        context.Services.AddAuthentication(Configuration);
+        context.Services.AddSwagger();
         context.Services.AddFeatureManagement();
     }
 
