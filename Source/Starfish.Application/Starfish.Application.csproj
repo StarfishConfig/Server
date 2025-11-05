@@ -6,15 +6,22 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>disable</Nullable>
 	</PropertyGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\Starfish.Domain\Starfish.Domain.csproj" />
-		<ProjectReference Include="..\Starfish.Transit\Starfish.Transit.csproj" />
-	</ItemGroup>
-
+    
 	<ItemGroup>
 		<PackageReference Include="Euonia.Application" />
+        <PackageReference Include="Euonia.Bus.InMemory" />
+        <PackageReference Include="Euonia.Bus.RabbitMq" />
+        <PackageReference Include="Euonia.Caching" />
+        <PackageReference Include="Euonia.Caching.Memory" />
+        <PackageReference Include="Euonia.Caching.Redis" />
+        <PackageReference Include="Euonia.Caching.Runtime" />
 		<PackageReference Include="Euonia.Mapping.Automapper" />
 	</ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Starfish.Domain\Starfish.Domain.csproj" />
+        <ProjectReference Include="..\Starfish.Repository\Starfish.Repository.csproj" />
+        <ProjectReference Include="..\Starfish.Transit\Starfish.Transit.csproj" />
+    </ItemGroup>
 
 </Project>
