@@ -9,16 +9,31 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-        <PackageReference Include="Euonia.Bus" />
+		<PackageReference Include="Euonia.Bus" />
 		<PackageReference Include="Euonia.Business" />
 		<PackageReference Include="Euonia.Domain" />
-        <PackageReference Include="Euonia.Repository " />
-        <PackageReference Include="IdentityModel" />
-        <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
+		<PackageReference Include="Euonia.Repository " />
+		<PackageReference Include="IdentityModel" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" />
 	</ItemGroup>
-    
-    <ItemGroup>
-        <ProjectReference Include="..\Starfish.Toolkit\Starfish.Toolkit.csproj" />
-    </ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Starfish.Toolkit\Starfish.Toolkit.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Update="Properties\Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
 
 </Project>
