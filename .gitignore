@@ -419,4 +419,16 @@ FodyWeavers.xsd
 
 .idea
 
+*/Migrations
+package-lock.json
+*/wwwroot/dist
+*.designer.cs
+Resources.resources
+*/wwwroot/index.html
+.DS_Store
+nupkg/
+.fleet/
+.vscode/
+
 appsettings.Development.json
+!/Logs/*.cs

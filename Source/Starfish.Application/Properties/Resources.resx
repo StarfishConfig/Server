@@ -98,4 +98,10 @@
 	<resheader name="writer">
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
+	<data name="IDS_ERROR_UNSUPPORTED_SERVICE_BUS_PROVIDER" xml:space="preserve">
+		<value>Unsupported service bus transport provider.</value>
+	</data>
+	<data name="IDS_ERROR_UNSUPPORTED_CACHE_PROVIDER" xml:space="preserve">
+		<value>Unsupported cache service provider.</value>
+	</data>
 </root>
