@@ -22,15 +22,28 @@
 		<ProjectReference Include="..\Starfish.Toolkit\Starfish.Toolkit.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<EmbeddedResource Update="Properties\Resources.resx">
-			<Generator>ResXFileCodeGenerator</Generator>
-			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
-		</EmbeddedResource>
-	</ItemGroup>
-    
+    <!--
     <ItemGroup>
-        <Using Include="Nerosoft.Starfish.Domain.Properties" />
+        <Compile Update="Properties\Resources.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>Resources.resx</DependentUpon>
+        </Compile>
+    </ItemGroup>
+    -->
+
+    <ItemGroup>
+        <EmbeddedResource Update="Properties\Resources.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Using Include="Nerosoft.Starfish.Toolkit" />
+        <Using Include="$(RootNamespace).Properties" />
+        <Using Include="Microsoft.Extensions.DependencyInjection" />
+        <Using Include="System.Diagnostics.CodeAnalysis" />
     </ItemGroup>
 
 </Project>
