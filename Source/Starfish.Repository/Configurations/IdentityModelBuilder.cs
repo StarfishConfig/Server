@@ -166,5 +166,42 @@ internal class IdentityModelBuilder : IModelBuilder
                   .WithMany()
                   .HasForeignKey(t => t.UserId);
         });
+
+        modelBuilder.Entity<Token>(entity =>
+        {
+            entity.ToTable("token");
+
+            entity.HasKey(t => t.Id);
+
+            entity.HasIndex(t => t.Key).HasDatabaseName("token_idx_key");
+            entity.HasIndex(t => t.Expires).HasDatabaseName("token_idx_expires");
+
+            entity.Property(t => t.Id)
+                  .HasColumnName("id")
+                  .IsRequired()
+                  .HasValueGenerator<SnowflakeIdValueGenerator>();
+
+            entity.Property(t => t.Type)
+                  .HasColumnName("type")
+                  .IsRequired()
+                  .HasMaxLength(10);
+
+            entity.Property(t => t.Key)
+                  .HasColumnName("key")
+                  .IsRequired()
+                  .HasMaxLength(64);
+
+            entity.Property(t => t.Subject)
+                  .HasColumnName("subject")
+                  .IsRequired();
+
+            entity.Property(t => t.Expires)
+                  .HasColumnName("expires")
+                  .IsRequired();
+
+            entity.Property(t => t.Issues)
+                  .HasColumnName("issues")
+                  .IsRequired();
+        });
     }
 }

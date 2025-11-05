@@ -23,7 +23,7 @@ public sealed class Token : Aggregate<long>
     /// <param name="subject">The user id associated with the token.</param>
     /// <param name="issued">The token issued time.</param>
     /// <param name="expires">The token expiration time.</param>
-    private Token(string type, string key, string subject, DateTime issued, DateTime? expires = null)
+    private Token(string type, string key, long subject, DateTime issued, DateTime? expires = null)
         : this()
     {
         Type = type;
@@ -49,7 +49,7 @@ public sealed class Token : Aggregate<long>
     /// <summary>
     /// Gets or sets the user identifier associated with the token.
     /// </summary>
-    public string Subject { get; set; }
+    public long Subject { get; set; }
 
     /// <summary>
     /// Gets or sets the token issue time.
@@ -70,7 +70,7 @@ public sealed class Token : Aggregate<long>
     /// <param name="issued">The token issued time.</param>
     /// <param name="expires">The token expiration time.</param>
     /// <returns></returns>
-    internal static Token Create(string type, string token, string subject, DateTime issued, DateTime? expires = null)
+    internal static Token Create(string type, string token, long subject, DateTime issued, DateTime? expires = null)
     {
         var key = token.ToSha256();
         var entity = new Token(type, key, subject, issued, expires);

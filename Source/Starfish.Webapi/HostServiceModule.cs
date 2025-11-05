@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.FeatureManagement;
 using Nerosoft.Euonia.Hosting;
 using Nerosoft.Euonia.Modularity;
+using Nerosoft.Starfish.Application;
 using Serilog;
 
 namespace Nerosoft.Starfish.Webapi;
@@ -14,6 +15,7 @@ namespace Nerosoft.Starfish.Webapi;
 /// This module serves as the entry point for the Starfish host application,
 /// configuring and initializing necessary services and components.
 /// </remarks>
+[DependsOn(typeof(ApplicationServiceModule))]
 internal class HostServiceModule : ModuleContextBase
 {
     /// <summary>
