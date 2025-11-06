@@ -7,7 +7,7 @@ namespace Nerosoft.Starfish.Repository;
 /// <summary>
 /// Configures the identity models for the application.
 /// </summary>
-internal class IdentityModelBuilder : IModelBuilder
+internal class AccountModelBuilder : IModelBuilder
 {
     public void Configure(ModelBuilder modelBuilder)
     {

@@ -7,16 +7,16 @@ namespace Nerosoft.Starfish.Repository;
 /// <summary>
 /// Identity data context for managing identity-related entities.
 /// </summary>
-internal sealed class IdentityDataContext : DataContextBase<IdentityDataContext>
+internal sealed class AccountDataContext : DataContextBase<AccountDataContext>
 {
     private readonly IModelBuilder _builder;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="IdentityDataContext"/> class.
+    /// Initializes a new instance of the <see cref="AccountDataContext"/> class.
     /// </summary>
     /// <param name="options"></param>
     /// <param name="builder"></param>
-    public IdentityDataContext(DbContextOptions<IdentityDataContext> options, [FromKeyedServices("IdentityModelBuilder")] IModelBuilder builder)
+    public AccountDataContext(DbContextOptions<AccountDataContext> options, [FromKeyedServices("AccountModelBuilder")] IModelBuilder builder)
         : base(options)
     {
         _builder = builder;

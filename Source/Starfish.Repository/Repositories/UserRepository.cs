@@ -7,7 +7,7 @@ namespace Nerosoft.Starfish.Repository;
 /// <summary>
 /// Repository for managing User entities.
 /// </summary>
-internal class UserRepository : BaseRepository<IdentityDataContext, User, long>, IUserRepository
+internal class UserRepository : BaseRepository<AccountDataContext, User, long>, IUserRepository
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="UserRepository"/> class.

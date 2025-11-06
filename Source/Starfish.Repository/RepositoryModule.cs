@@ -52,18 +52,25 @@ public class RepositoryModule : ModuleContextBase
         context.Services.AddContextProvider();
         context.Services.AddUnitOfWork();
 
-        context.Services.AddKeyedSingleton<IModelBuilder, IdentityModelBuilder>("IdentityModelBuilder");
-        context.Services.AddKeyedSingleton<IModelBuilder, ProjectModelBuilder>("ProjectModelBuilder");
+        context.Services.AddKeyedSingleton<IModelBuilder, AccountModelBuilder>(nameof(AccountModelBuilder));
+        context.Services.AddKeyedSingleton<IModelBuilder, ProjectModelBuilder>(nameof(ProjectModelBuilder));
+        context.Services.AddKeyedSingleton<IModelBuilder, SupportModelBuilder>(nameof(SupportModelBuilder));
 
-        context.Services.AddDbContextFactory<IdentityDataContext>((_, options) =>
+        context.Services.AddDbContextFactory<AccountDataContext>((_, options) =>
         {
-            var connectionString = Configuration.GetConnectionString("IdentityConnection");
+            var connectionString = Configuration.GetConnectionString("AccountConnection");
             ConfigureDatabaseType(options, connectionString);
         });
 
         context.Services.AddDbContextFactory<ProjectDataContext>((_, options) =>
         {
             var connectionString = Configuration.GetConnectionString("ProjectConnection");
+            ConfigureDatabaseType(options, connectionString);
+        });
+
+        context.Services.AddDbContextFactory<SupportDataContext>((_, options) =>
+        {
+            var connectionString = Configuration.GetConnectionString("SupportConnection");
             ConfigureDatabaseType(options, connectionString);
         });
     }
