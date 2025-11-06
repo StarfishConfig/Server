@@ -1,0 +1,72 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Nerosoft.Euonia.Business;
+
+namespace Nerosoft.Starfish.Domain;
+
+internal partial class UserGeneralBusiness
+{
+    /// <summary>
+    /// The username availability check rule.
+    /// </summary>
+    /// <param name="repository"></param>
+    public class UsernameAvailabilityCheckRule : RuleBase
+    {
+        public override async Task ExecuteAsync(IRuleContext context, CancellationToken cancellationToken = default)
+        {
+            // Only check for new user insertions
+            if (context.Target is not UserGeneralBusiness target || !target.IsInsert)
+            {
+                return;
+            }
+
+            var exists = await target.Repository.CheckUsernameExistsAsync(target.Username, cancellationToken);
+            if (exists)
+            {
+                context.AddErrorResult("Username is already taken.");
+            }
+        }
+    }
+
+    /// <summary>
+    /// The email availability check rule.
+    /// </summary>
+    /// <param name="repository"></param>
+    public class EmailAvailabilityCheckRule : RuleBase
+    {
+        public override async Task ExecuteAsync(IRuleContext context, CancellationToken cancellationToken = default)
+        {
+            // Only check for new user insertions
+            if (context.Target is not UserGeneralBusiness target)
+            {
+                return;
+            }
+
+            var exists = await target.Repository.CheckEmailExistsAsync(target.Email, target.Id, cancellationToken);
+            if (exists)
+            {
+                context.AddErrorResult("Email is already taken.");
+            }
+        }
+    }
+
+    internal class PhoneAvailabilityCheckRule : RuleBase
+    {
+        public override async Task ExecuteAsync(IRuleContext context, CancellationToken cancellationToken = default)
+        {
+            // Only check for new user insertions
+            if (context.Target is not UserGeneralBusiness target)
+            {
+                return;
+            }
+            var exists = await target.Repository.CheckPhoneExistsAsync(target.Phone, target.Id, cancellationToken);
+            if (exists)
+            {
+                context.AddErrorResult("Phone number is already taken.");
+            }
+        }
+    }
+}
