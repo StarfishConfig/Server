@@ -14,6 +14,16 @@ internal class UserPasswordBusiness : CommandObjectBase<UserPasswordBusiness>, I
     [FactoryExecute]
     protected async Task ExecuteAsync(long userId, string password, string changeType, CancellationToken cancellationToken = default)
     {
+        if (string.IsNullOrWhiteSpace(password))
+        {
+            throw new BadRequestException("Password cannot be empty.");
+        }
+
+        if (string.IsNullOrWhiteSpace(changeType))
+        {
+            throw new BadRequestException("Change type cannot be empty.");
+        }
+
         var user = await Repository.GetAsync(userId, true, cancellationToken);
         if (user == null)
         {
