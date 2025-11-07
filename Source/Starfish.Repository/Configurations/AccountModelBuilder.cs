@@ -9,6 +9,8 @@ namespace Nerosoft.Starfish.Repository;
 /// </summary>
 internal class AccountModelBuilder : IModelBuilder
 {
+    public const string Key = nameof(AccountModelBuilder);
+
     public void Configure(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<User>(entity =>

@@ -4,6 +4,7 @@ using Nerosoft.Euonia.Domain;
 using Nerosoft.Euonia.Linq;
 using Nerosoft.Euonia.Repository;
 using Nerosoft.Euonia.Repository.EfCore;
+using Nerosoft.Starfish.Domain;
 
 namespace Nerosoft.Starfish.Repository;
 
@@ -91,6 +92,11 @@ internal abstract class BaseRepository<TContext, TEntity, TKey> : EfCoreReposito
     public virtual Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate, bool tracking, string[] properties, CancellationToken cancellationToken = default)
     {
         return base.GetAsync(predicate, query => BuildQuery(query, tracking, properties), cancellationToken);
+    }
+
+    public virtual Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken = default)
+    {
+        return Context.Set<TEntity>().AnyAsync(expression, cancellationToken);
     }
 
     /// <summary>
@@ -183,11 +189,11 @@ internal abstract class BaseRepository<TContext, TEntity, TKey> : EfCoreReposito
             case null:
                 throw new NotFoundException();
             case IHasDomainEvents aggregate:
-            {
-                var @event = eventFactory();
-                aggregate.RaiseEvent(@event);
-                break;
-            }
+                {
+                    var @event = eventFactory();
+                    aggregate.RaiseEvent(@event);
+                    break;
+                }
         }
 
         set.Remove(entity);

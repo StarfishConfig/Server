@@ -12,6 +12,7 @@
         <PackageVersion Include="Dapper.SqlBuilder" Version="2.1.66" />
         <PackageVersion Include="Euonia.Application" Version="$(EuoniaPackageVersion)" />
         <PackageVersion Include="Euonia.Bus" Version="$(EuoniaPackageVersion)" />
+		<PackageVersion Include="Euonia.Bus.Abstract" Version="$(EuoniaPackageVersion)" />
         <PackageVersion Include="Euonia.Bus.InMemory" Version="$(EuoniaPackageVersion)" />
         <PackageVersion Include="Euonia.Bus.RabbitMq" Version="$(EuoniaPackageVersion)" />
         <PackageVersion Include="Euonia.Business" Version="$(EuoniaPackageVersion)" />

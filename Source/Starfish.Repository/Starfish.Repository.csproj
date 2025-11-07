@@ -9,6 +9,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Euonia.Bus.Abstract" />
 		<PackageReference Include="Euonia.Linq" />
 		<PackageReference Include="Euonia.Repository.EfCore" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />

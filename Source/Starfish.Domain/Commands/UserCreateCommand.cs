@@ -7,9 +7,7 @@ namespace Nerosoft.Starfish.Domain;
 /// </summary>
 internal class UserCreateCommand : Command
 {
-    /// <summary>
-    /// Get or set the username.
-    /// </summary>
+    /// <inheritdoc cref="User.Username"/>
     public string Username { get; set; }
 
     /// <summary>
@@ -17,18 +15,15 @@ internal class UserCreateCommand : Command
     /// </summary>
     public string Password { get; set; }
 
-    /// <summary>
-    /// Get or set the email address.
-    /// </summary>
+    /// <inheritdoc cref="User.Email"/>
     public string Email { get; set; }
 
-    /// <summary>
-    /// Get or set the phone number.
-    /// </summary>
+    /// <inheritdoc cref="User.Phone"/>
     public string Phone { get; set; }
 
-    /// <summary>
-    /// Get or set the nickname.
-    /// </summary>
+    /// <inheritdoc cref="User.Nickname"/>
     public string Nickname { get; set; }
+
+    /// <inheritdoc cref="User.Source"/>
+    public int Source { get; set; }
 }

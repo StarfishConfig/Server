@@ -1,6 +1,7 @@
 using Nerosoft.Euonia.Bus;
 using Nerosoft.Euonia.Business;
 using Nerosoft.Euonia.Claims;
+using Nerosoft.Euonia.Domain;
 using Nerosoft.Euonia.Modularity;
 
 namespace Nerosoft.Starfish.Domain;
@@ -9,8 +10,8 @@ namespace Nerosoft.Starfish.Domain;
 /// Editable object base class with lazy service provider support.
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public abstract class EditableObjectBase<T> : EditableObject<T>, IHasLazyServiceProvider
-    where T : EditableObjectBase<T>
+public abstract class EditableObjectBase<TTarget> : EditableObject<TTarget>, IHasLazyServiceProvider
+    where TTarget : EditableObjectBase<TTarget>
 {
     /// <summary>
     /// Gets or sets the lazy service provider.
@@ -25,7 +26,16 @@ public abstract class EditableObjectBase<T> : EditableObject<T>, IHasLazyService
     /// Gets the current user identity from the lazy service provider.
     /// </summary>
     protected virtual UserPrincipal Identity => LazyServiceProvider.GetRequiredService<UserPrincipal>();
+}
 
+/// <summary>
+/// Editable object base class with lazy service provider support.
+/// </summary>
+/// <typeparam name="T"></typeparam>
+public abstract class EditableObjectBase<TTarget, TAggregate> : EditableObjectBase<TTarget>
+    where TTarget : EditableObjectBase<TTarget, TAggregate>
+    where TAggregate : class, IAggregateRoot
+{
     /// <summary>
     /// Gets the message bus from the lazy service provider.
     /// </summary>
@@ -36,12 +46,26 @@ public abstract class EditableObjectBase<T> : EditableObject<T>, IHasLazyService
     /// </summary>
     protected virtual IRequestContextAccessor RequestContextAccessor => LazyServiceProvider.GetRequiredService<IRequestContextAccessor>();
 
-    protected override void OnSaved(T newObject, Exception error, object userState)
+    /// <summary>
+    /// Gets the aggregate root associated with this business object.
+    /// </summary>
+    protected virtual TAggregate Aggregate { get; }
+
+    protected override async void OnSaved(TTarget newObject, Exception error, object userState)
     {
         base.OnSaved(newObject, error, userState);
 
-        if (error == null)
+        if (error == null && Aggregate is IHasDomainEvents aggregate)
         {
+            var events = aggregate.GetEvents();
+
+            if (events != null && events.Any())
+            {
+                await Parallel.ForEachAsync(events, async (@event, _) =>
+                {
+                    await Bus.PublishAsync(@event, _);
+                });
+            }
         }
     }
 }

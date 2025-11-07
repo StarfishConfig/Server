@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Nerosoft.Euonia.Business;
+﻿using Nerosoft.Euonia.Business;
 
 namespace Nerosoft.Starfish.Domain;
 
@@ -11,12 +6,13 @@ namespace Nerosoft.Starfish.Domain;
 /// The user general business object.
 /// </summary>
 /// <param name="provider"></param>
-internal partial class UserGeneralBusiness : EditableObjectBase<UserGeneralBusiness>
+internal partial class UserGeneralBusiness : EditableObjectBase<UserGeneralBusiness,User>
 {
     private IUserRepository _repository;
     private IUserRepository Repository => _repository ??= LazyServiceProvider.GetService<IUserRepository>();
 
-    private User Aggregate { get; set; }
+    private User _aggregate;
+    protected override User Aggregate => _aggregate;
 
     public static readonly PropertyInfo<long> IdProperty = RegisterProperty<long>(p => p.Id);
     public static readonly PropertyInfo<string> UsernameProperty = RegisterProperty<string>(p => p.Username);
@@ -26,42 +22,53 @@ internal partial class UserGeneralBusiness : EditableObjectBase<UserGeneralBusin
     public static readonly PropertyInfo<string> PhoneProperty = RegisterProperty<string>(p => p.Phone);
     public static readonly PropertyInfo<int> SourceProperty = RegisterProperty<int>(p => p.Source);
 
+    /// <summary>
+    /// Get the identifier.
+    /// </summary>
     public long Id
     {
         get => GetProperty(IdProperty);
         private set => LoadProperty(IdProperty, value);
     }
 
+    /// <inheritdoc cref="User.Username"/>
     public string Username
     {
         get => GetProperty(UsernameProperty);
         set => SetProperty(UsernameProperty, value);
     }
 
+    /// <summary>
+    /// Get or set the password.
+    /// </summary>
     public string Password
     {
         get => GetProperty(PasswordProperty);
         set => SetProperty(PasswordProperty, value);
     }
 
+    /// <inheritdoc cref="User.Nickname"/>
     public string Nickname
     {
         get => GetProperty(NicknameProperty);
         set => SetProperty(NicknameProperty, value);
     }
 
+    /// <inheritdoc cref="User.Email"/>
     public string Email
     {
         get => GetProperty(EmailProperty);
         set => SetProperty(EmailProperty, value);
     }
 
+    /// <inheritdoc cref="User.Phone"/>
     public string Phone
     {
         get => GetProperty(PhoneProperty);
         set => SetProperty(PhoneProperty, value);
     }
 
+    /// <inheritdoc cref="User.Source"/>
     public int Source
     {
         get => GetProperty(SourceProperty);
@@ -86,15 +93,15 @@ internal partial class UserGeneralBusiness : EditableObjectBase<UserGeneralBusin
     {
         var aggregate = await Repository.GetAsync(id, true, cancellationToken);
 
-        Aggregate = aggregate ?? throw new NotFoundException();
+        _aggregate = aggregate ?? throw new NotFoundException();
 
         using (BypassRuleChecks)
         {
-            Id = aggregate.Id;
-            Username = aggregate.Username;
-            Nickname = aggregate.Nickname;
-            Email = aggregate.Email;
-            Phone = aggregate.Phone;
+            Id = Aggregate.Id;
+            Username = Aggregate.Username;
+            Nickname = Aggregate.Nickname;
+            Email = Aggregate.Email;
+            Phone = Aggregate.Phone;
         }
     }
 
@@ -150,6 +157,6 @@ internal partial class UserGeneralBusiness : EditableObjectBase<UserGeneralBusin
             Aggregate.SetNickname(Nickname);
         }
 
-        return _repository.UpdateAsync(Aggregate, true, cancellationToken);
+        return Repository.UpdateAsync(Aggregate, true, cancellationToken);
     }
 }
