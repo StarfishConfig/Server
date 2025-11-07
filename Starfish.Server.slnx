@@ -9,6 +9,7 @@
         <File Path="Source/common.props" />
         <File Path="Source/README.md" />
         <Project Path="Source/Starfish.Application/Starfish.Application.csproj" />
+        <Project Path="Source/Starfish.Azfunc/Starfish.Azfunc.csproj" Id="56a277df-51f1-4167-a4fa-ad28a25a4b97" />
         <Project Path="Source/Starfish.Domain/Starfish.Domain.csproj" />
         <Project Path="Source/Starfish.Host/Starfish.Host.csproj" />
         <Project Path="Source/Starfish.Repository/Starfish.Repository.csproj" />
