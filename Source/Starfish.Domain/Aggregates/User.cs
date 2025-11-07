@@ -6,7 +6,7 @@ namespace Nerosoft.Starfish.Domain;
 /// <summary>
 /// Defines the user information aggregate.
 /// </summary>
-public sealed class User : Aggregate<long>, IHasCreateTime, IHasUpdateTime, ITombstone
+internal sealed class User : Aggregate<long>, IHasCreateTime, IHasUpdateTime, ITombstone
 {
     /// <summary>
     /// Prevents a default instance of the <see cref="User"/> class from being created.

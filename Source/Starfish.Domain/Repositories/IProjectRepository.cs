@@ -1,6 +1,8 @@
 namespace Nerosoft.Starfish.Domain;
 
-public interface IProjectRepository
+/// <summary>
+/// Defines the repository interface for Project entities.
+/// </summary>
+internal interface IProjectRepository : IBaseRepository<Project, long>
 {
-    
 }

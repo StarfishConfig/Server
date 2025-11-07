@@ -6,7 +6,6 @@ namespace Nerosoft.Starfish.Domain;
 /// <summary>
 /// The user general business object.
 /// </summary>
-/// <param name="provider"></param>
 internal partial class UserGeneralBusiness : EditableObjectBase<UserGeneralBusiness, User>, IDomainService
 {
     private IUserRepository _repository;

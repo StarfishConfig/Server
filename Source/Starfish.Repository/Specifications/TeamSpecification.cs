@@ -6,7 +6,7 @@ namespace Nerosoft.Starfish.Repository;
 /// <summary>
 /// Specifications for querying Team entities.
 /// </summary>
-public static class TeamSpecification
+internal static class TeamSpecification
 {
     /// <summary>
     /// Specification to check if Team Id equals the given id.

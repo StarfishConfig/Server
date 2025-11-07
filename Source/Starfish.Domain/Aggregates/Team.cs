@@ -5,7 +5,7 @@ namespace Nerosoft.Starfish.Domain;
 /// <summary>
 /// Defines a team within the system.
 /// </summary>
-public sealed class Team : Aggregate<long>
+internal sealed class Team : Aggregate<long>
 {
     /// <summary>
     /// Default constructor for ORM.

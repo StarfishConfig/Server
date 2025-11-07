@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using Nerosoft.Euonia.Business;
 using Nerosoft.Euonia.Domain;
 using Nerosoft.Euonia.Repository;
@@ -102,13 +101,14 @@ public abstract class CommandHandlerBase
     /// Executes the specified action within a unit of work.
     /// </summary>
     /// <param name="action">The business logic that handles the message.</param>
+    /// <param name="cancellationToken"></param>
     /// <returns></returns>
     /// <remarks>This method is commonly used to handle a command which DON'T require handle result or to handle an event message.</remarks>
-    protected virtual async Task ExecuteAsync([NotNull] Func<Task> action)
+    protected virtual async Task ExecuteAsync([NotNull] Func<Task> action, CancellationToken cancellationToken = default)
     {
         using var uow = UnitOfWork.Begin(true, true);
         await action();
-        await uow.CommitAsync();
+        await uow.CommitAsync(cancellationToken);
     }
 
     /// <summary>
@@ -117,13 +117,14 @@ public abstract class CommandHandlerBase
     /// <typeparam name="TResult">The execution result type.</typeparam>
     /// <param name="action">The business logic that handles the message.</param>
     /// <param name="next">The logic to handle the result.</param>
+    /// <param name="cancellationToken"></param>
     /// <returns>The execution result.</returns>
     /// <remarks>This method is commonly used to handle a command which requires handle result to be returned.</remarks>
-    protected virtual async Task ExecuteAsync<TResult>([NotNull] Func<Task<TResult>> action, Action<TResult> next)
+    protected virtual async Task ExecuteAsync<TResult>([NotNull] Func<Task<TResult>> action, Action<TResult> next, CancellationToken cancellationToken = default)
     {
         using var uow = UnitOfWork.Begin(true, true);
         var result = await action();
-        await uow.CommitAsync();
+        await uow.CommitAsync(cancellationToken);
         next(result);
     }
 }

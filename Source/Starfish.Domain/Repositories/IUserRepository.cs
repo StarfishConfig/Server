@@ -1,6 +1,6 @@
 namespace Nerosoft.Starfish.Domain;
 
-public interface IUserRepository : IBaseRepository<User, long>
+internal interface IUserRepository : IBaseRepository<User, long>
 {
     /// <summary>
     /// Finds a user by their username.

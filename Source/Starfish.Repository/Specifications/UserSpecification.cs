@@ -6,7 +6,7 @@ namespace Nerosoft.Starfish.Repository;
 /// <summary>
 /// Specifications for querying User entities.
 /// </summary>
-public static class UserSpecification
+internal static class UserSpecification
 {
     /// <summary>
     /// Specification to check if User Id equals the given id.
