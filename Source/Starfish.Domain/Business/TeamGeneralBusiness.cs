@@ -1,8 +1,9 @@
 ﻿using Nerosoft.Euonia.Business;
+using Nerosoft.Euonia.Domain;
 
 namespace Nerosoft.Starfish.Domain;
 
-internal partial class TeamGeneralBusiness : EditableObjectBase<TeamGeneralBusiness, Team>
+internal partial class TeamGeneralBusiness : EditableObjectBase<TeamGeneralBusiness, Team>, IDomainService
 {
     private ITeamRepository _repository;
     private ITeamRepository Repository => _repository ??= LazyServiceProvider.GetService<ITeamRepository>();
@@ -43,5 +44,70 @@ internal partial class TeamGeneralBusiness : EditableObjectBase<TeamGeneralBusin
         return Task.CompletedTask;
     }
 
+    [FactoryFetch]
+    protected async Task FetchAsync(long id, CancellationToken cancellationToken = default)
+    {
+        var aggregate = await Repository.GetAsync(id, true, cancellationToken);
+        _aggregate = aggregate ?? throw new NotFoundException();
+        using (BypassRuleChecks)
+        {
+            Id = aggregate.Id;
+            Name = aggregate.Name;
+            Description = aggregate.Description;
+        }
+    }
 
+    [FactoryInsert]
+    protected override Task InsertAsync(CancellationToken cancellationToken = default)
+    {
+        _aggregate = Team.Create(Name, Identity.GetUserIdOfInt64());
+        if (!string.IsNullOrWhiteSpace(Description))
+        {
+            _aggregate.SetDescription(Description);
+        }
+
+        return Repository.InsertAsync(Aggregate, true, cancellationToken)
+                         .ContinueWith(task =>
+                         {
+                             task.WaitAndUnwrapException(cancellationToken);
+                             Id = task.Result.Id;
+                         }, cancellationToken);
+    }
+
+    [FactoryUpdate]
+    protected override Task UpdateAsync(CancellationToken cancellationToken = default)
+    {
+        if (!HasChangedProperties)
+        {
+            return Task.CompletedTask;
+        }
+
+        if (Aggregate.OwnerId != Identity.GetUserIdOfInt64())
+        {
+            throw new ForbiddenException();
+        }
+
+        if (ChangedProperties.Contains(NameProperty))
+        {
+            Aggregate.SetName(Name);
+        }
+
+        if (ChangedProperties.Contains(DescriptionProperty))
+        {
+            Aggregate.SetDescription(Description);
+        }
+
+        return Repository.UpdateAsync(Aggregate, true, cancellationToken);
+    }
+
+    [FactoryDelete]
+    protected override Task DeleteAsync(CancellationToken cancellationToken = default)
+    {
+        if (Aggregate.OwnerId != Identity.GetUserIdOfInt64())
+        {
+            throw new ForbiddenException();
+        }
+
+        return Repository.DeleteAsync(Aggregate, () => new TeamDeletedEvent(Aggregate.Id, Aggregate.Name), true, cancellationToken);
+    }
 }

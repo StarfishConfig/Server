@@ -1,4 +1,5 @@
 ﻿using Nerosoft.Euonia.Business;
+using Nerosoft.Euonia.Domain;
 
 namespace Nerosoft.Starfish.Domain;
 
@@ -6,7 +7,7 @@ namespace Nerosoft.Starfish.Domain;
 /// The user general business object.
 /// </summary>
 /// <param name="provider"></param>
-internal partial class UserGeneralBusiness : EditableObjectBase<UserGeneralBusiness, User>
+internal partial class UserGeneralBusiness : EditableObjectBase<UserGeneralBusiness, User>, IDomainService
 {
     private IUserRepository _repository;
     private IUserRepository Repository => _repository ??= LazyServiceProvider.GetService<IUserRepository>();
