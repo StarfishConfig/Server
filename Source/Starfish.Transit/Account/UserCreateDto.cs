@@ -1,11 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Nerosoft.Starfish.Transit;
 
-namespace Nerosoft.Starfish.Transit;
-
+/// <summary>
+/// Data Transfer Object for creating a new user.
+/// </summary>
 internal class UserCreateDto
 {
+    /// <summary>
+    /// Gets or sets the username of the new user.
+    /// </summary>
+    public string Username { get; set; }
+
+    /// <summary>
+    /// Gets or sets the password of the new user.
+    /// </summary>
+    public string Password { get; set; }
+
+    /// <summary>
+    /// Gets or sets the nickname of the new user.
+    /// </summary>
+    public string Nickname { get; set; }
 }
