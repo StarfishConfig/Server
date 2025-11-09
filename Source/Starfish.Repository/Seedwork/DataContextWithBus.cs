@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Reflection;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Nerosoft.Euonia.Bus;
 using Nerosoft.Euonia.Domain;
 using Nerosoft.Euonia.Modularity;
@@ -30,6 +32,13 @@ internal abstract class DataContextWithBus<TContext> : DataContextBase<TContext>
     /// Gets the DateTimeKind used for date and time values.
     /// </summary>
     protected override DateTimeKind DateTimeKind => DateTimeKind.Utc;
+
+    /// <inheritdoc/>
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(RepositoryModule).Assembly, type => type.GetCustomAttribute<DbContextAttribute>()?.ContextType == typeof(TContext));
+        base.OnModelCreating(modelBuilder);
+    }
 
     /// <inheritdoc />
     public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)

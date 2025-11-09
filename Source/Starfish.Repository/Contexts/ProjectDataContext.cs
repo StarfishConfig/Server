@@ -7,23 +7,13 @@ namespace Nerosoft.Starfish.Repository;
 /// </summary>
 internal sealed class ProjectDataContext : DataContextWithBus<ProjectDataContext>
 {
-    private readonly IModelBuilder _builder;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="ProjectDataContext"/> class.
     /// </summary>
     /// <param name="options"></param>
-    /// <param name="builder"></param>
+    /// <param name="provider"></param>
     public ProjectDataContext(DbContextOptions<ProjectDataContext> options, ILazyServiceProvider provider)
         : base(options, provider)
     {
-        _builder = provider.GetRequiredKeyedService<IModelBuilder>(ProjectModelBuilder.Key);
-    }
-
-    /// <inheritdoc/>
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        _builder.Configure(modelBuilder);
-        base.OnModelCreating(modelBuilder);
     }
 }

@@ -52,10 +52,6 @@ public class RepositoryModule : ModuleContextBase
         context.Services.AddContextProvider();
         context.Services.AddUnitOfWork();
 
-        context.Services.AddKeyedSingleton<IModelBuilder, AccountModelBuilder>(nameof(AccountModelBuilder));
-        context.Services.AddKeyedSingleton<IModelBuilder, ProjectModelBuilder>(nameof(ProjectModelBuilder));
-        context.Services.AddKeyedSingleton<IModelBuilder, SupportModelBuilder>(nameof(SupportModelBuilder));
-
         context.Services.AddDbContextFactory<AccountDataContext>((_, options) =>
         {
             var connectionString = Configuration.GetConnectionString("AccountConnection");

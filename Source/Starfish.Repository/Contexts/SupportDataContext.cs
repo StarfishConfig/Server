@@ -16,10 +16,4 @@ internal class SupportDataContext : DataContextWithBus<SupportDataContext>
         : base(options, provider)
     {
     }
-
-    /// <inheritdoc/>
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        base.OnModelCreating(modelBuilder);
-    }
 }
