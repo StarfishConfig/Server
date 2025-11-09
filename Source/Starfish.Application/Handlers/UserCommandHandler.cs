@@ -13,6 +13,7 @@ namespace Nerosoft.Starfish.Application;
 internal class UserCommandHandler(IUnitOfWorkManager unitOfWork, IObjectFactory factory)
     : CommandHandlerBase(unitOfWork, factory),
       IHandler<UserCreateCommand>,
+      IHandler<UserUpdateCommand>,
       IHandler<UserPasswordChangeCommand>
 {
     public Task HandleAsync(UserCreateCommand message, MessageContext context, CancellationToken cancellationToken = default)
@@ -33,6 +34,32 @@ internal class UserCommandHandler(IUnitOfWorkManager unitOfWork, IObjectFactory 
         }, context.Response, cancellationToken);
     }
 
+    public Task HandleAsync(UserUpdateCommand message, MessageContext context, CancellationToken cancellationToken = new CancellationToken())
+    {
+        return ExecuteAsync(async () =>
+        {
+            var business = await Factory.FetchAsync<UserGeneralBusiness>(message.UserId, cancellationToken);
+
+            if (message.Nickname is not null)
+            {
+                business.Nickname = message.Nickname;
+            }
+
+            if (message.Email is not null)
+            {
+                business.Email = message.Email;
+            }
+
+            if (message.Phone is not null)
+            {
+                business.Phone = message.Phone;
+            }
+
+            business.MarkAsUpdate();
+            await business.SaveAsync(true, cancellationToken);
+        }, cancellationToken);
+    }
+    
     public Task HandleAsync(UserPasswordChangeCommand message, MessageContext context, CancellationToken cancellationToken = default)
     {
         return ExecuteAsync(async () =>
@@ -44,4 +71,6 @@ internal class UserCommandHandler(IUnitOfWorkManager unitOfWork, IObjectFactory 
             await business.SaveAsync(true, cancellationToken);
         }, cancellationToken);
     }
+
+    
 }
