@@ -3,7 +3,7 @@
 /// <summary>
 /// Data Transfer Object for creating a new user.
 /// </summary>
-internal class UserCreateDto
+public class UserCreateDto
 {
     /// <summary>
     /// Gets or sets the username of the new user.
