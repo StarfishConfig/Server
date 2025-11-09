@@ -49,6 +49,11 @@ internal sealed class User : Aggregate<long>, IHasCreateTime, IHasUpdateTime, IT
     public string PasswordSalt { get; set; }
 
     /// <summary>
+    /// Gets or sets the time when the password was last changed.
+    /// </summary>
+    public DateTime? PasswordChangedTime { get; set; }
+
+    /// <summary>
     /// Gets or sets the nickname to display.
     /// </summary>
     public string Nickname { get; set; }
@@ -133,6 +138,7 @@ internal sealed class User : Aggregate<long>, IHasCreateTime, IHasUpdateTime, IT
         PasswordSalt = salt;
         if (!string.IsNullOrWhiteSpace(changeType))
         {
+            PasswordChangedTime = DateTime.UtcNow;
             RaiseEvent(new UserPasswordChangedEvent(Id, changeType));
         }
     }
