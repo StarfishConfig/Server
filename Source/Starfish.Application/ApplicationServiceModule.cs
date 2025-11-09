@@ -2,7 +2,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using IdentityModel;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Nerosoft.Euonia.Application;
 using Nerosoft.Euonia.Bus;
@@ -22,9 +21,23 @@ namespace Nerosoft.Starfish.Application;
 [DependsOn(typeof(RepositoryModule), typeof(DomainServiceModule))]
 internal class ApplicationServiceModule : ModuleContextBase
 {
+    /// <inheritdoc />
+    public override void AheadConfigureServices(ServiceConfigurationContext context)
+    {
+        Configure<AutomapperOptions>(options =>
+        {
+            options.AddProfile<AccountMapperProfile>();
+        });
+    }
+
+    /// <inheritdoc />
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         context.Services.Register<ApplicationServiceContext>();
+
+        ConfigureCachingServices(context.Services);
+
+        ConfigureBusServices(context.Services);
     }
 
     private void ConfigureCachingServices(IServiceCollection services)
