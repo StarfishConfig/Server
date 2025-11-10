@@ -1,6 +1,7 @@
 ﻿using Nerosoft.Euonia.Application;
 using Nerosoft.Euonia.Bus;
 using Nerosoft.Euonia.Domain;
+using Nerosoft.Starfish.Shared;
 using Nerosoft.Starfish.Transit;
 
 namespace Nerosoft.Starfish.Application;
@@ -13,14 +14,26 @@ internal class AuthApplicationService : BaseApplicationService, IAuthApplication
     /// <inheritdoc />
     public async Task<AuthResultDto> GrantAsync(AuthRequestDto data, CancellationToken cancellationToken = default)
     {
-        IRequest<AuthResultDto> request = data.Provider?.ToLowerInvariant() switch
+        IRequest<AuthResultDto> request;
+
+        switch (data.Provider?.ToLowerInvariant())
         {
-            null or "" => throw new ArgumentNullException(nameof(data)),
-            "username" => new AuthenticateWithUsernameRequest(data.Username, data.Password),
-            "email" or "phone" => throw new NotImplementedException($"The provider '{data.Provider}' is not implemented."),
-            "github" or "google" or "facebook" or "microsoft" => throw new NotImplementedException($"The provider '{data.Provider}' is not implemented."),
-            _ => throw new NotSupportedException($"The provider '{data.Provider}' is not supported."),
-        };
+            case null or "":
+                throw new ArgumentNullException(nameof(data));
+            case AuthenticationConstant.Provider.Username:
+                request = new AuthenticateWithUsernameRequest(data.Username, data.Password);
+                break;
+            case AuthenticationConstant.Provider.Email:
+            case AuthenticationConstant.Provider.Phone:
+                throw new NotImplementedException($"The provider '{data.Provider}' is not implemented.");
+            case AuthenticationConstant.Provider.Github:
+            case AuthenticationConstant.Provider.Google:
+            case AuthenticationConstant.Provider.Facebook:
+            case AuthenticationConstant.Provider.Microsoft:
+                throw new NotImplementedException($"The provider '{data.Provider}' is not implemented.");
+            default:
+                throw new NotSupportedException($"The provider '{data.Provider}' is not supported.");
+        }
 
         var events = new List<ApplicationEvent>();
 
@@ -71,7 +84,7 @@ internal class AuthApplicationService : BaseApplicationService, IAuthApplication
             var result = await Bus.SendAsync(request, cancellationToken);
             events.Add(new UserAuthSucceedEvent
             {
-                AuthType = "refresh_token",
+                AuthType = AuthenticationConstant.Provider.RefreshToken,
                 RefreshToken = result.RefreshToken,
                 UserId = result.UserId,
                 Username = result.Username,

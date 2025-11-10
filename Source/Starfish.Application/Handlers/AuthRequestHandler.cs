@@ -3,6 +3,7 @@ using IdentityModel;
 using Microsoft.Extensions.Configuration;
 using Nerosoft.Euonia.Bus;
 using Nerosoft.Starfish.Domain;
+using Nerosoft.Starfish.Shared;
 using Nerosoft.Starfish.Transit;
 
 namespace Nerosoft.Starfish.Application;
@@ -114,7 +115,7 @@ internal class AuthRequestHandler(IServiceProvider provider)
         {
             AccessToken = accessToken,
             RefreshToken = ObjectId.NewGuid(GuidType.SequentialAsString).ToString("N"),
-            TokenType = "Bearer",
+            TokenType = AuthenticationConstant.TokenType.Bearer,
             Username = user.Username,
             UserId = user.Id,
             IssueAt = new DateTimeOffset(issueTime).ToUnixTimeSeconds(),
