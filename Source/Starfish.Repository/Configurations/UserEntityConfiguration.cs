@@ -88,5 +88,10 @@ internal sealed class UserEntityConfiguration : IEntityTypeConfiguration<User>
 
         builder.Property(t => t.DeleteTime)
                .HasColumnName("delete_time");
+
+        builder.HasMany(x => x.Roles)
+               .WithOne(x => x.User)
+               .HasForeignKey(x => x.UserId)
+               .OnDelete(DeleteBehavior.Cascade);
     }
 }

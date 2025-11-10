@@ -8,6 +8,7 @@ namespace Nerosoft.Starfish.Domain;
 /// </summary>
 internal sealed class User : Aggregate<long>, IHasCreateTime, IHasUpdateTime, ITombstone
 {
+    #region Ctors
     /// <summary>
     /// Prevents a default instance of the <see cref="User"/> class from being created.
     /// </summary>
@@ -32,6 +33,9 @@ internal sealed class User : Aggregate<long>, IHasCreateTime, IHasUpdateTime, IT
     {
         Username = username;
     }
+    #endregion
+
+    #region Properties
 
     /// <summary>
     /// Gets or sets the unique username.
@@ -107,6 +111,18 @@ internal sealed class User : Aggregate<long>, IHasCreateTime, IHasUpdateTime, IT
     /// Gets or sets the deletion time.
     /// </summary>
     public DateTime? DeleteTime { get; set; }
+    #endregion
+
+    #region Associates
+
+    /// <summary>
+    /// Gets or sets the roles assigned to the user.
+    /// </summary>
+    public HashSet<UserRole> Roles { get; set; } = new();
+
+    #endregion
+
+    #region Methods
 
     /// <summary>
     /// Creates a new user aggregate.
@@ -216,4 +232,31 @@ internal sealed class User : Aggregate<long>, IHasCreateTime, IHasUpdateTime, IT
 
         RaiseEvent(new UserUnlockedEvent(Id));
     }
+
+    /// <summary>
+    /// Sets the roles for the user.
+    /// </summary>
+    /// <param name="roles"></param>
+    internal void SetRoles(params string[] roles)
+    {
+        if (roles?.Any() != true)
+        {
+            return;
+        }
+
+        Roles ??= [];
+
+        Roles.RemoveAll(t => !roles.Contains(t.Name, StringComparer.OrdinalIgnoreCase));
+
+        foreach (var role in roles)
+        {
+            if (Roles.Any(t => t.Name.Equals(role, StringComparison.OrdinalIgnoreCase)))
+            {
+                continue;
+            }
+
+            Roles.Add(UserRole.Create(role));
+        }
+    }
+    #endregion
 }

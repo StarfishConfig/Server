@@ -7,9 +7,10 @@ internal interface IUserRepository : IBaseRepository<User, long>
     /// </summary>
     /// <param name="username"></param>
     /// <param name="tracking">Give a value to indicate whether the entity should be tracked or not.</param>
+    /// <param name="properties"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task<User> FindByUsernameAsync(string username, bool tracking, CancellationToken cancellationToken = default);
+    Task<User> FindByUsernameAsync(string username, bool tracking, string[] properties, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Checks if a username already exists.

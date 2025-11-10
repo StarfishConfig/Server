@@ -18,9 +18,9 @@ internal class UserRepository : BaseRepository<AccountDataContext, User, long>, 
     {
     }
 
-    public Task<User> FindByUsernameAsync(string username, bool tracking, CancellationToken cancellationToken = default)
+    public Task<User> FindByUsernameAsync(string username, bool tracking, string[] properties, CancellationToken cancellationToken = default)
     {
-        return GetAsync(t => t.Username == username, tracking, [], cancellationToken);
+        return GetAsync(t => t.Username == username, tracking, properties, cancellationToken);
     }
 
     public Task<bool> CheckUsernameExistsAsync(string username, CancellationToken cancellationToken = default)
