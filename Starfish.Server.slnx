@@ -1,22 +1,22 @@
 <Solution>
-    <Folder Name="/Solutions/">
-        <File Path="README.md" />
-        <File Path="global.props" />
-        <File Path="NuGet.config" />
-        <File Path="Directory.Packages.props" />
-    </Folder>
-    <Folder Name="/Source/">
-        <File Path="Source/common.props" />
-        <File Path="Source/README.md" />
-        <Project Path="Source/Starfish.Application/Starfish.Application.csproj" />
-        <Project Path="Source/Starfish.Azfunc/Starfish.Azfunc.csproj" Id="56a277df-51f1-4167-a4fa-ad28a25a4b97" />
-        <Project Path="Source/Starfish.Domain/Starfish.Domain.csproj" />
-        <Project Path="Source/Starfish.Host/Starfish.Host.csproj" />
-        <Project Path="Source/Starfish.Repository/Starfish.Repository.csproj" />
-        <Project Path="Source/Starfish.Shared/Starfish.Shared.csproj" Id="a52e074a-5f53-4a72-a21a-3b842003e624" />
-        <Project Path="Source/Starfish.Toolkit/Starfish.Toolkit.csproj" />
-        <Project Path="Source/Starfish.Transit/Starfish.Transit.csproj" />
-        <Project Path="Source/Starfish.Webapi/Starfish.Webapi.csproj" Id="f5e7ebb4-6c27-4d62-b03b-bf6ef3198c48" />
-    </Folder>
-    <Folder Name="/Tests/" />
+  <Folder Name="/Solutions/">
+    <File Path="README.md" />
+    <File Path="global.props" />
+    <File Path="NuGet.config" />
+    <File Path="Directory.Packages.props" />
+  </Folder>
+  <Folder Name="/Source/">
+    <Project Path="Source/Starfish.Application/Starfish.Application.csproj" />
+    <Project Path="Source/Starfish.Azfunc/Starfish.Azfunc.csproj" />
+    <Project Path="Source/Starfish.Domain/Starfish.Domain.csproj" />
+    <Project Path="Source/Starfish.Repository/Starfish.Repository.csproj" />
+    <Project Path="Source/Starfish.Shared/Starfish.Shared.csproj" />
+    <Project Path="Source/Starfish.Toolkit/Starfish.Toolkit.csproj" />
+    <Project Path="Source/Starfish.Transit/Starfish.Transit.csproj" />
+    <Project Path="Source/Starfish.Webapi/Starfish.Webapi.csproj" />
+    <Project Path="Source/Starfish.Proxy/Starfish.Proxy.csproj" />
+    <File Path="Source/common.props" />
+    <File Path="Source/README.md" />
+  </Folder>
+  <Folder Name="/Tests/" />
 </Solution>
