@@ -12,6 +12,10 @@ namespace Nerosoft.Starfish.Repository;
 [DbContext(typeof(AccountDataContext))]
 internal sealed class TokenEntityConfiguration : IEntityTypeConfiguration<Token>
 {
+    /// <summary>
+    /// Configures the entity of type <see cref="Token"/>.
+    /// </summary>
+    /// <param name="builder"></param>
     public void Configure(EntityTypeBuilder<Token> builder)
     {
         builder.ToTable("token");

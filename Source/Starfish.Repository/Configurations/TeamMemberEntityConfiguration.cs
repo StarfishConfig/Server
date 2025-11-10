@@ -12,6 +12,10 @@ namespace Nerosoft.Starfish.Repository;
 [DbContext(typeof(AccountDataContext))]
 internal sealed class TeamMemberEntityConfiguration : IEntityTypeConfiguration<TeamMember>
 {
+    /// <summary>
+    /// Configures the entity of type <see cref="TeamMember"/>.
+    /// </summary>
+    /// <param name="builder"></param>
     public void Configure(EntityTypeBuilder<TeamMember> builder)
     {
         builder.ToTable("team_member");
