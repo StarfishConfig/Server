@@ -3,11 +3,9 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.FeatureManagement;
 using Nerosoft.Euonia.Hosting;
 using Nerosoft.Euonia.Modularity;
-using Nerosoft.Starfish.Application;
 using Serilog;
 
 namespace Nerosoft.Starfish.Webapi;
@@ -19,7 +17,7 @@ namespace Nerosoft.Starfish.Webapi;
 /// This module serves as the entry point for the Starfish host application,
 /// configuring and initializing necessary services and components.
 /// </remarks>
-[DependsOn(typeof(ApplicationServiceModule))]
+[DependsOn(typeof(HostingModule), typeof(ApplicationServiceModule))]
 internal class HostServiceModule : ModuleContextBase
 {
     public override void AheadConfigureServices(ServiceConfigurationContext context)

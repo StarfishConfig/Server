@@ -1,22 +1,37 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<Import Project="..\common.props" />
-	
+
 	<PropertyGroup>
 		<TargetFramework>net9.0</TargetFramework>
 		<AzureFunctionsVersion>v4</AzureFunctionsVersion>
 		<OutputType>Exe</OutputType>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
+		<Nullable>disable</Nullable>
 	</PropertyGroup>
+
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Euonia.Hosting" />
+		<PackageReference Include="Euonia.Hosting.Serilog" />
+		<PackageReference Include="Exceptionless.Extensions.Logging" />
+		<PackageReference Include="Microsoft.Azure.AppConfiguration.AspNetCore" />
 		<!-- Application Insights isn't enabled by default. See https://aka.ms/AAt8mw4. -->
 		<!-- <PackageReference Include="Microsoft.ApplicationInsights.WorkerService" Version="2.22.0" /> -->
 		<!-- <PackageReference Include="Microsoft.Azure.Functions.Worker.ApplicationInsights" Version="2.0.0" /> -->
 		<PackageReference Include="Microsoft.Azure.Functions.Worker" />
+		<PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Http" />
 		<PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Http.AspNetCore" />
 		<PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" />
+		<PackageReference Include="Serilog.Sinks.Exceptionless" />
 	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Starfish.Application\Starfish.Application.csproj" />
+	</ItemGroup>
+	
 	<ItemGroup>
 		<None Update="host.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -25,8 +40,20 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
 		</None>
+		<None Update="appsettings.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="appsettings.*.json" Condition="$(Configuration) == 'Debug'">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="appsettings.*.json">
+			<DependentUpon>appsettings.json</DependentUpon>
+		</None>
 	</ItemGroup>
+	
 	<ItemGroup>
-		<Using Include="System.Threading.ExecutionContext" Alias="ExecutionContext"/>
+		<Using Include="System.Threading.ExecutionContext" Alias="ExecutionContext" />
+		<Using Include="Nerosoft.Starfish.Application" />
+		<Using Include="Nerosoft.Starfish.Transit" />
 	</ItemGroup>
 </Project>

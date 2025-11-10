@@ -10,35 +10,15 @@
         <PackageVersion Include="Dapper" Version="2.1.66" />
         <PackageVersion Include="Dapper.Contrib" Version="2.0.78" />
         <PackageVersion Include="Dapper.SqlBuilder" Version="2.1.66" />
-        <PackageVersion Include="Euonia.Application" Version="$(EuoniaPackageVersion)" />
-        <PackageVersion Include="Euonia.Bus" Version="$(EuoniaPackageVersion)" />
-		<PackageVersion Include="Euonia.Bus.Abstract" Version="$(EuoniaPackageVersion)" />
-        <PackageVersion Include="Euonia.Bus.InMemory" Version="$(EuoniaPackageVersion)" />
-        <PackageVersion Include="Euonia.Bus.RabbitMq" Version="$(EuoniaPackageVersion)" />
-        <PackageVersion Include="Euonia.Business" Version="$(EuoniaPackageVersion)" />
-        <PackageVersion Include="Euonia.Caching" Version="$(EuoniaPackageVersion)" />
-        <PackageVersion Include="Euonia.Caching.Memory" Version="$(EuoniaPackageVersion)" />
-        <PackageVersion Include="Euonia.Caching.Redis" Version="$(EuoniaPackageVersion)" />
-        <PackageVersion Include="Euonia.Caching.Runtime" Version="$(EuoniaPackageVersion)" />
-        <PackageVersion Include="Euonia.Core" Version="$(EuoniaPackageVersion)" />
-        <PackageVersion Include="Euonia.Domain" Version="$(EuoniaPackageVersion)" />
-        <PackageVersion Include="Euonia.Hosting" Version="$(EuoniaPackageVersion)" />
-        <PackageVersion Include="Euonia.Hosting.Serilog" Version="$(EuoniaPackageVersion)" />
-		<PackageVersion Include="Euonia.Linq" Version="$(EuoniaPackageVersion)" />
-        <PackageVersion Include="Euonia.Mapping.Automapper" Version="$(EuoniaPackageVersion)" />
-        <PackageVersion Include="Euonia.Modularity" Version="$(EuoniaPackageVersion)" />
-        <PackageVersion Include="Euonia.Pipeline" Version="$(EuoniaPackageVersion)" />
-        <PackageVersion Include="Euonia.Validation" Version="$(EuoniaPackageVersion)" />
-        <PackageVersion Include="Euonia.Repository" Version="$(EuoniaPackageVersion)" />
-        <PackageVersion Include="Euonia.Repository.EfCore" Version="$(EuoniaPackageVersion)" />
+		<PackageVersion Include="DotLiquid" Version="2.3.197" />
+		<PackageVersion Include="Exceptionless.Extensions.Logging" Version="6.1.0" />
+		<PackageVersion Include="FluentHttpClient" Version="4.2.3" />
         <PackageVersion Include="Google.Api.CommonProtos" Version="2.17.0" />
         <PackageVersion Include="Google.Protobuf" Version="3.31.1" />
         <PackageVersion Include="Grpc.Net.Client" Version="2.71.0" />
         <PackageVersion Include="Grpc.Tools" Version="2.72.0" />
         <PackageVersion Include="IdentityModel" Version="7.0.0" />
-		<PackageVersion Include="Microsoft.Azure.Functions.Worker" Version="2.0.0" />
-		<PackageVersion Include="Microsoft.Azure.Functions.Worker.Extensions.Http.AspNetCore" Version="2.0.0" />
-		<PackageVersion Include="Microsoft.Azure.Functions.Worker.Sdk" Version="2.0.0" />
+		<PackageVersion Include="MailKit" Version="4.14.1" />
         <PackageVersion Include="Microsoft.AspNetCore.Components.Authorization" Version="9.0.6" />
         <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.6" />
         <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.6" />
@@ -55,10 +35,43 @@
         <PackageVersion Include="Refit" Version="$(RefitPackageVersion)" />
         <PackageVersion Include="Refit.HttpClientFactory" Version="$(RefitPackageVersion)" />
         <PackageVersion Include="Refit.Newtonsoft.Json" Version="$(RefitPackageVersion)" />
+		<PackageVersion Include="Serilog.Extensions.Logging" Version="9.0.2" />
+		<PackageVersion Include="Serilog.Sinks.Exceptionless" Version="5.0.0" />
         <PackageVersion Include="StackExchange.Redis" Version="2.8.41" />
         <PackageVersion Include="Swashbuckle.AspNetCore" Version="9.0.6" />
         <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.14.0" />
+		<PackageVersion Include="System.Reactive" Version="6.1.0" />
     </ItemGroup>
+	<ItemGroup>
+		<PackageVersion Include="Euonia.Application" Version="$(EuoniaPackageVersion)" />
+		<PackageVersion Include="Euonia.Bus" Version="$(EuoniaPackageVersion)" />
+		<PackageVersion Include="Euonia.Bus.Abstract" Version="$(EuoniaPackageVersion)" />
+		<PackageVersion Include="Euonia.Bus.InMemory" Version="$(EuoniaPackageVersion)" />
+		<PackageVersion Include="Euonia.Bus.RabbitMq" Version="$(EuoniaPackageVersion)" />
+		<PackageVersion Include="Euonia.Business" Version="$(EuoniaPackageVersion)" />
+		<PackageVersion Include="Euonia.Caching" Version="$(EuoniaPackageVersion)" />
+		<PackageVersion Include="Euonia.Caching.Memory" Version="$(EuoniaPackageVersion)" />
+		<PackageVersion Include="Euonia.Caching.Redis" Version="$(EuoniaPackageVersion)" />
+		<PackageVersion Include="Euonia.Caching.Runtime" Version="$(EuoniaPackageVersion)" />
+		<PackageVersion Include="Euonia.Core" Version="$(EuoniaPackageVersion)" />
+		<PackageVersion Include="Euonia.Domain" Version="$(EuoniaPackageVersion)" />
+		<PackageVersion Include="Euonia.Hosting" Version="$(EuoniaPackageVersion)" />
+		<PackageVersion Include="Euonia.Hosting.Serilog" Version="$(EuoniaPackageVersion)" />
+		<PackageVersion Include="Euonia.Linq" Version="$(EuoniaPackageVersion)" />
+		<PackageVersion Include="Euonia.Mapping.Automapper" Version="$(EuoniaPackageVersion)" />
+		<PackageVersion Include="Euonia.Modularity" Version="$(EuoniaPackageVersion)" />
+		<PackageVersion Include="Euonia.Pipeline" Version="$(EuoniaPackageVersion)" />
+		<PackageVersion Include="Euonia.Validation" Version="$(EuoniaPackageVersion)" />
+		<PackageVersion Include="Euonia.Repository" Version="$(EuoniaPackageVersion)" />
+		<PackageVersion Include="Euonia.Repository.EfCore" Version="$(EuoniaPackageVersion)" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageVersion Include="Microsoft.Azure.AppConfiguration.AspNetCore" Version="8.4.0" />
+		<PackageVersion Include="Microsoft.Azure.Functions.Worker" Version="2.0.0" />
+		<PackageVersion Include="Microsoft.Azure.Functions.Worker.Extensions.Http" Version="3.3.0" />
+		<PackageVersion Include="Microsoft.Azure.Functions.Worker.Extensions.Http.AspNetCore" Version="2.0.0" />
+		<PackageVersion Include="Microsoft.Azure.Functions.Worker.Sdk" Version="2.0.0" />
+	</ItemGroup>
     <ItemGroup>
         <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.6" />
         <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.6" />

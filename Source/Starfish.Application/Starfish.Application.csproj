@@ -9,6 +9,7 @@
 	</PropertyGroup>
     
 	<ItemGroup>
+		<PackageReference Include="DotLiquid" />
 		<PackageReference Include="Euonia.Application" />
         <PackageReference Include="Euonia.Bus.InMemory" />
         <PackageReference Include="Euonia.Bus.RabbitMq" />
@@ -17,6 +18,9 @@
         <PackageReference Include="Euonia.Caching.Redis" />
         <PackageReference Include="Euonia.Caching.Runtime" />
 		<PackageReference Include="Euonia.Mapping.Automapper" />
+		<PackageReference Include="FluentHttpClient" />
+		<PackageReference Include="MailKit" />
+		<PackageReference Include="Microsoft.FeatureManagement.AspNetCore" />
 	</ItemGroup>
 
     <ItemGroup>
