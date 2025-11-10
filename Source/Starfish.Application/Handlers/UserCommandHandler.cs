@@ -14,7 +14,7 @@ internal class UserCommandHandler(IUnitOfWorkManager unitOfWork, IObjectFactory 
     : CommandHandlerBase(unitOfWork, factory),
       IHandler<UserCreateCommand>,
       IHandler<UserUpdateCommand>,
-      IHandler<UserPasswordChangeCommand>
+      IHandler<UserPasswordUpdateCommand>
 {
     public Task HandleAsync(UserCreateCommand message, MessageContext context, CancellationToken cancellationToken = default)
     {
@@ -60,13 +60,13 @@ internal class UserCommandHandler(IUnitOfWorkManager unitOfWork, IObjectFactory 
         }, cancellationToken);
     }
     
-    public Task HandleAsync(UserPasswordChangeCommand message, MessageContext context, CancellationToken cancellationToken = default)
+    public Task HandleAsync(UserPasswordUpdateCommand message, MessageContext context, CancellationToken cancellationToken = default)
     {
         return ExecuteAsync(async () =>
         {
             var business = await Factory.FetchAsync<UserPasswordBusiness>(message.UserId, cancellationToken);
             business.Password = message.Password;
-            business.ChangeType = message.ChangeType;
+            business.ActionType = message.ActionType;
             business.MarkAsUpdate();
             await business.SaveAsync(true, cancellationToken);
         }, cancellationToken);

@@ -15,7 +15,7 @@ internal class UserPasswordBusiness : EditableObjectBase<UserPasswordBusiness, U
     protected override User Aggregate => _aggregate;
 
     public static readonly PropertyInfo<string> PasswordProperty = RegisterProperty<string>(p => p.Password);
-    public static readonly PropertyInfo<string> ChangeTypeProperty = RegisterProperty<string>(p => p.ChangeType);
+    public static readonly PropertyInfo<string> ActionTypeProperty = RegisterProperty<string>(p => p.ActionType);
 
     /// <summary>
     /// Get or set the password.
@@ -26,10 +26,10 @@ internal class UserPasswordBusiness : EditableObjectBase<UserPasswordBusiness, U
         set => SetProperty(PasswordProperty, value);
     }
 
-    public string ChangeType
+    public string ActionType
     {
-        get => GetProperty(ChangeTypeProperty);
-        set => SetProperty(ChangeTypeProperty, value);
+        get => GetProperty(ActionTypeProperty);
+        set => SetProperty(ActionTypeProperty, value);
     }
 
     [FactoryFetch]
@@ -53,17 +53,17 @@ internal class UserPasswordBusiness : EditableObjectBase<UserPasswordBusiness, U
             throw new BadRequestException("Password cannot be empty.");
         }
 
-        if (string.IsNullOrWhiteSpace(ChangeType))
+        if (string.IsNullOrWhiteSpace(ActionType))
         {
             throw new BadRequestException("Change type cannot be empty.");
         }
 
-        if (string.Equals(ChangeType, "update") && Aggregate.Id != Identity.GetUserIdOfInt64())
+        if (string.Equals(ActionType, "change") && Aggregate.Id != Identity.GetUserIdOfInt64())
         {
             throw new ForbiddenException();
         }
 
-        Aggregate.SetPassword(Password, ChangeType);
+        Aggregate.SetPassword(Password, ActionType);
         return Repository.UpdateAsync(Aggregate, true, cancellationToken);
     }
 }

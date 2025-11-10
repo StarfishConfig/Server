@@ -6,19 +6,19 @@
 /// <remarks>
 /// This command is used to change a user's password, either through a reset or an update.
 /// </remarks>
-internal class UserPasswordChangeCommand
+internal class UserPasswordUpdateCommand
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="UserPasswordChangeCommand"/> class.
+    /// Initializes a new instance of the <see cref="UserPasswordUpdateCommand"/> class.
     /// </summary>
     /// <param name="userId"></param>
     /// <param name="password"></param>
-    /// <param name="changeType"></param>
-    public UserPasswordChangeCommand(long userId, string password, string changeType)
+    /// <param name="actionType"></param>
+    public UserPasswordUpdateCommand(long userId, string password, string actionType)
     {
         UserId = userId;
         Password = password;
-        ChangeType = changeType;
+        ActionType = actionType;
     }
 
     /// <summary>
@@ -32,7 +32,7 @@ internal class UserPasswordChangeCommand
     public string Password { get; set; }
 
     /// <summary>
-    /// Gets or sets the type of password change: "reset", or "update".
+    /// Gets or sets the type of password change: "reset", or "change".
     /// </summary>
-    public string ChangeType { get; set; }
+    public string ActionType { get; set; }
 }
