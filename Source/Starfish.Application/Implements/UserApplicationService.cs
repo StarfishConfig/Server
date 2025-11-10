@@ -16,7 +16,7 @@ internal sealed class UserApplicationService : BaseApplicationService, IUserAppl
     public ValueTask<UserProfileDto> GetProfileAsync(CancellationToken cancellationToken = default)
     {
         var request = new UserProfileQueryRequest(User.GetUserIdOfInt64());
-        return Bus.SendAsync<UserProfileQueryRequest, UserProfileDto>(request, cancellationToken).AsValueTask();
+        return Bus.RequestAsync(request, cancellationToken).AsValueTask();
     }
 
     /// <inheritdoc />

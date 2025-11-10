@@ -39,7 +39,7 @@ internal class AuthApplicationService : BaseApplicationService, IAuthApplication
 
         try
         {
-            var result = await Bus.SendAsync(request, cancellationToken);
+            var result = await Bus.RequestAsync(request, cancellationToken);
             events.Add(new UserAuthSucceedEvent
             {
                 AuthType = data.Provider,
@@ -81,7 +81,7 @@ internal class AuthApplicationService : BaseApplicationService, IAuthApplication
         var events = new List<ApplicationEvent>();
         try
         {
-            var result = await Bus.SendAsync(request, cancellationToken);
+            var result = await Bus.RequestAsync(request, cancellationToken);
             events.Add(new UserAuthSucceedEvent
             {
                 AuthType = AuthenticationConstant.Provider.RefreshToken,
