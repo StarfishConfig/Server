@@ -118,8 +118,12 @@ internal sealed class User : Aggregate<long>, IHasCreateTime, IHasUpdateTime, IT
     /// <summary>
     /// Gets or sets the roles assigned to the user.
     /// </summary>
-    public HashSet<UserRole> Roles { get; set; } = new();
+    public HashSet<UserRole> Roles { get; set; } = [];
 
+    /// <summary>
+    /// Gets or sets the third-party authentication authorities linked to the user.
+    /// </summary>
+    public HashSet<UserAuthority> Authorities { get; set; } = [];
     #endregion
 
     #region Methods
