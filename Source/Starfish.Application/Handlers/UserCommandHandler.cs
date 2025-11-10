@@ -14,7 +14,8 @@ internal class UserCommandHandler(IUnitOfWorkManager unitOfWork, IObjectFactory 
     : CommandHandlerBase(unitOfWork, factory),
       IHandler<UserCreateCommand>,
       IHandler<UserUpdateCommand>,
-      IHandler<UserPasswordUpdateCommand>
+      IHandler<UserPasswordUpdateCommand>,
+      IHandler<UserUnlockCommand>
 {
     public Task HandleAsync(UserCreateCommand message, MessageContext context, CancellationToken cancellationToken = default)
     {
@@ -34,7 +35,14 @@ internal class UserCommandHandler(IUnitOfWorkManager unitOfWork, IObjectFactory 
         }, context.Response, cancellationToken);
     }
 
-    public Task HandleAsync(UserUpdateCommand message, MessageContext context, CancellationToken cancellationToken = new CancellationToken())
+    /// <summary>
+    /// Handle the user update command.
+    /// </summary>
+    /// <param name="message"></param>
+    /// <param name="context"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task HandleAsync(UserUpdateCommand message, MessageContext context, CancellationToken cancellationToken = default)
     {
         return ExecuteAsync(async () =>
         {
@@ -59,7 +67,14 @@ internal class UserCommandHandler(IUnitOfWorkManager unitOfWork, IObjectFactory 
             await business.SaveAsync(true, cancellationToken);
         }, cancellationToken);
     }
-    
+
+    /// <summary>
+    /// Handle the user password update command.
+    /// </summary>
+    /// <param name="message"></param>
+    /// <param name="context"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     public Task HandleAsync(UserPasswordUpdateCommand message, MessageContext context, CancellationToken cancellationToken = default)
     {
         return ExecuteAsync(async () =>
@@ -72,5 +87,19 @@ internal class UserCommandHandler(IUnitOfWorkManager unitOfWork, IObjectFactory 
         }, cancellationToken);
     }
 
-    
+    /// <summary>
+    /// Handle the user unlock command.
+    /// </summary>
+    /// <param name="message"></param>
+    /// <param name="context"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task HandleAsync(UserUnlockCommand message, MessageContext context, CancellationToken cancellationToken = default)
+    {
+        return ExecuteAsync(async () =>
+        {
+            var business = await Factory.CreateAsync<UserLockoutBusiness>(cancellationToken);
+            await business.ExecuteAsync(message.UserId, "reset", cancellationToken);
+        }, cancellationToken);
+    }
 }

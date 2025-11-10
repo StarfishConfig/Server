@@ -66,4 +66,13 @@ public interface IUserApplicationService : IApplicationService
     /// <returns></returns>
     [Authorize(Roles = "SA")]
     Task ResetPasswordAsync(long id, CancellationToken cancellationToken = default);
+    
+    /// <summary>
+    /// Unlock a user account asynchronously.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [Authorize(Roles = "SA")]
+    Task UnlockAsync(long id, CancellationToken cancellationToken = default);
 }

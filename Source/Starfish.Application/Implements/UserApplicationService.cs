@@ -65,4 +65,10 @@ internal sealed class UserApplicationService : BaseApplicationService, IUserAppl
     {
         throw new NotImplementedException();
     }
+
+    public Task UnlockAsync(long id, CancellationToken cancellationToken = default)
+    {
+        var command = new UserUnlockCommand(id);
+        return Bus.SendAsync(command, cancellationToken);
+    }
 }
