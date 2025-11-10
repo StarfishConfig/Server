@@ -37,4 +37,14 @@ internal interface IUserRepository : IBaseRepository<User, long>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     Task<bool> CheckPhoneExistsAsync(string phone, long ignoreId, CancellationToken cancellationToken = default);
+    
+    /// <summary>
+    /// Finds a user by an external provider.
+    /// </summary>
+    /// <param name="provider"></param>
+    /// <param name="value"></param>
+    /// <param name="tracking"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task<User> FindByProviderAsync(string provider, string value, bool tracking, CancellationToken cancellationToken = default);
 }

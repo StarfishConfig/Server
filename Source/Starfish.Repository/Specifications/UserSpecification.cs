@@ -84,6 +84,43 @@ internal static class UserSpecification
     }
 
     /// <summary>
+    /// Specification to check if Phone equals the given phone.
+    /// </summary>
+    /// <param name="phone"></param>
+    /// <returns></returns>
+    public static Specification<User> PhoneEquals(string phone)
+    {
+        phone = phone.Normalize(TextCaseType.Lower);
+        return new DirectSpecification<User>(t => t.Phone == phone);
+    }
+
+    /// <summary>
+    /// Specification to check if Phone contains the given phone.
+    /// </summary>
+    /// <param name="phone"></param>
+    /// <returns></returns>
+    public static Specification<User> PhoneContains(string phone)
+    {
+        phone = phone.Normalize(TextCaseType.Lower);
+        return new DirectSpecification<User>(t => t.Phone.Contains(phone));
+    }
+
+    /// <summary>
+    /// Specification to check if any Authority matches the given provider and value.
+    /// </summary>
+    /// <param name="provider"></param>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentNullException"></exception>
+    public static Specification<User> OpenIdEquals(string provider, string value)
+    {
+        provider = provider?.Trim().ToLowerInvariant() ?? throw new ArgumentNullException(nameof(provider));
+        value = value.Normalize(TextCaseType.Lower);
+
+        return new DirectSpecification<User>(x => x.Authorities.Any(t => t.Provider == provider && t.OpenId == value));
+    }
+
+    /// <summary>
     /// Specification to check if any of Username, Nickname, or Email contains the given keyword.
     /// </summary>
     /// <param name="keyword"></param>
@@ -94,7 +131,8 @@ internal static class UserSpecification
         [
             UsernameContains(keyword),
             NickNameContains(keyword),
-            EmailContains(keyword)
+            EmailContains(keyword),
+            PhoneContains(keyword)
         ];
 
         return new CompositeSpecification<User>(PredicateOperator.OrElse, specifications);

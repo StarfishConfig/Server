@@ -14,26 +14,7 @@ internal class AuthApplicationService : BaseApplicationService, IAuthApplication
     /// <inheritdoc />
     public async Task<AuthResultDto> GrantAsync(AuthRequestDto data, CancellationToken cancellationToken = default)
     {
-        IRequest<AuthResultDto> request;
-
-        switch (data.Provider?.ToLowerInvariant())
-        {
-            case null or "":
-                throw new ArgumentNullException(nameof(data));
-            case AuthenticationConstant.Provider.Username:
-                request = new AuthenticateWithUsernameRequest(data.Username, data.Password);
-                break;
-            case AuthenticationConstant.Provider.Email:
-            case AuthenticationConstant.Provider.Phone:
-                throw new NotImplementedException($"The provider '{data.Provider}' is not implemented.");
-            case AuthenticationConstant.Provider.Github:
-            case AuthenticationConstant.Provider.Google:
-            case AuthenticationConstant.Provider.Facebook:
-            case AuthenticationConstant.Provider.Microsoft:
-                throw new NotImplementedException($"The provider '{data.Provider}' is not implemented.");
-            default:
-                throw new NotSupportedException($"The provider '{data.Provider}' is not supported.");
-        }
+        var request = await GetRequestAsync();
 
         var events = new List<ApplicationEvent>();
 
@@ -69,6 +50,42 @@ internal class AuthApplicationService : BaseApplicationService, IAuthApplication
             if (events.Count > 0)
             {
                 await Parallel.ForEachAsync(events, cancellationToken, async (@event, token) => await Bus.PublishAsync(@event, token));
+            }
+        }
+        async Task<IRequest<AuthResultDto>> GetRequestAsync()
+        {
+            switch (data.Provider?.ToLowerInvariant())
+            {
+                case null or "":
+                    throw new ArgumentNullException(nameof(data));
+                case AuthenticationConstant.Provider.Username:
+                    return new AuthenticateWithUsernameRequest(data.Username, data.Password);
+                case AuthenticationConstant.Provider.Email:
+                case AuthenticationConstant.Provider.Phone:
+                    throw new NotImplementedException($"The provider '{data.Provider}' is not implemented.");
+                case AuthenticationConstant.Provider.Github:
+                case AuthenticationConstant.Provider.Google:
+                case AuthenticationConstant.Provider.Facebook:
+                case AuthenticationConstant.Provider.Microsoft:
+                {
+                    var provider = LazyServiceProvider.GetKeyedService<IAuthProvider>(data.Provider);
+                    if (provider == null)
+                    {
+                        throw new NotSupportedException($"The provider '{data.Provider}' is not supported.");
+                    }
+
+                    var auth = await provider.AuthorizeAsync(data.Username, cancellationToken);
+
+                    if (auth == null)
+                    {
+                        throw new InvalidOperationException("Failed to authorize with the external provider.");
+                    }
+
+                    return new AuthenticateWithAuthProviderRequest(data.Provider, auth.Id);
+                }
+
+                default:
+                    throw new NotSupportedException($"The provider '{data.Provider}' is not supported.");
             }
         }
     }

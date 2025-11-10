@@ -13,6 +13,7 @@ using Nerosoft.Euonia.Modularity;
 using Nerosoft.Euonia.Validation;
 using Nerosoft.Starfish.Domain;
 using Nerosoft.Starfish.Repository;
+using Nerosoft.Starfish.Shared;
 
 namespace Nerosoft.Starfish.Application;
 
@@ -34,6 +35,11 @@ internal class ApplicationServiceModule : ModuleContextBase
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         context.Services.Register<ApplicationServiceContext>();
+
+        context.Services.AddKeyedScoped<IAuthProvider, GithubAuthProvider>(AuthenticationConstant.Provider.Github)
+               .AddKeyedScoped<IAuthProvider, MicrosoftAuthProvider>(AuthenticationConstant.Provider.Microsoft)
+               .AddKeyedScoped<IAuthProvider, GoogleAuthProvider>(AuthenticationConstant.Provider.Google)
+               .AddKeyedScoped<IAuthProvider, FacebookAuthProvider>(AuthenticationConstant.Provider.Facebook);
 
         ConfigureCachingServices(context.Services);
 

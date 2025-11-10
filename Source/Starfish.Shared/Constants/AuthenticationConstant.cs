@@ -10,6 +10,7 @@ public class AuthenticationConstant
     /// </summary>
     public class Provider
     {
+        public const string Identifier = "id";
         public const string Username = "username";
         public const string Email = "email";
         public const string Phone = "phone";
@@ -19,6 +20,12 @@ public class AuthenticationConstant
         public const string Facebook = "facebook";
         public const string Microsoft = "microsoft";
         public const string RefreshToken = "refresh_token";
+        public const string Wechat = "wechat";
+        public const string Weibo = "weibo";
+        public const string Apple = "apple";
+        public const string Twitter = "twitter";
+        public const string LinkedIn = "linkedin";
+        public const string QQ = "qq";
     }
 
     public class TokenType

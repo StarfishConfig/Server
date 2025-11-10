@@ -14,7 +14,8 @@ namespace Nerosoft.Starfish.Application;
 /// <param name="provider"></param>
 internal class AuthRequestHandler(IServiceProvider provider)
     : IHandler<AuthenticateWithUsernameRequest>,
-      IHandler<AuthenticateWithRefreshTokenRequest>
+      IHandler<AuthenticateWithRefreshTokenRequest>,
+      IHandler<AuthenticateWithAuthProviderRequest>
 {
     private IConfiguration _configuration;
     private IConfiguration Configuration => _configuration ??= provider.GetRequiredService<IConfiguration>();
@@ -32,6 +33,7 @@ internal class AuthRequestHandler(IServiceProvider provider)
         {
             throw new ArgumentException(Resources.IDS_ERROR_USERNAME_REQUIRED, nameof(message.Username));
         }
+
         if (string.IsNullOrWhiteSpace(message.Password))
         {
             throw new ArgumentException(Resources.IDS_ERROR_PASSWORD_REQUIRED, nameof(message.Password));
@@ -60,6 +62,7 @@ internal class AuthRequestHandler(IServiceProvider provider)
         context.Response(result);
     }
 
+    /// <inheritdoc />
     public async Task HandleAsync(AuthenticateWithRefreshTokenRequest message, MessageContext context, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(message.Token))
@@ -86,6 +89,34 @@ internal class AuthRequestHandler(IServiceProvider provider)
         if (user == null)
         {
             throw new AuthenticationException(string.Format(Resources.IDS_ERROR_USER_NOT_FOUND, token.Subject));
+        }
+
+        var result = GenerateAccessToken(user);
+        context.Response(result);
+    }
+
+    /// <inheritdoc />
+    public async Task HandleAsync(AuthenticateWithAuthProviderRequest message, MessageContext context, CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(message.Provider))
+        {
+            throw new BadRequestException();
+        }
+
+        if (string.IsNullOrWhiteSpace(message.OpenId))
+        {
+            throw new BadRequestException();
+        }
+
+        var user = await UserRepository.FindByProviderAsync(message.Provider, message.OpenId, false, cancellationToken);
+        if (user == null)
+        {
+            throw new AuthenticationException(Resources.IDS_ERROR_EXTERNAL_LOGIN_FAILED);
+        }
+
+        if (user.LockoutEnd > DateTime.UtcNow)
+        {
+            throw new AuthenticationException(Resources.IDS_ERROR_USER_LOCKOUT);
         }
 
         var result = GenerateAccessToken(user);

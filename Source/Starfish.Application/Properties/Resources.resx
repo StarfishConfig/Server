@@ -147,4 +147,7 @@
   <data name="IDS_ERROR_USER_NOT_FOUND" xml:space="preserve">
     <value>User '{0}' not found.</value>
   </data>
+  <data name="IDS_ERROR_EXTERNAL_LOGIN_FAILED" xml:space="preserve">
+    <value>External login failed.</value>
+  </data>
 </root>
