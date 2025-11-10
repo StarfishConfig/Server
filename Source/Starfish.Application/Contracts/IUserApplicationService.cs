@@ -61,7 +61,7 @@ public interface IUserApplicationService : IApplicationService
     /// <summary>
     /// Resets the password of a user by their ID asynchronously.
     /// </summary>
-    /// <param name="id">The id of user who's password to be reseted.</param>
+    /// <param name="id">The id of user whose password to be reset.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     [Authorize(Roles = "SA")]
