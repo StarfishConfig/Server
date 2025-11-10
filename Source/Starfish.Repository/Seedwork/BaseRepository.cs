@@ -4,7 +4,6 @@ using Nerosoft.Euonia.Domain;
 using Nerosoft.Euonia.Linq;
 using Nerosoft.Euonia.Repository;
 using Nerosoft.Euonia.Repository.EfCore;
-using Nerosoft.Starfish.Domain;
 
 namespace Nerosoft.Starfish.Repository;
 
@@ -50,7 +49,7 @@ internal abstract class BaseRepository<TContext, TEntity, TKey> : EfCoreReposito
     public virtual Task<TEntity> GetAsync(TKey id, bool tracking, CancellationToken cancellationToken = default)
     {
         //var lambda = predicate.Compile();
-        return GetAsync(id, tracking, Array.Empty<string>(), cancellationToken);
+        return GetAsync(id, tracking, [], cancellationToken);
     }
 
     /// <summary>
@@ -78,7 +77,7 @@ internal abstract class BaseRepository<TContext, TEntity, TKey> : EfCoreReposito
     /// <returns></returns>
     public virtual Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate, bool tracking, CancellationToken cancellationToken = default)
     {
-        return GetAsync(predicate, tracking, Array.Empty<string>(), cancellationToken);
+        return GetAsync(predicate, tracking, [], cancellationToken);
     }
 
     /// <summary>

@@ -69,6 +69,12 @@ public class RepositoryModule : ModuleContextBase
             var connectionString = Configuration.GetConnectionString("SupportConnection");
             ConfigureDatabaseType(options, connectionString);
         });
+
+        context.Services
+               .AddScoped<IUserRepository, UserRepository>()
+               .AddScoped<ITokenRepository, TokenRepository>()
+               .AddScoped<IProjectRepository, ProjectRepository>()
+               .AddScoped<ITeamRepository, TeamRepository>();
     }
 
     private static void ConfigureDatabaseType(DbContextOptionsBuilder options, string connectionString)

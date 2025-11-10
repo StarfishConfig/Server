@@ -6,7 +6,7 @@ namespace Nerosoft.Starfish.Domain;
 /// <summary>
 /// The user lockout business object.
 /// </summary>
-internal class UserLockoutBusiness : CommandObjectBase<UserLockoutBusiness>, IDomainService
+internal sealed class UserLockoutBusiness : CommandObjectBase<UserLockoutBusiness>, IDomainService
 {
     private IUserRepository _repository;
     private IUserRepository Repository => _repository ??= LazyServiceProvider.GetRequiredService<IUserRepository>();

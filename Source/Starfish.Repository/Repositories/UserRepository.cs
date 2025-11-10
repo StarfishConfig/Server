@@ -18,11 +18,13 @@ internal class UserRepository : BaseRepository<AccountDataContext, User, long>, 
     {
     }
 
+    /// <inheritdoc />
     public Task<User> FindByUsernameAsync(string username, bool tracking, string[] properties, CancellationToken cancellationToken = default)
     {
         return GetAsync(t => t.Username == username, tracking, properties, cancellationToken);
     }
 
+    /// <inheritdoc />
     public Task<bool> CheckUsernameExistsAsync(string username, CancellationToken cancellationToken = default)
     {
         var specification = UserSpecification.UsernameEquals(username);
@@ -30,6 +32,7 @@ internal class UserRepository : BaseRepository<AccountDataContext, User, long>, 
         return AnyAsync(predicate, null, cancellationToken);
     }
 
+    /// <inheritdoc />
     public Task<bool> CheckEmailExistsAsync(string email, long ignoreId, CancellationToken cancellationToken = default)
     {
         ISpecification<User>[] specifications =
@@ -41,6 +44,7 @@ internal class UserRepository : BaseRepository<AccountDataContext, User, long>, 
         return AnyAsync(predicate, null, cancellationToken);
     }
 
+    /// <inheritdoc />
     public Task<bool> CheckPhoneExistsAsync(string phone, long ignoreId, CancellationToken cancellationToken = default)
     {
         ISpecification<User>[] specifications =
