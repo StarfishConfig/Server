@@ -8,4 +8,9 @@
 		<Nullable>disable</Nullable>
 	</PropertyGroup>
 
+	<ItemGroup>
+		<PackageReference Include="IdentityModel" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" />
+	</ItemGroup>
+
 </Project>
