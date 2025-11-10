@@ -6,6 +6,11 @@
 public class AuthResultDto
 {
     /// <summary>
+    /// Gets or sets the JWT ID.
+    /// </summary>
+    public string Id { get; set; }
+
+    /// <summary>
     /// Gets or sets the access token.
     /// </summary>
     public string AccessToken { get; set; }
