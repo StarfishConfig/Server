@@ -11,6 +11,14 @@ internal class UserLockoutBusiness : CommandObjectBase<UserLockoutBusiness>, IDo
     private IUserRepository _repository;
     private IUserRepository Repository => _repository ??= LazyServiceProvider.GetRequiredService<IUserRepository>();
 
+    /// <summary>
+    /// Execute the user lockout operation.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="type"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    /// <exception cref="NotFoundException"></exception>
     [FactoryExecute]
     public async Task ExecuteAsync(long id, string type, CancellationToken cancellationToken = default)
     {
