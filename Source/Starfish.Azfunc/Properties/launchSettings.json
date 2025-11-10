@@ -2,7 +2,7 @@
   "profiles": {
     "Starfish.Azfunc": {
       "commandName": "Project",
-      "commandLineArgs": "--port 7201",
+      "commandLineArgs": "--port 7201 --useHttps --cors * --cert $(SolutionDir)/certificate.pfx --password nerosoft.8888",
       "launchBrowser": false
     }
   }
