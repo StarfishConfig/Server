@@ -5,7 +5,7 @@ namespace Nerosoft.Starfish.Toolkit;
 /// <summary>
 /// Provides cryptographic functionalities and utilities.
 /// </summary>
-internal partial class Cryptography
+public partial class Cryptography
 {
 	/// <summary>
 	/// Class for RSA encryption and decryption.

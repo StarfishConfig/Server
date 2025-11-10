@@ -7,7 +7,7 @@ namespace Nerosoft.Starfish.Toolkit;
 /// JSON extension methods.
 /// </summary>
 
-internal static class JsonExtensions
+public static class JsonExtensions
 {
     /// <summary>
     /// Gets the value of a property from a JsonNode using a dot-separated or slash-separated path.

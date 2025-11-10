@@ -5,7 +5,7 @@ namespace Nerosoft.Starfish.Toolkit;
 /// <summary>
 /// A utility class for generating random numbers or strings.
 /// </summary>
-internal class RandomUtility : Random
+public class RandomUtility : Random
 {
     private static readonly RandomNumberGenerator _generator = RandomNumberGenerator.Create();
     private readonly byte[] _uint32Buffer = new byte[4];

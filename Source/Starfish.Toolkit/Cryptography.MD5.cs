@@ -1,6 +1,6 @@
 namespace Nerosoft.Starfish.Toolkit;
 
-internal partial class Cryptography
+public partial class Cryptography
 {
     /// <summary>
     /// The MD5 encryption class.

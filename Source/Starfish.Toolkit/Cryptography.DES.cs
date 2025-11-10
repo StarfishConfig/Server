@@ -2,7 +2,7 @@ using System.Security.Cryptography;
 
 namespace Nerosoft.Starfish.Toolkit;
 
-internal partial class Cryptography
+public partial class Cryptography
 {
     /// <summary>
     /// The DES encryption and decryption class.

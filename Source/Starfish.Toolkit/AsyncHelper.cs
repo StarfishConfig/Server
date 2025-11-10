@@ -3,7 +3,7 @@ namespace Nerosoft.Starfish.Toolkit;
 /// <summary>
 /// Provides helper methods to run asynchronous tasks synchronously.
 /// </summary>
-internal static class AsyncHelper
+public static class AsyncHelper
 {
     public static TResult RunSync<TResult>(Func<Task<TResult>> func)
     {

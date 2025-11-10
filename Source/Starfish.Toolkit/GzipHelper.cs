@@ -2,7 +2,10 @@ using System.IO.Compression;
 
 namespace Nerosoft.Starfish.Toolkit;
 
-internal static class GzipHelper
+/// <summary>
+/// Gzip compression and decompression helper class.
+/// </summary>
+public static class GzipHelper
 {
     /// <summary>
     /// Compress a string and encode it to Base64
