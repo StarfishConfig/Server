@@ -21,63 +21,79 @@ internal class AuthRequestHandler(IServiceProvider provider)
     private IUserRepository _userRepository;
     private IUserRepository UserRepository => _userRepository ??= provider.GetRequiredService<IUserRepository>();
 
+    private ITokenRepository _tokenRepository;
+    private ITokenRepository TokenRepository => _tokenRepository ??= provider.GetRequiredService<ITokenRepository>();
+
     /// <inheritdoc />
     public async Task HandleAsync(AuthenticateWithUsernameRequest message, MessageContext context, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(message.Username))
         {
-            throw new ArgumentException(Resources.USERNAME_CAN_NOT_EMPTY, nameof(message.Username));
+            throw new ArgumentException(Resources.IDS_ERROR_USERNAME_REQUIRED, nameof(message.Username));
         }
         if (string.IsNullOrWhiteSpace(message.Password))
         {
-            throw new ArgumentException(Resources.PASSWORD_CAN_NOT_EMPTY, nameof(message.Password));
+            throw new ArgumentException(Resources.IDS_ERROR_PASSWORD_REQUIRED, nameof(message.Password));
         }
 
         var user = await UserRepository.FindByUsernameAsync(message.Username, false, cancellationToken);
 
         if (user == null)
         {
-            throw new AuthenticationException(Resources.USERNAME_PASSWORD_INVALID);
+            throw new AuthenticationException(Resources.IDS_ERROR_USERNAME_PASSWORD_INVALID);
         }
 
         var passwordHash = Cryptography.DES.Encrypt(message.Password, Encoding.UTF8.GetBytes(user.PasswordSalt));
 
         if (!string.Equals(passwordHash, user.PasswordHash, StringComparison.Ordinal))
         {
-            throw new AuthenticationException(Resources.USERNAME_PASSWORD_INVALID);
+            throw new AuthenticationException(Resources.IDS_ERROR_USERNAME_PASSWORD_INVALID);
         }
 
         if (user.LockoutEnd > DateTime.UtcNow)
         {
-            throw new AuthenticationException(Resources.USER_ACCOUNT_LOCKED);
+            throw new AuthenticationException(Resources.IDS_ERROR_USER_LOCKOUT);
         }
 
-        var (jti, accessToken, refreshToken, issuedAt, expiresAt) = GenerateAccessToken(user);
-        var result = new AuthResultDto
-        {
-            Id = jti,
-            AccessToken = accessToken,
-            RefreshToken = refreshToken,
-            TokenType = "Bearer",
-            Username = user.Username,
-            UserId = user.Id,
-            IssueAt = new DateTimeOffset(issuedAt).ToUnixTimeSeconds(),
-            ExpiresIn = (long)(expiresAt - issuedAt).TotalSeconds
-        };
+        var result = GenerateAccessToken(user);
         context.Response(result);
     }
 
     public async Task HandleAsync(AuthenticateWithRefreshTokenRequest message, MessageContext context, CancellationToken cancellationToken = default)
     {
-        if (string.IsNullOrWhiteSpace(message.RefreshToken))
+        if (string.IsNullOrWhiteSpace(message.Token))
         {
-            throw new ArgumentException(Resources.REFRESH_TOKEN_CAN_NOT_EMPTY, nameof(message.RefreshToken));
+            throw new ArgumentException(Resources.IDS_ERROR_REFRESH_TOKEN_REQUIRED, nameof(message.Token));
         }
+
+        var key = message.Token.ToSha256();
+
+        var token = await TokenRepository.FindByKeyAsync(key, cancellationToken);
+
+        if (token == null)
+        {
+            throw new AuthenticationException(Resources.IDS_ERROR_REFRESH_TOKEN_INVALID);
+        }
+
+        if (token.Expires < DateTime.UtcNow)
+        {
+            throw new AuthenticationException(Resources.IDS_ERROR_REFRESH_TOKEN_EXPIRED);
+        }
+
+        var user = await UserRepository.GetAsync(token.Subject, false, cancellationToken);
+
+        if (user == null)
+        {
+            throw new AuthenticationException(string.Format(Resources.IDS_ERROR_USER_NOT_FOUND, token.Subject));
+        }
+
+        var result = GenerateAccessToken(user);
+        context.Response(result);
     }
 
-    private Tuple<string, string, string, DateTime, DateTime> GenerateAccessToken(User user)
+    private AuthResultDto GenerateAccessToken(User user)
     {
-        var jti = Guid.NewGuid().ToString("N");
+        var jti = ObjectId.NewGuid(GuidType.SequentialAsString).ToString("N");
 
         var issueTime = DateTime.UtcNow;
         var expiresAt = issueTime.AddDays(1);
@@ -93,7 +109,16 @@ internal class AuthRequestHandler(IServiceProvider provider)
                                     .AddClaim(JwtClaimTypes.JwtId, jti);
 
         var accessToken = builder.Build();
-        var refreshToken = Guid.NewGuid().ToString("N");
-        return Tuple.Create(jti, accessToken, refreshToken, issueTime, expiresAt);
+
+        return new AuthResultDto
+        {
+            AccessToken = accessToken,
+            RefreshToken = ObjectId.NewGuid(GuidType.SequentialAsString).ToString("N"),
+            TokenType = "Bearer",
+            Username = user.Username,
+            UserId = user.Id,
+            IssueAt = new DateTimeOffset(issueTime).ToUnixTimeSeconds(),
+            ExpiresIn = (long)(expiresAt - issueTime).TotalSeconds
+        };
     }
 }

@@ -6,5 +6,5 @@ namespace Nerosoft.Starfish.Application;
 /// <summary>
 /// Request to authenticate using a refresh token.
 /// </summary>
-/// <param name="RefreshToken"></param>
-internal record AuthenticateWithRefreshTokenRequest(string RefreshToken) : IRequest<AuthResultDto>;
+/// <param name="Token"></param>
+internal record AuthenticateWithRefreshTokenRequest(string Token) : IRequest<AuthResultDto>;
