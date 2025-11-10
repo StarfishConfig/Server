@@ -2,6 +2,7 @@ using Nerosoft.Euonia.Application;
 using Nerosoft.Euonia.Mapping;
 using Nerosoft.Starfish.Application.Requests;
 using Nerosoft.Starfish.Domain;
+using Nerosoft.Starfish.Shared;
 using Nerosoft.Starfish.Transit;
 
 namespace Nerosoft.Starfish.Application;
@@ -49,12 +50,18 @@ internal sealed class UserApplicationService : BaseApplicationService, IUserAppl
     /// <inheritdoc />
     public Task ChangePasswordAsync(UserPasswordChangeDto data, CancellationToken cancellationToken = default)
     {
-        var command = new UserPasswordUpdateCommand(User.GetUserIdOfInt64(), data.Password, "change");
+        var command = new UserPasswordUpdateCommand(User.GetUserIdOfInt64(), data.Password, UserPasswordChangeTypeConstant.Change);
         return Bus.SendAsync(command, cancellationToken);
     }
 
     /// <inheritdoc />
     public Task ResetPasswordAsync(UserPasswordResetDto data, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <inheritdoc />
+    public Task ResetPasswordAsync(long id, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }

@@ -56,4 +56,12 @@ public interface IUserApplicationService : IApplicationService
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     Task ResetPasswordAsync(UserPasswordResetDto data, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Resets the password of a user by their ID asynchronously.
+    /// </summary>
+    /// <param name="id">The id of user who's password to be reseted.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task ResetPasswordAsync(long id, CancellationToken cancellationToken = default);
 }

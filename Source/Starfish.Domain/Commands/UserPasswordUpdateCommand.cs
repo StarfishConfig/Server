@@ -13,7 +13,7 @@ internal class UserPasswordUpdateCommand
     /// </summary>
     /// <param name="userId"></param>
     /// <param name="password"></param>
-    /// <param name="actionType"></param>
+    /// <param name="actionType">See the <see cref="Shared.UserPasswordChangeTypeConstant"/> to check available values.</param>
     public UserPasswordUpdateCommand(long userId, string password, string actionType)
     {
         UserId = userId;

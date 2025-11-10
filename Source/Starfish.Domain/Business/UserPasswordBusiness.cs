@@ -1,5 +1,6 @@
 ﻿using Nerosoft.Euonia.Business;
 using Nerosoft.Euonia.Domain;
+using Nerosoft.Starfish.Shared;
 
 namespace Nerosoft.Starfish.Domain;
 
@@ -58,7 +59,7 @@ internal class UserPasswordBusiness : EditableObjectBase<UserPasswordBusiness, U
             throw new BadRequestException("Change type cannot be empty.");
         }
 
-        if (string.Equals(ActionType, "change") && Aggregate.Id != Identity.GetUserIdOfInt64())
+        if (string.Equals(ActionType, UserPasswordChangeTypeConstant.Change) && Aggregate.Id != Identity.GetUserIdOfInt64())
         {
             throw new ForbiddenException();
         }

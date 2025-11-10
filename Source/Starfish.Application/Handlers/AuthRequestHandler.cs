@@ -37,7 +37,7 @@ internal class AuthRequestHandler(IServiceProvider provider)
             throw new ArgumentException(Resources.IDS_ERROR_PASSWORD_REQUIRED, nameof(message.Password));
         }
 
-        var user = await UserRepository.FindByUsernameAsync(message.Username, false, cancellationToken);
+        var user = await UserRepository.FindByUsernameAsync(message.Username, false, [nameof(User.Roles)], cancellationToken);
 
         if (user == null)
         {
@@ -81,7 +81,7 @@ internal class AuthRequestHandler(IServiceProvider provider)
             throw new AuthenticationException(Resources.IDS_ERROR_REFRESH_TOKEN_EXPIRED);
         }
 
-        var user = await UserRepository.GetAsync(token.Subject, false, cancellationToken);
+        var user = await UserRepository.GetAsync(token.Subject, false, [nameof(User.Roles)], cancellationToken);
 
         if (user == null)
         {
@@ -94,6 +94,8 @@ internal class AuthRequestHandler(IServiceProvider provider)
 
     private AuthResultDto GenerateAccessToken(User user)
     {
+        var roles = user.Roles?.Select(r => r.Name);
+
         var jti = ObjectId.NewGuid(GuidType.SequentialAsString).ToString("N");
 
         var issueTime = DateTime.UtcNow;
@@ -102,7 +104,7 @@ internal class AuthRequestHandler(IServiceProvider provider)
         var builder = TokenGenerator.Create(user.Id, user.Username)
                                     .WithSigningKey(Configuration.GetValue<string>("JwtAuthenticationOptions:SigningKey"))
                                     .WithIssuer(Configuration.GetValue<string>("JwtAuthenticationOptions:Issuer:0"))
-                                    //.AddRole(roles?.ToArray())
+                                    .AddRole(roles?.ToArray())
                                     .IssuedAt(issueTime)
                                     .AddClaim(JwtClaimTypes.Email, user.Email)
                                     .AddClaim(JwtClaimTypes.PhoneNumber, user.Phone)
