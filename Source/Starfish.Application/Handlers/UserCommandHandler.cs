@@ -15,7 +15,9 @@ internal class UserCommandHandler(IUnitOfWorkManager unitOfWork, IObjectFactory 
       IHandler<UserCreateCommand>,
       IHandler<UserUpdateCommand>,
       IHandler<UserPasswordUpdateCommand>,
-      IHandler<UserUnlockCommand>
+      IHandler<UserUnlockCommand>,
+      IHandler<UserAuthorityCreateCommand>,
+      IHandler<UserAuthorityRemoveCommand>
 {
     public Task HandleAsync(UserCreateCommand message, MessageContext context, CancellationToken cancellationToken = default)
     {
@@ -100,6 +102,45 @@ internal class UserCommandHandler(IUnitOfWorkManager unitOfWork, IObjectFactory 
         {
             var business = await Factory.CreateAsync<UserLockoutBusiness>(cancellationToken);
             await business.ExecuteAsync(message.UserId, "reset", cancellationToken);
+        }, cancellationToken);
+    }
+
+    /// <summary>
+    /// Handle the user authority create command.
+    /// </summary>
+    /// <param name="message"></param>
+    /// <param name="context"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task HandleAsync(UserAuthorityCreateCommand message, MessageContext context, CancellationToken cancellationToken = default)
+    {
+        return ExecuteAsync(async () =>
+        {
+            var business = await Factory.FetchAsync<UserAuthorityBusiness>(message.UserId, cancellationToken);
+            business.Provider = message.Provider;
+            business.OpenId = message.OpenId;
+            business.Name = message.Name;
+            business.MarkAsUpdate();
+            await business.SaveAsync(true, cancellationToken);
+        }, cancellationToken);
+    }
+
+    /// <summary>
+    /// Handle the user authority remove command.
+    /// </summary>
+    /// <param name="message"></param>
+    /// <param name="context"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task HandleAsync(UserAuthorityRemoveCommand message, MessageContext context, CancellationToken cancellationToken = default)
+    {
+        return ExecuteAsync(async () =>
+        {
+            var business = await Factory.FetchAsync<UserAuthorityBusiness>(message.UserId, cancellationToken);
+            business.Provider = message.Provider;
+            business.OpenId = message.OpenId;
+            business.MarkAsDelete();
+            await business.SaveAsync(true, cancellationToken);
         }, cancellationToken);
     }
 }

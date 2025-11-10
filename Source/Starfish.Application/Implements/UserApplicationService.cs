@@ -65,9 +65,41 @@ internal sealed class UserApplicationService : BaseApplicationService, IUserAppl
         throw new NotImplementedException();
     }
 
+    /// <inheritdoc />
     public Task UnlockAsync(long id, CancellationToken cancellationToken = default)
     {
         var command = new UserUnlockCommand(id);
+        return Bus.SendAsync(command, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public async Task CreateAuthorityAsync(string provider, string code, CancellationToken cancellationToken = default)
+    {
+        var authProvider = LazyServiceProvider.GetKeyedService<IAuthProvider>(provider.ToLowerInvariant());
+
+        if (authProvider == null)
+        {
+            throw new NotSupportedException("Provider is not supported.");
+        }
+
+        var result = await authProvider.AuthorizeAsync(code, cancellationToken);
+
+        if (result == null)
+        {
+            throw new BadRequestException("Invalid authorization result.");
+        }
+
+        var command = new UserAuthorityCreateCommand(User.GetUserIdOfInt64(), provider, result.Id)
+        {
+            Name = result.Username ?? result.Nickname
+        };
+        await Bus.SendAsync(command, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public Task RemoveAuthorityAsync(string provider, string openId, CancellationToken cancellationToken = default)
+    {
+        var command = new UserAuthorityRemoveCommand(User.GetUserIdOfInt64(), provider, openId);
         return Bus.SendAsync(command, cancellationToken);
     }
 }

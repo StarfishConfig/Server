@@ -75,4 +75,22 @@ public interface IUserApplicationService : IApplicationService
     /// <returns></returns>
     [Authorize(Roles = "SA")]
     Task UnlockAsync(long id, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Creates a new third-party authority for the current user asynchronously.
+    /// </summary>
+    /// <param name="provider"></param>
+    /// <param name="code"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task CreateAuthorityAsync(string provider, string code, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Removes a third-party authority from the current user asynchronously.
+    /// </summary>
+    /// <param name="provider"></param>
+    /// <param name="openId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task RemoveAuthorityAsync(string provider, string openId, CancellationToken cancellationToken = default);
 }

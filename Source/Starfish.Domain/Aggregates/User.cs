@@ -9,6 +9,7 @@ namespace Nerosoft.Starfish.Domain;
 internal sealed class User : Aggregate<long>, IHasCreateTime, IHasUpdateTime, ITombstone
 {
     #region Ctors
+
     /// <summary>
     /// Prevents a default instance of the <see cref="User"/> class from being created.
     /// </summary>
@@ -33,6 +34,7 @@ internal sealed class User : Aggregate<long>, IHasCreateTime, IHasUpdateTime, IT
     {
         Username = username;
     }
+
     #endregion
 
     #region Properties
@@ -111,6 +113,7 @@ internal sealed class User : Aggregate<long>, IHasCreateTime, IHasUpdateTime, IT
     /// Gets or sets the deletion time.
     /// </summary>
     public DateTime? DeleteTime { get; set; }
+
     #endregion
 
     #region Associates
@@ -124,6 +127,7 @@ internal sealed class User : Aggregate<long>, IHasCreateTime, IHasUpdateTime, IT
     /// Gets or sets the third-party authentication authorities linked to the user.
     /// </summary>
     public HashSet<UserAuthority> Authorities { get; set; } = [];
+
     #endregion
 
     #region Methods
@@ -262,5 +266,48 @@ internal sealed class User : Aggregate<long>, IHasCreateTime, IHasUpdateTime, IT
             Roles.Add(UserRole.Create(role));
         }
     }
+
+    /// <summary>
+    /// Connects to identity provider.
+    /// </summary>
+    /// <param name="provider"></param>
+    /// <param name="openId"></param>
+    /// <param name="name"></param>
+    internal void CreateAuthority(string provider, string openId, string name)
+    {
+        Authorities ??= [];
+
+        if (Authorities.Any(t => string.Equals(t.Provider, provider) && string.Equals(t.OpenId, openId)))
+        {
+            return;
+        }
+
+        var authority = UserAuthority.Create(provider, openId);
+        if (!string.IsNullOrWhiteSpace(name))
+        {
+            authority.SetName(name);
+        }
+
+        Authorities.Add(authority);
+    }
+
+    /// <summary>
+    /// Removes the connection to identity provider.
+    /// </summary>
+    /// <param name="provider"></param>
+    /// <param name="openId"></param>
+    internal void RemoveAuthority(string provider, string openId)
+    {
+        Authorities ??= [];
+
+        var authority = Authorities.FirstOrDefault(t => string.Equals(t.Provider, provider) && string.Equals(t.OpenId, openId));
+        if (authority == null)
+        {
+            return;
+        }
+
+        Authorities.Remove(authority);
+    }
+
     #endregion
 }

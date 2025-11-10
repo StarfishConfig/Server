@@ -100,12 +100,12 @@ internal class AuthRequestHandler(IServiceProvider provider)
     {
         if (string.IsNullOrWhiteSpace(message.Provider))
         {
-            throw new BadRequestException();
+            throw new BadRequestException("The external authentication provider is required.");
         }
 
         if (string.IsNullOrWhiteSpace(message.OpenId))
         {
-            throw new BadRequestException();
+            throw new BadRequestException("The external authentication open ID is required.");
         }
 
         var user = await UserRepository.FindByProviderAsync(message.Provider, message.OpenId, false, cancellationToken);
