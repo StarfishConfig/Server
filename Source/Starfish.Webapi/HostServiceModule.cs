@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Hosting.Server.Features;
+﻿using System.Globalization;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Hosting.Server.Features;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.FeatureManagement;
 using Nerosoft.Euonia.Hosting;
@@ -18,6 +22,24 @@ namespace Nerosoft.Starfish.Webapi;
 [DependsOn(typeof(ApplicationServiceModule))]
 internal class HostServiceModule : ModuleContextBase
 {
+    public override void AheadConfigureServices(ServiceConfigurationContext context)
+    {
+        context.Services.Configure<RequestLocalizationOptions>(options =>
+        {
+            options.DefaultRequestCulture = new RequestCulture("zh-Hans");
+            options.SupportedUICultures = [new CultureInfo("en-US"), new CultureInfo("zh-Hans")];
+            options.SupportedCultures = [new CultureInfo("en"), new CultureInfo("zh")];
+            options.RequestCultureProviders.Insert(0, new CustomRequestCultureProvider(httpContext =>
+            {
+                var language = GetCulture(httpContext);
+
+                return Task.FromResult(new ProviderCultureResult(language, language));
+            }));
+        });
+
+        context.Services.Configure<JwtAuthenticationOptions>(Configuration.GetSection(nameof(JwtAuthenticationOptions)));
+    }
+
     /// <summary>
     /// Configures services for the Starfish host application.
     /// </summary>
@@ -49,5 +71,28 @@ internal class HostServiceModule : ModuleContextBase
         app.UseSerilogRequestLogging();
         app.UseForwardedHeaders();
         app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()); //.AllowCredentials());
+    }
+
+    private static string GetCulture(HttpContext context)
+    {
+        if (context == null)
+        {
+            return CultureInfo.CurrentCulture.Name;
+        }
+
+        if (context.User.FindFirstValue(ClaimTypes.Locality) is { } claimValue)
+        {
+            return claimValue;
+        }
+
+        var requestCulture = context.Request.Headers.AcceptLanguage;
+
+        if (requestCulture.Count <= 0)
+        {
+            return CultureInfo.CurrentCulture.Name;
+        }
+
+        var languages = requestCulture[0]!.Split(',');
+        return languages.Length > 0 ? languages[0] : CultureInfo.CurrentCulture.Name;
     }
 }
