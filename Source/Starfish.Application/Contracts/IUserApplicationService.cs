@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Nerosoft.Euonia.Application;
 using Nerosoft.Starfish.Transit;
 
@@ -63,5 +64,6 @@ public interface IUserApplicationService : IApplicationService
     /// <param name="id">The id of user who's password to be reseted.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
+    [Authorize(Roles = "SA")]
     Task ResetPasswordAsync(long id, CancellationToken cancellationToken = default);
 }
