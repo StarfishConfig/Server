@@ -19,6 +19,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\Starfish.Shared\Starfish.Shared.csproj" />
 		<ProjectReference Include="..\Starfish.Toolkit\Starfish.Toolkit.csproj" />
 		<ProjectReference Include="..\Starfish.Transit\Starfish.Transit.csproj" />
 	</ItemGroup>

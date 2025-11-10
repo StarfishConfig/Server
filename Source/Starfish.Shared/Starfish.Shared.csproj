@@ -8,8 +8,4 @@
 		<Nullable>disable</Nullable>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\Starfish.Shared\Starfish.Shared.csproj" />
-	</ItemGroup>
-
 </Project>

@@ -19,5 +19,11 @@ internal class DomainMessageConvention : IMessageConvention
     }
 
     /// <inheritdoc />
+    public bool IsRequestType(Type type)
+    {
+        return type.IsAssignableToGeneric(typeof(IRequest<>));
+    }
+
+    /// <inheritdoc />
     public string Name => nameof(DomainMessageConvention);
 }

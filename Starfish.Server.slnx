@@ -13,6 +13,7 @@
         <Project Path="Source/Starfish.Domain/Starfish.Domain.csproj" />
         <Project Path="Source/Starfish.Host/Starfish.Host.csproj" />
         <Project Path="Source/Starfish.Repository/Starfish.Repository.csproj" />
+        <Project Path="Source/Starfish.Shared/Starfish.Shared.csproj" Id="a52e074a-5f53-4a72-a21a-3b842003e624" />
         <Project Path="Source/Starfish.Toolkit/Starfish.Toolkit.csproj" />
         <Project Path="Source/Starfish.Transit/Starfish.Transit.csproj" />
         <Project Path="Source/Starfish.Webapi/Starfish.Webapi.csproj" Id="f5e7ebb4-6c27-4d62-b03b-bf6ef3198c48" />
