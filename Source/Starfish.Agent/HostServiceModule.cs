@@ -4,7 +4,7 @@ using Nerosoft.Euonia.Hosting;
 using Nerosoft.Euonia.Modularity;
 using Serilog;
 
-namespace Nerosoft.Starfish.Host;
+namespace Nerosoft.Starfish.Agent;
 
 /// <summary>
 /// The host service module for the Starfish application.

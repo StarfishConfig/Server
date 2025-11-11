@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Nerosoft.Starfish.Host.Controllers;
+namespace Nerosoft.Starfish.Agent.Controllers;
 
 /// <inheritdoc />
 [Route("{controller=Home}/{action=Index}")]
