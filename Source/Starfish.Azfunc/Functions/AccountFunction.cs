@@ -21,9 +21,9 @@ public class AccountFunction(ILoggerFactory logger, IUserApplicationService serv
     /// <param name="context"></param>
     /// <returns></returns>
     /// <exception cref="BadRequestException"></exception>
-    [Function("AccountFunction/Create")]
+    [Function($"{nameof(AccountFunction)}-Create")]
     [AllowAnonymous]
-    public async Task<IActionResult> CreateAsync([HttpTrigger(AuthorizationLevel.Anonymous, "post", "account")] HttpRequest request, FunctionContext context)
+    public async Task<IActionResult> CreateAsync([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "account")] HttpRequest request, FunctionContext context)
     {
         return await ExecuteAsync(async () =>
         {
@@ -43,8 +43,8 @@ public class AccountFunction(ILoggerFactory logger, IUserApplicationService serv
     /// <param name="request"></param>
     /// <param name="context"></param>
     /// <returns></returns>
-    [Function("AccountFunction/GetProfile")]
-    public async Task<IActionResult> GetProfileAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", "account/profile")] HttpRequest request, FunctionContext context)
+    [Function($"{nameof(AccountFunction)}-GetProfile")]
+    public async Task<IActionResult> GetProfileAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "account/profile")] HttpRequest request, FunctionContext context)
     {
         return await ExecuteAsync(async () =>
         {

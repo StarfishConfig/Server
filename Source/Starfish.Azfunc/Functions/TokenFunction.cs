@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
@@ -20,8 +21,8 @@ public class TokenFunction(ILoggerFactory logger, IAuthApplicationService servic
     /// <param name="context"></param>
     /// <returns></returns>
     /// <exception cref="BadRequestException"></exception>
-    [Function("TokenFunction/Grant")]
-    public async Task<IActionResult> GrantAsync([HttpTrigger(AuthorizationLevel.Anonymous, "post", "token/grant")] HttpRequest request, FunctionContext context)
+    [Function($"{nameof(TokenFunction)}-Grant")]
+    public async Task<IActionResult> GrantAsync([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "token/grant")] HttpRequest request, FunctionContext context)
     {
         return await ExecuteAsync(async () =>
         {
@@ -43,8 +44,8 @@ public class TokenFunction(ILoggerFactory logger, IAuthApplicationService servic
     /// <param name="context"></param>
     /// <param name="token"></param>
     /// <returns></returns>
-    [Function("TokenFunction/Refresh")]
-    public async Task<IActionResult> RefreshAsync([HttpTrigger(AuthorizationLevel.Anonymous, "post", "token/refresh")] HttpRequest request, FunctionContext context, string token)
+    [Function($"{nameof(TokenFunction)}-Refresh")]
+    public async Task<IActionResult> RefreshAsync([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "token/refresh")] HttpRequest request, FunctionContext context, string token)
     {
         return await ExecuteAsync(async () =>
         {
@@ -59,8 +60,9 @@ public class TokenFunction(ILoggerFactory logger, IAuthApplicationService servic
     /// <param name="request"></param>
     /// <param name="context"></param>
     /// <returns></returns>
-    [Function("TokenFunction/Introspect")]
-    public async Task<IActionResult> IntrospectAsync([HttpTrigger(AuthorizationLevel.Anonymous, "post", "token/introspect")] HttpRequest request, FunctionContext context)
+    [Function($"{nameof(TokenFunction)}-Introspect")]
+    [AllowAnonymous]
+    public async Task<IActionResult> IntrospectAsync([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "token/introspect")] HttpRequest request, FunctionContext context)
     {
         return await ExecuteAsync(async () =>
         {
@@ -74,8 +76,8 @@ public class TokenFunction(ILoggerFactory logger, IAuthApplicationService servic
     /// <param name="context"></param>
     /// <param name="id"></param>
     /// <returns></returns>
-    [Function("TokenFunction/Revoke")]
-    public async Task<IActionResult> RevokeAsync([HttpTrigger(AuthorizationLevel.Anonymous, "post", "token/revoke/{id}")] HttpRequest request, FunctionContext context, string id)
+    [Function($"{nameof(TokenFunction)}-Revoke")]
+    public async Task<IActionResult> RevokeAsync([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "token/revoke/{id}")] HttpRequest request, FunctionContext context, string id)
     {
         return await ExecuteAsync(async () =>
         {
