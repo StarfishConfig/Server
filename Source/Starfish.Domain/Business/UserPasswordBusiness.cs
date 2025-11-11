@@ -33,6 +33,12 @@ internal class UserPasswordBusiness : EditableObjectBase<UserPasswordBusiness, U
         set => SetProperty(ActionTypeProperty, value);
     }
 
+    /// <summary>
+    /// Fetch the user by id.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="cancellationToken"></param>
+    /// <exception cref="NotFoundException"></exception>
     [FactoryFetch]
     protected async Task FetchAsync(long id, CancellationToken cancellationToken = default)
     {

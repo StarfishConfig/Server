@@ -40,4 +40,33 @@ internal sealed class UserLockoutBusiness : CommandObjectBase<UserLockoutBusines
 
         await Repository.UpdateAsync(user, true, cancellationToken);
     }
+
+    /// <summary>
+    /// Execute the user lockout operation by username.
+    /// </summary>
+    /// <param name="username"></param>
+    /// <param name="type"></param>
+    /// <param name="cancellationToken"></param>
+    /// <exception cref="NotFoundException"></exception>
+    [FactoryExecute]
+    public async Task ExecuteAsync(string username, string type, CancellationToken cancellationToken = default)
+    {
+        var user = await Repository.FindByUsernameAsync(username, true, [], cancellationToken);
+        if (user == null)
+        {
+            throw new NotFoundException("User not found.");
+        }
+
+        switch (type)
+        {
+            case "increase":
+                user.IncrementAccessFailedCount();
+                break;
+            case "reset":
+                user.ResetAccessFailedCount();
+                break;
+        }
+
+        await Repository.UpdateAsync(user, true, cancellationToken);
+    }
 }

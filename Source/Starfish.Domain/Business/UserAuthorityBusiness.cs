@@ -44,7 +44,7 @@ internal sealed class UserAuthorityBusiness : EditableObjectBase<UserAuthorityBu
     }
 
     [FactoryFetch]
-    protected async Task FetchAsync(long id, CancellationToken cancellationToken = default)
+    private async Task FetchAsync(long id, CancellationToken cancellationToken = default)
     {
         var aggregate = await Repository.GetAsync(id, true, [nameof(User.Authorities)], cancellationToken);
 
@@ -64,7 +64,7 @@ internal sealed class UserAuthorityBusiness : EditableObjectBase<UserAuthorityBu
     }
 
     [FactoryDelete]
-    protected override Task DeleteAsync(CancellationToken cancellationToken = new CancellationToken())
+    protected override Task DeleteAsync(CancellationToken cancellationToken = default)
     {
         Aggregate.RemoveAuthority(Provider, OpenId);
         return Repository.UpdateAsync(Aggregate, true, cancellationToken);
