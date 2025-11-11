@@ -14,7 +14,8 @@ internal class UserCommandHandler(IUnitOfWorkManager unitOfWork, IObjectFactory 
       IHandler<UserCreateCommand>,
       IHandler<UserUpdateCommand>,
       IHandler<UserPasswordUpdateCommand>,
-      IHandler<UserUnlockCommand>,
+      IHandler<UserFailureResetCommand>,
+      IHandler<UserFailureIncreaseCommand>,
       IHandler<UserAuthorityCreateCommand>,
       IHandler<UserAuthorityRemoveCommand>
 {
@@ -95,12 +96,26 @@ internal class UserCommandHandler(IUnitOfWorkManager unitOfWork, IObjectFactory 
     /// <param name="context"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task HandleAsync(UserUnlockCommand message, MessageContext context, CancellationToken cancellationToken = default)
+    public Task HandleAsync(UserFailureResetCommand message, MessageContext context, CancellationToken cancellationToken = default)
     {
         return ExecuteAsync(async () =>
         {
-            var business = await Factory.CreateAsync<UserLockoutBusiness>(cancellationToken);
-            await business.ExecuteAsync(message.UserId, "reset", cancellationToken);
+            await Factory.ExecuteAsync<UserLockoutBusiness>(message.UserId, "reset", cancellationToken);
+        }, cancellationToken);
+    }
+
+    /// <summary>
+    /// Handle the user failure increase command.
+    /// </summary>
+    /// <param name="message"></param>
+    /// <param name="context"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task HandleAsync(UserFailureIncreaseCommand message, MessageContext context, CancellationToken cancellationToken = default)
+    {
+        return ExecuteAsync(async () =>
+        {
+            await Factory.ExecuteAsync<UserLockoutBusiness>(message.Username, "increase", cancellationToken);
         }, cancellationToken);
     }
 
