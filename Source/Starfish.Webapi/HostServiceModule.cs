@@ -54,11 +54,10 @@ internal class HostServiceModule : ModuleContextBase
         context.Services.AddHealthChecks();
         context.Services.AddControllers();
         // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-        context.Services.AddOpenApi();
+        context.Services.AddOpenApi()
+                        .AddSwagger();
         context.Services.AddJwtAuthentication(nameof(JwtAuthenticationOptions))
-               .AddFeatureManagement();
-        context.Services.AddSwagger();
-        //context.Services.AddFeatureManagement();
+                        .AddFeatureManagement();
     }
 
     /// <inheritdoc />

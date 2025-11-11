@@ -17,6 +17,9 @@ using Nerosoft.Starfish.Shared;
 
 namespace Nerosoft.Starfish.Application;
 
+/// <summary>
+/// The application service module for the Starfish application.
+/// </summary>
 [DependsOn(typeof(ApplicationModule))]
 [DependsOn(typeof(AutomapperModule), typeof(ValidationModule))]
 [DependsOn(typeof(RepositoryModule), typeof(DomainServiceModule))]
@@ -28,6 +31,8 @@ internal class ApplicationServiceModule : ModuleContextBase
         Configure<AutomapperOptions>(options =>
         {
             options.AddProfile<AccountMapperProfile>();
+            options.AddProfile<ProjectMapperProfile>();
+            options.AddProfile<SupportMapperProfile>();
         });
     }
 
@@ -37,9 +42,9 @@ internal class ApplicationServiceModule : ModuleContextBase
         context.Services.Register<ApplicationServiceContext>();
 
         context.Services.AddKeyedScoped<IAuthProvider, GithubAuthProvider>(AuthenticationConstant.Provider.Github)
-               .AddKeyedScoped<IAuthProvider, MicrosoftAuthProvider>(AuthenticationConstant.Provider.Microsoft)
-               .AddKeyedScoped<IAuthProvider, GoogleAuthProvider>(AuthenticationConstant.Provider.Google)
-               .AddKeyedScoped<IAuthProvider, FacebookAuthProvider>(AuthenticationConstant.Provider.Facebook);
+                        .AddKeyedScoped<IAuthProvider, MicrosoftAuthProvider>(AuthenticationConstant.Provider.Microsoft)
+                        .AddKeyedScoped<IAuthProvider, GoogleAuthProvider>(AuthenticationConstant.Provider.Google)
+                        .AddKeyedScoped<IAuthProvider, FacebookAuthProvider>(AuthenticationConstant.Provider.Facebook);
 
         ConfigureCachingServices(context.Services);
 
