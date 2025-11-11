@@ -44,7 +44,7 @@ internal static class StartupExtensions
             {
                 NameClaimType = JwtClaimTypes.Name,
                 RoleClaimType = ClaimTypes.Role,
-                ValidIssuers = new[] { issuer },
+                ValidIssuers = [issuer],
                 //ValidAudience = "api",
                 ValidateIssuer = true,
                 ValidateAudience = false,

@@ -7,7 +7,7 @@ namespace Nerosoft.Starfish.Webapi.Controllers;
 /// Controller for managing user-related operations.
 /// </summary>
 [Route("api/[controller]")]
-[ApiController]
+[ApiController, ApiExplorerSettings(GroupName = "account")]
 [Authorize]
 public class UserController(IUserApplicationService service) : ControllerBase
 {
