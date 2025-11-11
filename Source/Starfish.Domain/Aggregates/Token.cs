@@ -1,5 +1,6 @@
 using IdentityModel;
 using Nerosoft.Euonia.Domain;
+using Nerosoft.Starfish.Shared;
 
 namespace Nerosoft.Starfish.Domain;
 
@@ -19,11 +20,11 @@ internal sealed class Token : Aggregate<long>
     /// Initializes a new instance of the <see cref="Token"/> class.
     /// </summary>
     /// <param name="type">The token type. <seealso cref="Type"/></param>
-    /// <param name="key">The SHA256 hash of the token.</param>
     /// <param name="subject">The user id associated with the token.</param>
+    /// <param name="key">The SHA256 hash of the token.</param>
     /// <param name="issued">The token issued time.</param>
     /// <param name="expires">The token expiration time.</param>
-    private Token(string type, string key, long subject, DateTime issued, DateTime? expires = null)
+    private Token(string type, long subject, string key, DateTime issued, DateTime? expires = null)
         : this()
     {
         Type = type;
@@ -62,18 +63,45 @@ internal sealed class Token : Aggregate<long>
     public DateTime? Expires { get; set; }
 
     /// <summary>
+    /// Gets or sets the token status.
+    /// </summary>
+    public TokenStatus Status { get; set; }
+
+    /// <summary>
+    /// Gets or sets the remark.
+    /// </summary>
+    public string Remark { get; set; }
+
+    /// <summary>
     /// Creates a new token aggregate.
     /// </summary>
     /// <param name="type">The token type. <seealso cref="Type"/></param>
-    /// <param name="token">The original token string.</param>
     /// <param name="subject">The user id associated with the token.</param>
+    /// <param name="token">The original token string.</param>
     /// <param name="issued">The token issued time.</param>
     /// <param name="expires">The token expiration time.</param>
     /// <returns></returns>
-    internal static Token Create(string type, string token, long subject, DateTime issued, DateTime? expires = null)
+    internal static Token Create(string type, long subject, string token, DateTime issued, DateTime? expires = null)
     {
         var key = token.ToSha256();
-        var entity = new Token(type, key, subject, issued, expires);
+        var entity = new Token(type, subject, key, issued, expires);
         return entity;
+    }
+
+    /// <summary>
+    /// Revokes the token.
+    /// </summary>
+    internal void Revoke(string reason)
+    {
+        Status = TokenStatus.Revoked;
+        Remark = reason;
+    }
+
+    /// <summary>
+    /// Expires the token.
+    /// </summary>
+    internal void Expire()
+    {
+        Status = TokenStatus.Expired;
     }
 }
