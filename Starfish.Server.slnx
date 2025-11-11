@@ -14,7 +14,7 @@
     <Project Path="Source/Starfish.Toolkit/Starfish.Toolkit.csproj" />
     <Project Path="Source/Starfish.Transit/Starfish.Transit.csproj" />
     <Project Path="Source/Starfish.Webapi/Starfish.Webapi.csproj" />
-    <Project Path="Source/Starfish.Proxy/Starfish.Proxy.csproj" />
+    <Project Path="Source/Starfish.Agent/Starfish.Agent.csproj" />
     <File Path="Source/common.props" />
     <File Path="Source/README.md" />
   </Folder>
