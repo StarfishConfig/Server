@@ -2,11 +2,10 @@
 using IdentityModel;
 using Microsoft.Extensions.Configuration;
 using Nerosoft.Euonia.Bus;
-using Nerosoft.Starfish.Domain;
 using Nerosoft.Starfish.Shared;
-using Nerosoft.Starfish.Transit;
+using Nerosoft.Starfish.Toolkit;
 
-namespace Nerosoft.Starfish.Application;
+namespace Nerosoft.Starfish.Repository;
 
 /// <summary>
 /// Handles authentication requests.

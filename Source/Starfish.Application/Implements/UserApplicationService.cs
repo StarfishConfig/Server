@@ -1,6 +1,7 @@
 using Nerosoft.Euonia.Application;
 using Nerosoft.Euonia.Mapping;
 using Nerosoft.Starfish.Domain;
+using Nerosoft.Starfish.Repository;
 using Nerosoft.Starfish.Shared;
 using Nerosoft.Starfish.Transit;
 

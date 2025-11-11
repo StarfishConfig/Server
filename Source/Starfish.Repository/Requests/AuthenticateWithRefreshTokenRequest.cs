@@ -1,7 +1,7 @@
 ﻿using Nerosoft.Euonia.Bus;
 using Nerosoft.Starfish.Transit;
 
-namespace Nerosoft.Starfish.Application;
+namespace Nerosoft.Starfish.Repository;
 
 /// <summary>
 /// Request to authenticate using a refresh token.

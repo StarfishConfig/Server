@@ -11,6 +11,7 @@
 	<ItemGroup>
 		<PackageReference Include="Euonia.Bus.Abstract" />
 		<PackageReference Include="Euonia.Linq" />
+		<PackageReference Include="Euonia.Mapping.Automapper" />
 		<PackageReference Include="Euonia.Repository.EfCore" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
@@ -22,7 +23,30 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Starfish.Domain\Starfish.Domain.csproj" />
-        <ProjectReference Include="..\Starfish.Transit\Starfish.Transit.csproj" />
+		<ProjectReference Include="..\Starfish.Toolkit\Starfish.Toolkit.csproj" />
+		<ProjectReference Include="..\Starfish.Transit\Starfish.Transit.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="$(RootNamespace).Properties" />
+		<Using Include="Microsoft.Extensions.DependencyInjection" />
+		<Using Include="Nerosoft.Starfish.Domain" />
+		<Using Include="Nerosoft.Starfish.Transit" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Update="Properties\Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
 	</ItemGroup>
 
 </Project>

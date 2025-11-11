@@ -1,9 +1,8 @@
 using Nerosoft.Euonia.Bus;
 using Nerosoft.Euonia.Business;
 using Nerosoft.Euonia.Repository;
-using Nerosoft.Starfish.Domain;
 
-namespace Nerosoft.Starfish.Application;
+namespace Nerosoft.Starfish.Domain;
 
 /// <summary>
 /// The user command handler.

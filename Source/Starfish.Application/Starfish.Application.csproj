@@ -17,7 +17,6 @@
         <PackageReference Include="Euonia.Caching.Memory" />
         <PackageReference Include="Euonia.Caching.Redis" />
         <PackageReference Include="Euonia.Caching.Runtime" />
-		<PackageReference Include="Euonia.Mapping.Automapper" />
 		<PackageReference Include="FluentHttpClient" />
 		<PackageReference Include="MailKit" />
 		<PackageReference Include="Microsoft.FeatureManagement.AspNetCore" />

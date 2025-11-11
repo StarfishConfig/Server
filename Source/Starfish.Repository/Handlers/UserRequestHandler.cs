@@ -3,7 +3,7 @@ using Nerosoft.Euonia.Mapping;
 using Nerosoft.Starfish.Domain;
 using Nerosoft.Starfish.Transit;
 
-namespace Nerosoft.Starfish.Application;
+namespace Nerosoft.Starfish.Repository;
 
 /// <summary>
 /// Handles user query requests.
