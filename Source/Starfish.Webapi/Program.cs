@@ -10,6 +10,14 @@ builder.Services.AddModularityApplication<HostServiceModule>(builder.Configurati
 
 var app = builder.Build();
 
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+    app.MapOpenApi();
+    app.UseSwagger();
+    //endpoints.MapGrpcReflectionService();
+}
+
 app.Lifetime.ApplicationStarted.Register(() =>
 {
     app.Services.GetRequiredService<ILoggerFactory>().CreateLogger<Program>().LogInformation("Application started");
@@ -25,11 +33,7 @@ app.InitializeApplication();
 
 // Configure the HTTP request pipeline.
 
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-    //endpoints.MapGrpcReflectionService();
-}
+
 
 app.UseHttpsRedirection();
 

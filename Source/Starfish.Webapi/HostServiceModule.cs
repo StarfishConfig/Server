@@ -55,9 +55,10 @@ internal class HostServiceModule : ModuleContextBase
         context.Services.AddControllers();
         // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
         context.Services.AddOpenApi();
-        context.Services.AddAuthentication(Configuration);
+        context.Services.AddJwtAuthentication(nameof(JwtAuthenticationOptions))
+               .AddFeatureManagement();
         context.Services.AddSwagger();
-        context.Services.AddFeatureManagement();
+        //context.Services.AddFeatureManagement();
     }
 
     /// <inheritdoc />
@@ -65,7 +66,7 @@ internal class HostServiceModule : ModuleContextBase
     {
         var app = context.GetApplicationBuilder();
         app.ServerFeatures.Get<IServerAddressesFeature>();
-
+        
         app.UseSerilogRequestLogging();
         app.UseForwardedHeaders();
         app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()); //.AllowCredentials());
