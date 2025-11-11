@@ -29,7 +29,7 @@ internal sealed class UserAuthority : Entity<long>, IHasCreateTime
     /// <summary>
     /// Gets or sets the user ID associated with this authority.
     /// </summary>
-    public string UserId { get; set; }
+    public long UserId { get; set; }
 
     /// <summary>
     /// Gets or sets the provider of the third-party authentication.

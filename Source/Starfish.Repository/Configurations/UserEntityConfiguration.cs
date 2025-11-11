@@ -54,6 +54,9 @@ internal sealed class UserEntityConfiguration : IEntityTypeConfiguration<User>
                .IsRequired()
                .HasMaxLength(32);
 
+        builder.Property(t => t.PasswordChangedTime)
+               .HasColumnName("password_changed_time");
+
         builder.Property(t => t.Email)
                .HasColumnName("email")
                .HasMaxLength(255);

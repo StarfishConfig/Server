@@ -42,9 +42,9 @@ internal class ApplicationServiceModule : ModuleContextBase
         context.Services.Register<ApplicationServiceContext>();
 
         context.Services.AddKeyedScoped<IAuthProvider, GithubAuthProvider>(AuthenticationConstant.Provider.Github)
-                        .AddKeyedScoped<IAuthProvider, MicrosoftAuthProvider>(AuthenticationConstant.Provider.Microsoft)
-                        .AddKeyedScoped<IAuthProvider, GoogleAuthProvider>(AuthenticationConstant.Provider.Google)
-                        .AddKeyedScoped<IAuthProvider, FacebookAuthProvider>(AuthenticationConstant.Provider.Facebook);
+               .AddKeyedScoped<IAuthProvider, MicrosoftAuthProvider>(AuthenticationConstant.Provider.Microsoft)
+               .AddKeyedScoped<IAuthProvider, GoogleAuthProvider>(AuthenticationConstant.Provider.Google)
+               .AddKeyedScoped<IAuthProvider, FacebookAuthProvider>(AuthenticationConstant.Provider.Facebook);
 
         ConfigureCachingServices(context.Services);
 
@@ -111,6 +111,8 @@ internal class ApplicationServiceModule : ModuleContextBase
                 // return identity;
             });
             config.RegisterHandlers(typeof(ApplicationServiceModule).Assembly);
+            config.RegisterHandlers(typeof(RepositoryModule).Assembly);
+            config.RegisterHandlers(typeof(DomainServiceModule).Assembly);
             var provider = Configuration.GetValue<string>("ServiceBus:Provider")?.ToLower();
             switch (provider)
             {

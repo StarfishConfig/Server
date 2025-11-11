@@ -35,7 +35,6 @@ internal class UserAuthorityEntityConfiguration : IEntityTypeConfiguration<UserA
 
         builder.Property(x => x.UserId)
                .HasColumnName("user_id")
-               .HasMaxLength(64)
                .IsRequired();
 
         builder.Property(x => x.Provider)

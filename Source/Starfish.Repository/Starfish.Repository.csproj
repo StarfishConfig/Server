@@ -12,6 +12,7 @@
 		<PackageReference Include="Euonia.Bus.Abstract" />
 		<PackageReference Include="Euonia.Linq" />
 		<PackageReference Include="Euonia.Repository.EfCore" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />

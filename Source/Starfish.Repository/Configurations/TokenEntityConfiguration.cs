@@ -51,5 +51,15 @@ internal sealed class TokenEntityConfiguration : IEntityTypeConfiguration<Token>
         builder.Property(t => t.Issues)
                .HasColumnName("issues")
                .IsRequired();
+
+        builder.Property(t => t.Status)
+               .HasColumnName("status")
+               .IsRequired();
+
+
+        builder.Property(t => t.Remark)
+               .HasColumnName("remark")
+               .HasMaxLength(500)
+               .IsUnicode();
     }
 }
