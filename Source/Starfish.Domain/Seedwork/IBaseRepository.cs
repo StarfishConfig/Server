@@ -61,9 +61,30 @@ public interface IBaseRepository<TEntity, in TKey>
     /// Counts the number of entities matching the given expression.
     /// </summary>
     /// <param name="expression"></param>
+    /// <param name="handle"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task<int> CountAsync(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken = default);
+    Task<int> CountAsync(Expression<Func<TEntity, bool>> expression, Func<IQueryable<TEntity>, IQueryable<TEntity>> handle, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Finds entities matching the given predicate with additional query handling.
+    /// </summary>
+    /// <param name="predicate"></param>
+    /// <param name="handle"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IQueryable<TEntity>> handle, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Finds entities matching the given predicate with additional query handling, supporting pagination.
+    /// </summary>
+    /// <param name="predicate"></param>
+    /// <param name="handle"></param>
+    /// <param name="offset"></param>
+    /// <param name="count"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IQueryable<TEntity>> handle, int offset, int count, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the entity by id.

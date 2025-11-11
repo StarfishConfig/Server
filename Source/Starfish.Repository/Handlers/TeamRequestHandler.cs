@@ -1,4 +1,5 @@
-﻿using Nerosoft.Euonia.Bus;
+﻿using Microsoft.EntityFrameworkCore;
+using Nerosoft.Euonia.Bus;
 
 namespace Nerosoft.Starfish.Repository;
 
@@ -28,7 +29,8 @@ internal sealed class TeamRequestHandler(ITeamRepository repository)
     {
         var specification = TeamSpecification.Matches(message.Keyword);
         specification &= TeamSpecification.HasMember(0);
-        throw new NotImplementedException();
+        var predicate = specification.Satisfy();
+        return repository.FindAsync(predicate, query => query.Include(t => t.Members), cancellationToken);
     }
 
     public Task HandleAsync(TeamCountQueryRequest message, MessageContext context, CancellationToken cancellationToken = default)
@@ -37,7 +39,7 @@ internal sealed class TeamRequestHandler(ITeamRepository repository)
         specification &= TeamSpecification.HasMember(0);
         var predicate = specification.Satisfy();
 
-        return repository.CountAsync(predicate, cancellationToken)
+        return repository.CountAsync(predicate, query => query.Include(t => t.Members), cancellationToken)
                          .ContinueWith(task => context.Response(task.Result), cancellationToken);
     }
 }
