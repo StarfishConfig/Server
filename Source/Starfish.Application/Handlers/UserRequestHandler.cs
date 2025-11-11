@@ -19,7 +19,7 @@ internal sealed class UserRequestHandler(IUserRepository repository)
                          .ContinueWith(task =>
                          {
                              task.WaitAndUnwrapException(cancellationToken);
-                             var result = TypeAdapter.ProjectedAs<UserProfileDto>(task.Result);
+                             var result = TypeAdapter.ProjectedAs<UserProfileResultDto>(task.Result);
                              context.Response(result);
                          }, cancellationToken);
     }

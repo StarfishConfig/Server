@@ -3,7 +3,7 @@ namespace Nerosoft.Starfish.Transit;
 /// <summary>
 /// Data Transfer Object for user profile information.
 /// </summary>
-public class UserProfileDto
+public class UserProfileResultDto
 {
     /// <summary>
     /// Gets or sets the unique identifier.

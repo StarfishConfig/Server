@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents the data transfer object for authentication response.
 /// </summary>
-public class AuthResultDto
+public class TokenGrantResultDto
 {
     /// <summary>
     /// Gets or sets the access token.

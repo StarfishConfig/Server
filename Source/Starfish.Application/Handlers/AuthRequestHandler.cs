@@ -123,7 +123,7 @@ internal class AuthRequestHandler(IServiceProvider provider)
         context.Response(result);
     }
 
-    private AuthResultDto GenerateAccessToken(User user)
+    private TokenGrantResultDto GenerateAccessToken(User user)
     {
         var roles = user.Roles?.Select(r => r.Name);
 
@@ -144,7 +144,7 @@ internal class AuthRequestHandler(IServiceProvider provider)
 
         var accessToken = builder.Build();
 
-        return new AuthResultDto
+        return new TokenGrantResultDto
         {
             AccessToken = accessToken,
             RefreshToken = ObjectId.NewGuid(GuidType.SequentialAsString).ToString("N"),

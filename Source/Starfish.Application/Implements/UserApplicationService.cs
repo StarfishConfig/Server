@@ -12,14 +12,14 @@ namespace Nerosoft.Starfish.Application;
 internal sealed class UserApplicationService : BaseApplicationService, IUserApplicationService
 {
     /// <inheritdoc />
-    public ValueTask<UserProfileDto> GetProfileAsync(CancellationToken cancellationToken = default)
+    public ValueTask<UserProfileResultDto> GetProfileAsync(CancellationToken cancellationToken = default)
     {
         var request = new UserProfileQueryRequest(User.GetUserIdOfInt64());
         return Bus.RequestAsync(request, cancellationToken).AsValueTask();
     }
 
     /// <inheritdoc />
-    public ValueTask<long> CreateAsync(UserCreateDto data, CancellationToken cancellationToken = default)
+    public ValueTask<long> CreateAsync(UserCreateRequestDto data, CancellationToken cancellationToken = default)
     {
         var command = TypeAdapter.ProjectedAs<UserCreateCommand>(data);
         command.Source = 2;
@@ -47,14 +47,14 @@ internal sealed class UserApplicationService : BaseApplicationService, IUserAppl
     }
 
     /// <inheritdoc />
-    public Task ChangePasswordAsync(UserPasswordChangeDto data, CancellationToken cancellationToken = default)
+    public Task ChangePasswordAsync(UserPasswordChangeRequestDto data, CancellationToken cancellationToken = default)
     {
         var command = new UserPasswordUpdateCommand(User.GetUserIdOfInt64(), data.Password, UserPasswordChangeTypeConstant.Change);
         return Bus.SendAsync(command, cancellationToken);
     }
 
     /// <inheritdoc />
-    public Task ResetPasswordAsync(UserPasswordResetDto data, CancellationToken cancellationToken = default)
+    public Task ResetPasswordAsync(UserPasswordResetRequestDto data, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }

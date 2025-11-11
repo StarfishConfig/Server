@@ -14,7 +14,7 @@ public interface IAuthApplicationService : IApplicationService
     /// <param name="data"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task<AuthResultDto> GrantAsync(AuthRequestDto data, CancellationToken cancellationToken = default);
+    Task<TokenGrantResultDto> GrantAsync(TokenGrantRequestDto data, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Refreshes the authentication tokens using the provided refresh token.
@@ -22,7 +22,7 @@ public interface IAuthApplicationService : IApplicationService
     /// <param name="refreshToken"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task<AuthResultDto> RefreshAsync(string refreshToken, CancellationToken cancellationToken = default);
+    Task<TokenGrantResultDto> RefreshAsync(string refreshToken, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Revokes the authentication associated with the given token identifier.

@@ -12,7 +12,7 @@ namespace Nerosoft.Starfish.Application;
 internal class AuthApplicationService : BaseApplicationService, IAuthApplicationService
 {
     /// <inheritdoc />
-    public async Task<AuthResultDto> GrantAsync(AuthRequestDto data, CancellationToken cancellationToken = default)
+    public async Task<TokenGrantResultDto> GrantAsync(TokenGrantRequestDto data, CancellationToken cancellationToken = default)
     {
         var request = await GetRequestAsync();
 
@@ -52,7 +52,7 @@ internal class AuthApplicationService : BaseApplicationService, IAuthApplication
                 await Parallel.ForEachAsync(events, cancellationToken, async (@event, token) => await Bus.PublishAsync(@event, token));
             }
         }
-        async Task<IRequest<AuthResultDto>> GetRequestAsync()
+        async Task<IRequest<TokenGrantResultDto>> GetRequestAsync()
         {
             switch (data.Provider?.ToLowerInvariant())
             {
@@ -91,9 +91,9 @@ internal class AuthApplicationService : BaseApplicationService, IAuthApplication
     }
 
     /// <inheritdoc />
-    public async Task<AuthResultDto> RefreshAsync(string refreshToken, CancellationToken cancellationToken = default)
+    public async Task<TokenGrantResultDto> RefreshAsync(string refreshToken, CancellationToken cancellationToken = default)
     {
-        IRequest<AuthResultDto> request = new AuthenticateWithRefreshTokenRequest(refreshToken);
+        IRequest<TokenGrantResultDto> request = new AuthenticateWithRefreshTokenRequest(refreshToken);
 
         var events = new List<ApplicationEvent>();
         try

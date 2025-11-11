@@ -16,7 +16,7 @@ public class TokenController(IAuthApplicationService service) : ControllerBase
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     [HttpPost("grant")]
-    public async ValueTask<IActionResult> GrantAsync([FromBody] AuthRequestDto request, CancellationToken cancellationToken = default)
+    public async ValueTask<IActionResult> GrantAsync([FromBody] TokenGrantRequestDto request, CancellationToken cancellationToken = default)
     {
         var response = await service.GrantAsync(request, cancellationToken);
         return Ok(response);

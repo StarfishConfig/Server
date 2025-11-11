@@ -3,7 +3,7 @@
 /// <summary>
 /// The user password change data transfer object.
 /// </summary>
-public class UserPasswordChangeDto
+public class UserPasswordChangeRequestDto
 {
     /// <summary>
     /// Gets or sets the new password.

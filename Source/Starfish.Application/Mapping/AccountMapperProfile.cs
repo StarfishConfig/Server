@@ -8,8 +8,8 @@ internal class AccountMapperProfile : Profile
 {
     public AccountMapperProfile()
     {
-        CreateMap<UserCreateDto, UserCreateCommand>();
+        CreateMap<UserCreateRequestDto, UserCreateCommand>();
 
-        CreateMap<User, UserProfileDto>();
+        CreateMap<User, UserProfileResultDto>();
     }
 }

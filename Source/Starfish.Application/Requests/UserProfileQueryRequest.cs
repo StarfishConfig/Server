@@ -7,4 +7,4 @@ namespace Nerosoft.Starfish.Application;
 /// Request to query user profile by user ID.
 /// </summary>
 /// <param name="UserId"></param>
-internal record UserProfileQueryRequest(long UserId) : IRequest<UserProfileDto>;
+internal record UserProfileQueryRequest(long UserId) : IRequest<UserProfileResultDto>;

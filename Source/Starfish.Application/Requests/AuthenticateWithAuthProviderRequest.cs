@@ -8,4 +8,4 @@ namespace Nerosoft.Starfish.Application;
 /// </summary>
 /// <param name="Provider"></param>
 /// <param name="OpenId"></param>
-internal record AuthenticateWithAuthProviderRequest(string Provider, string OpenId) : IRequest<AuthResultDto>;
+internal record AuthenticateWithAuthProviderRequest(string Provider, string OpenId) : IRequest<TokenGrantResultDto>;

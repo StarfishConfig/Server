@@ -8,4 +8,4 @@ namespace Nerosoft.Starfish.Application;
 /// </summary>
 /// <param name="Username"></param>
 /// <param name="Password"></param>
-internal record AuthenticateWithUsernameRequest(string Username, string Password) : IRequest<AuthResultDto>;
+internal record AuthenticateWithUsernameRequest(string Username, string Password) : IRequest<TokenGrantResultDto>;

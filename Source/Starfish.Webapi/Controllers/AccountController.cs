@@ -21,7 +21,7 @@ public class AccountController(IUserApplicationService service) : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [AllowAnonymous]
-    public async ValueTask<IActionResult> CreateAsync([FromBody] UserCreateDto data, CancellationToken cancellationToken = default)
+    public async ValueTask<IActionResult> CreateAsync([FromBody] UserCreateRequestDto data, CancellationToken cancellationToken = default)
     {
         var userId = await service.CreateAsync(data, cancellationToken);
         return Ok(userId);

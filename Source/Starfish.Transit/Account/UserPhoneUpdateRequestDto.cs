@@ -3,7 +3,7 @@ namespace Nerosoft.Starfish.Transit;
 /// <summary>
 /// Data Transfer Object for updating a user's phone information.
 /// </summary>
-public class UserPhoneUpdateDto
+public class UserPhoneUpdateRequestDto
 {
     /// <summary>
     /// Gets or sets the new phone number of the user.

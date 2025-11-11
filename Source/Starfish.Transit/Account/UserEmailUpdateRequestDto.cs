@@ -3,7 +3,7 @@ namespace Nerosoft.Starfish.Transit;
 /// <summary>
 /// Data Transfer Object for updating a user's email.
 /// </summary>
-public class UserEmailUpdateDto
+public class UserEmailUpdateRequestDto
 {
     /// <summary>
     /// Gets or sets the new email address of the user.
