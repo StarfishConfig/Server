@@ -90,7 +90,7 @@ internal class ApplicationServiceModule : ModuleContextBase
                     {
                         NameClaimType = JwtClaimTypes.Name,
                         RoleClaimType = ClaimTypes.Role,
-                        ValidIssuers = new[] { Configuration.GetValue<string>("JwtBearerOptions:TokenIssuer") },
+                        ValidIssuers = [Configuration.GetValue<string>("JwtBearerOptions:TokenIssuer")],
                         ValidateIssuer = true,
                         ValidateAudience = false,
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetValue<string>("JwtBearerOptions:TokenKey").ToSha256()))
