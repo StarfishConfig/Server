@@ -58,6 +58,14 @@ public interface IBaseRepository<TEntity, in TKey>
     Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Counts the number of entities matching the given expression.
+    /// </summary>
+    /// <param name="expression"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task<int> CountAsync(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Deletes the entity by id.
     /// </summary>
     /// <param name="id">The values of the primary key for the entity to be deleted.</param>
@@ -65,7 +73,7 @@ public interface IBaseRepository<TEntity, in TKey>
     /// <param name="cancellationToken">A <see cref="CancellationToken"/> to observe while waiting for the task to complete.</param>
     /// <exception cref="NotFoundException"></exception>
     Task DeleteAsync(TKey id, bool autoSave = true, CancellationToken cancellationToken = default);
-    
+
     /// <summary>
     /// Deletes an entity of type <see cref="TEntity"/> and raises a domain event.
     /// </summary>
