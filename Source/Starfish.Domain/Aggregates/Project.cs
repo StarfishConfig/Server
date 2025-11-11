@@ -18,6 +18,11 @@ internal sealed class Project : Aggregate<long>
         });
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Project"/> class.
+    /// </summary>
+    /// <param name="teamId"></param>
+    /// <param name="name"></param>
     private Project(long teamId, string name)
         : this()
     {

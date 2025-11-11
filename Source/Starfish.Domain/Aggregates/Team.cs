@@ -193,7 +193,7 @@ internal sealed class Team : Aggregate<long>
 
         if (Members.All(t => t.UserId != ownerId))
         {
-            throw new InvalidOperationException("The new owner must be a member of the team.");
+            throw new InvalidOperationException(Resources.IDE_ERROR_TEAM_OWNER_MUST_MEMBER);
         }
 
         RaiseEvent(new TeamOwnerChangedEvent(Id, OwnerId, ownerId));

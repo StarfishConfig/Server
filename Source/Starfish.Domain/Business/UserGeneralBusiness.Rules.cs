@@ -26,7 +26,7 @@ internal partial class UserGeneralBusiness
             var exists = await target.Repository.CheckUsernameExistsAsync(target.Username, cancellationToken);
             if (exists)
             {
-                context.AddErrorResult("Username is already taken.");
+                context.AddErrorResult(string.Format(Resources.IDS_ERROR_USERNAME_NOT_AVAILABLE, target.Username));
             }
         }
     }
@@ -48,7 +48,7 @@ internal partial class UserGeneralBusiness
             var exists = await target.Repository.CheckEmailExistsAsync(target.Email, target.Id, cancellationToken);
             if (exists)
             {
-                context.AddErrorResult("Email is already taken.");
+                context.AddErrorResult(string.Format(Resources.IDS_ERROR_EMAIL_ALREADY_TAKEN, target.Email));
             }
         }
     }
@@ -65,7 +65,7 @@ internal partial class UserGeneralBusiness
             var exists = await target.Repository.CheckPhoneExistsAsync(target.Phone, target.Id, cancellationToken);
             if (exists)
             {
-                context.AddErrorResult("Phone number is already taken.");
+                context.AddErrorResult(string.Format(Resources.IDS_ERROR_PHONE_ALREADY_TAKEN, target.Phone));
             }
         }
     }
