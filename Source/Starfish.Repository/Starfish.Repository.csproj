@@ -11,7 +11,6 @@
 	<ItemGroup>
 		<PackageReference Include="Euonia.Bus.Abstract" />
 		<PackageReference Include="Euonia.Linq" />
-		<PackageReference Include="Euonia.Mapping.Automapper" />
 		<PackageReference Include="Euonia.Repository.EfCore" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
@@ -24,7 +23,6 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Starfish.Domain\Starfish.Domain.csproj" />
 		<ProjectReference Include="..\Starfish.Toolkit\Starfish.Toolkit.csproj" />
-		<ProjectReference Include="..\Starfish.Transit\Starfish.Transit.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

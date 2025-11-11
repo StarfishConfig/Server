@@ -1,5 +1,4 @@
 ﻿using Nerosoft.Euonia.Bus;
-using Nerosoft.Starfish.Transit;
 
 namespace Nerosoft.Starfish.Repository;
 
@@ -8,4 +7,4 @@ namespace Nerosoft.Starfish.Repository;
 /// </summary>
 /// <param name="Username"></param>
 /// <param name="Password"></param>
-internal record AuthenticateWithUsernameRequest(string Username, string Password) : IRequest<TokenGrantResultDto>;
+internal record AuthenticateWithUsernameRequest(string Username, string Password) : IRequest<User>;

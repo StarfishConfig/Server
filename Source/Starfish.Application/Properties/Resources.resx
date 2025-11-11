@@ -150,4 +150,7 @@
   <data name="IDS_ERROR_EXTERNAL_LOGIN_FAILED" xml:space="preserve">
     <value>External login failed.</value>
   </data>
+  <data name="IDS_ERROR_EXTERNAL_PROVIDER_NOT_SUPPORTED" xml:space="preserve">
+    <value>The external auth provider '{0}' is not supported.</value>
+  </data>
 </root>

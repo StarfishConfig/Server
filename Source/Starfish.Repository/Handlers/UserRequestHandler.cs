@@ -1,7 +1,4 @@
 using Nerosoft.Euonia.Bus;
-using Nerosoft.Euonia.Mapping;
-using Nerosoft.Starfish.Domain;
-using Nerosoft.Starfish.Transit;
 
 namespace Nerosoft.Starfish.Repository;
 
@@ -16,11 +13,6 @@ internal sealed class UserRequestHandler(IUserRepository repository)
     public Task HandleAsync(UserProfileQueryRequest message, MessageContext context, CancellationToken cancellationToken = default)
     {
         return repository.GetAsync(message.UserId, false, [], cancellationToken)
-                         .ContinueWith(task =>
-                         {
-                             task.WaitAndUnwrapException(cancellationToken);
-                             var result = TypeAdapter.ProjectedAs<UserProfileResultDto>(task.Result);
-                             context.Response(result);
-                         }, cancellationToken);
+                         .ContinueWith(task => context.Response(task.Result), cancellationToken);
     }
 }

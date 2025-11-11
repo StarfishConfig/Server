@@ -57,8 +57,7 @@ internal class AuthRequestHandler(IServiceProvider provider)
             throw new AuthenticationException(Resources.IDS_ERROR_USER_LOCKOUT);
         }
 
-        var result = GenerateAccessToken(user);
-        context.Response(result);
+        context.Response(user);
     }
 
     /// <inheritdoc />
@@ -90,8 +89,7 @@ internal class AuthRequestHandler(IServiceProvider provider)
             throw new AuthenticationException(string.Format(Resources.IDS_ERROR_USER_NOT_FOUND, token.Subject));
         }
 
-        var result = GenerateAccessToken(user);
-        context.Response(result);
+        context.Response(user);
     }
 
     /// <inheritdoc />
@@ -118,40 +116,6 @@ internal class AuthRequestHandler(IServiceProvider provider)
             throw new AuthenticationException(Resources.IDS_ERROR_USER_LOCKOUT);
         }
 
-        var result = GenerateAccessToken(user);
-        context.Response(result);
-    }
-
-    private TokenGrantResultDto GenerateAccessToken(User user)
-    {
-        var roles = user.Roles?.Select(r => r.Name);
-
-        var jti = ObjectId.NewGuid(GuidType.SequentialAsString).ToString("N");
-
-        var issueTime = DateTime.UtcNow;
-        var expiresAt = issueTime.AddDays(1);
-
-        var builder = TokenGenerator.Create(user.Id, user.Username)
-                                    .WithSigningKey(Configuration.GetValue<string>("JwtAuthenticationOptions:SigningKey"))
-                                    .WithIssuer(Configuration.GetValue<string>("JwtAuthenticationOptions:Issuer:0"))
-                                    .AddRole(roles?.ToArray())
-                                    .IssuedAt(issueTime)
-                                    .AddClaim(JwtClaimTypes.Email, user.Email)
-                                    .AddClaim(JwtClaimTypes.PhoneNumber, user.Phone)
-                                    .AddClaim(JwtClaimTypes.NickName, user.Nickname)
-                                    .AddClaim(JwtClaimTypes.JwtId, jti);
-
-        var accessToken = builder.Build();
-
-        return new TokenGrantResultDto
-        {
-            AccessToken = accessToken,
-            RefreshToken = ObjectId.NewGuid(GuidType.SequentialAsString).ToString("N"),
-            TokenType = AuthenticationConstant.TokenType.Bearer,
-            Username = user.Username,
-            UserId = user.Id,
-            IssueAt = new DateTimeOffset(issueTime).ToUnixTimeSeconds(),
-            ExpiresIn = (long)(expiresAt - issueTime).TotalSeconds
-        };
+        context.Response(user);
     }
 }

@@ -1,5 +1,4 @@
 using Nerosoft.Euonia.Bus;
-using Nerosoft.Starfish.Transit;
 
 namespace Nerosoft.Starfish.Repository;
 
@@ -8,4 +7,4 @@ namespace Nerosoft.Starfish.Repository;
 /// </summary>
 /// <param name="Provider"></param>
 /// <param name="OpenId"></param>
-internal record AuthenticateWithAuthProviderRequest(string Provider, string OpenId) : IRequest<TokenGrantResultDto>;
+internal record AuthenticateWithAuthProviderRequest(string Provider, string OpenId) : IRequest<User>;

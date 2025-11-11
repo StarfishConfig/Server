@@ -16,7 +16,13 @@ internal sealed class UserApplicationService : BaseApplicationService, IUserAppl
     public ValueTask<UserProfileResultDto> GetProfileAsync(CancellationToken cancellationToken = default)
     {
         var request = new UserProfileQueryRequest(User.GetUserIdOfInt64());
-        return Bus.RequestAsync(request, cancellationToken).AsValueTask();
+        return Bus.RequestAsync(request, cancellationToken)
+            .ContinueWith(task =>
+            {
+                task.WaitAndUnwrapException(cancellationToken);
+                return TypeAdapter.ProjectedAs<UserProfileResultDto>(task.Result);
+            })
+            .AsValueTask();
     }
 
     /// <inheritdoc />
@@ -80,15 +86,10 @@ internal sealed class UserApplicationService : BaseApplicationService, IUserAppl
 
         if (authProvider == null)
         {
-            throw new NotSupportedException("Provider is not supported.");
+            throw new NotSupportedException(string.Format(Resources.IDS_ERROR_EXTERNAL_PROVIDER_NOT_SUPPORTED, provider));
         }
 
         var result = await authProvider.AuthorizeAsync(code, cancellationToken);
-
-        if (result == null)
-        {
-            throw new BadRequestException("Invalid authorization result.");
-        }
 
         var command = new UserAuthorityCreateCommand(User.GetUserIdOfInt64(), provider, result.Id)
         {

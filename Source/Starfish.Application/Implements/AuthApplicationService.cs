@@ -1,6 +1,9 @@
-﻿using Nerosoft.Euonia.Application;
+﻿using IdentityModel;
+using Microsoft.Extensions.Configuration;
+using Nerosoft.Euonia.Application;
 using Nerosoft.Euonia.Bus;
 using Nerosoft.Euonia.Domain;
+using Nerosoft.Starfish.Domain;
 using Nerosoft.Starfish.Repository;
 using Nerosoft.Starfish.Shared;
 using Nerosoft.Starfish.Transit;
@@ -10,7 +13,7 @@ namespace Nerosoft.Starfish.Application;
 /// <summary>
 /// The authentication application service implementation.
 /// </summary>
-internal class AuthApplicationService : BaseApplicationService, IAuthApplicationService
+internal class AuthApplicationService(IConfiguration configuration) : BaseApplicationService, IAuthApplicationService
 {
     /// <inheritdoc />
     public async Task<TokenGrantResultDto> GrantAsync(TokenGrantRequestDto data, CancellationToken cancellationToken = default)
@@ -21,7 +24,8 @@ internal class AuthApplicationService : BaseApplicationService, IAuthApplication
 
         try
         {
-            var result = await Bus.RequestAsync(request, cancellationToken);
+            var user = await Bus.RequestAsync(request, cancellationToken);
+            var result = GenerateAccessToken(user);
             events.Add(new UserAuthSucceedEvent
             {
                 AuthType = data.Provider,
@@ -53,7 +57,7 @@ internal class AuthApplicationService : BaseApplicationService, IAuthApplication
                 await Parallel.ForEachAsync(events, cancellationToken, async (@event, token) => await Bus.PublishAsync(@event, token));
             }
         }
-        async Task<IRequest<TokenGrantResultDto>> GetRequestAsync()
+        async Task<IRequest<User>> GetRequestAsync()
         {
             switch (data.Provider?.ToLowerInvariant())
             {
@@ -68,22 +72,22 @@ internal class AuthApplicationService : BaseApplicationService, IAuthApplication
                 case AuthenticationConstant.Provider.Google:
                 case AuthenticationConstant.Provider.Facebook:
                 case AuthenticationConstant.Provider.Microsoft:
-                {
-                    var provider = LazyServiceProvider.GetKeyedService<IAuthProvider>(data.Provider);
-                    if (provider == null)
                     {
-                        throw new NotSupportedException($"The provider '{data.Provider}' is not supported.");
+                        var provider = LazyServiceProvider.GetKeyedService<IAuthProvider>(data.Provider);
+                        if (provider == null)
+                        {
+                            throw new NotSupportedException($"The provider '{data.Provider}' is not supported.");
+                        }
+
+                        var auth = await provider.AuthorizeAsync(data.Username, cancellationToken);
+
+                        if (auth == null)
+                        {
+                            throw new InvalidOperationException("Failed to authorize with the external provider.");
+                        }
+
+                        return new AuthenticateWithAuthProviderRequest(data.Provider, auth.Id);
                     }
-
-                    var auth = await provider.AuthorizeAsync(data.Username, cancellationToken);
-
-                    if (auth == null)
-                    {
-                        throw new InvalidOperationException("Failed to authorize with the external provider.");
-                    }
-
-                    return new AuthenticateWithAuthProviderRequest(data.Provider, auth.Id);
-                }
 
                 default:
                     throw new NotSupportedException($"The provider '{data.Provider}' is not supported.");
@@ -94,12 +98,13 @@ internal class AuthApplicationService : BaseApplicationService, IAuthApplication
     /// <inheritdoc />
     public async Task<TokenGrantResultDto> RefreshAsync(string refreshToken, CancellationToken cancellationToken = default)
     {
-        IRequest<TokenGrantResultDto> request = new AuthenticateWithRefreshTokenRequest(refreshToken);
+        IRequest<User> request = new AuthenticateWithRefreshTokenRequest(refreshToken);
 
         var events = new List<ApplicationEvent>();
         try
         {
-            var result = await Bus.RequestAsync(request, cancellationToken);
+            var user = await Bus.RequestAsync(request, cancellationToken);
+            var result = GenerateAccessToken(user);
             events.Add(new UserAuthSucceedEvent
             {
                 AuthType = AuthenticationConstant.Provider.RefreshToken,
@@ -126,5 +131,38 @@ internal class AuthApplicationService : BaseApplicationService, IAuthApplication
     public Task RevokeAsync(string id, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
+    }
+
+    private TokenGrantResultDto GenerateAccessToken(User user)
+    {
+        var roles = user.Roles?.Select(r => r.Name);
+
+        var jti = ObjectId.NewGuid(GuidType.SequentialAsString).ToString("N");
+
+        var issueTime = DateTime.UtcNow;
+        var expiresAt = issueTime.AddDays(1);
+
+        var builder = TokenGenerator.Create(user.Id, user.Username)
+                                    .WithSigningKey(configuration.GetValue<string>("JwtAuthenticationOptions:SigningKey"))
+                                    .WithIssuer(configuration.GetValue<string>("JwtAuthenticationOptions:Issuer:0"))
+                                    .AddRole(roles?.ToArray())
+                                    .IssuedAt(issueTime)
+                                    .AddClaim(JwtClaimTypes.Email, user.Email)
+                                    .AddClaim(JwtClaimTypes.PhoneNumber, user.Phone)
+                                    .AddClaim(JwtClaimTypes.NickName, user.Nickname)
+                                    .AddClaim(JwtClaimTypes.JwtId, jti);
+
+        var accessToken = builder.Build();
+
+        return new TokenGrantResultDto
+        {
+            AccessToken = accessToken,
+            RefreshToken = ObjectId.NewGuid(GuidType.SequentialAsString).ToString("N"),
+            TokenType = AuthenticationConstant.TokenType.Bearer,
+            Username = user.Username,
+            UserId = user.Id,
+            IssueAt = new DateTimeOffset(issueTime).ToUnixTimeSeconds(),
+            ExpiresIn = (long)(expiresAt - issueTime).TotalSeconds
+        };
     }
 }
