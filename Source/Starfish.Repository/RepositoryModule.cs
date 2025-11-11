@@ -78,7 +78,7 @@ public class RepositoryModule : ModuleContextBase
         var match = Regex.Match(connectionString, CONNECTION_STRING_PATTERN);
         if (!match.Success)
         {
-            throw new ArgumentException("Invalid connection string format.");
+            throw new ArgumentException(Resources.IDS_ERROR_INVALID_CONN_STRING);
         }
 
         var databaseType = match.Groups["dbtype"].Value;
@@ -122,12 +122,12 @@ public class RepositoryModule : ModuleContextBase
                     options.UseInMemoryDatabase("Starfish");
                     break;
                 default:
-                    throw new NotSupportedException($"Database type '{databaseType}' is not supported.");
+                    throw new NotSupportedException(string.Format(Resources.IDS_ERROR_DATABASE_TYPE_NOT_SUPPORTED, databaseType));
             }
         }
         else
         {
-            throw new ArgumentException($"Unknown database type alias: '{databaseType}'");
+            throw new ArgumentException(string.Format(Resources.IDS_ERROR_UNKNOWN_DATABASE_TYPE_VANITY, databaseType));
         }
 
         if (seeding != null)

@@ -144,4 +144,13 @@
   <data name="IDS_ERROR_EXTERNAL_LOGIN_FAILED" xml:space="preserve">
     <value>External login failed.</value>
   </data>
+  <data name="IDS_ERROR_INVALID_CONN_STRING" xml:space="preserve">
+    <value>Invalid connection string format.</value>
+  </data>
+  <data name="IDS_ERROR_DATABASE_TYPE_NOT_SUPPORTED" xml:space="preserve">
+    <value>Database type '{0}' is not supported.</value>
+  </data>
+  <data name="IDS_ERROR_UNKNOWN_DATABASE_TYPE_VANITY" xml:space="preserve">
+    <value>Unknown database type vanity: {0}</value>
+  </data>
 </root>
