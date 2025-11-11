@@ -75,7 +75,7 @@ internal sealed class UserApplicationService : BaseApplicationService, IUserAppl
     /// <inheritdoc />
     public Task UnlockAsync(long id, CancellationToken cancellationToken = default)
     {
-        var command = new UserUnlockCommand(id);
+        var command = new UserFailureResetCommand(id);
         return Bus.SendAsync(command, cancellationToken);
     }
 
