@@ -1,10 +1,8 @@
 ﻿using System.Text.RegularExpressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Nerosoft.Euonia.Modularity;
 using Nerosoft.Euonia.Repository;
-using Nerosoft.Starfish.Domain;
 
 namespace Nerosoft.Starfish.Repository;
 
@@ -18,6 +16,7 @@ public class RepositoryModule : ModuleContextBase
 
     /// <summary>
     /// Defines a mapping of database type aliases to their corresponding DatabaseType enum values.
+    /// </summary>
     /// </summary>
     private static readonly Dictionary<string, DatabaseType> _databaseTypeAlias = new()
     {
@@ -49,36 +48,33 @@ public class RepositoryModule : ModuleContextBase
     /// <inheritdoc />
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        context.Services.AddContextProvider();
-        context.Services.AddUnitOfWork();
+        context.Services.AddContextProvider()
+                        .AddUnitOfWork();
 
-        context.Services.AddDbContextFactory<AccountDataContext>((_, options) =>
-        {
-            var connectionString = Configuration.GetConnectionString("AccountConnection");
-            ConfigureDatabaseType(options, connectionString);
-        });
+        context.Services.AddDbContextFactory<ProjectDataContext>((provider, options) => ConfigureDataContext("ProjectConnection", provider, options))
+                        .AddDbContextFactory<SupportDataContext>((provider, options) => ConfigureDataContext("SupportConnection", provider, options))
+                        .AddDbContextFactory<LoggingDataContext>((provider, options) => ConfigureDataContext("LoggingConnection", provider, options))
+                        .AddDbContextFactory<AccountDataContext>((provider, options) => ConfigureDataContext("AccountConnection", provider, options, SeedAccountDataAsync));
 
-        context.Services.AddDbContextFactory<ProjectDataContext>((_, options) =>
-        {
-            var connectionString = Configuration.GetConnectionString("ProjectConnection");
-            ConfigureDatabaseType(options, connectionString);
-        });
-
-        context.Services.AddDbContextFactory<SupportDataContext>((_, options) =>
-        {
-            var connectionString = Configuration.GetConnectionString("SupportConnection");
-            ConfigureDatabaseType(options, connectionString);
-        });
-
-        context.Services
-               .AddScoped<IUserRepository, UserRepository>()
-               .AddScoped<ITokenRepository, TokenRepository>()
-               .AddScoped<IProjectRepository, ProjectRepository>()
-               .AddScoped<ITeamRepository, TeamRepository>();
+        context.Services.AddScoped<IUserRepository, UserRepository>()
+                        .AddScoped<ITokenRepository, TokenRepository>()
+                        .AddScoped<IProjectRepository, ProjectRepository>()
+                        .AddScoped<ITeamRepository, TeamRepository>();
     }
 
-    private static void ConfigureDatabaseType(DbContextOptionsBuilder options, string connectionString)
+    /// <summary>
+    /// Configures the data context based on the provided connection string name.
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="provider"></param>
+    /// <param name="options"></param>
+    /// <param name="seeding"></param>
+    /// <exception cref="ArgumentException"></exception>
+    /// <exception cref="NotSupportedException"></exception>
+    private void ConfigureDataContext(string name, IServiceProvider provider, DbContextOptionsBuilder options, Func<DbContext, Task> seeding = null)
     {
+        var connectionString = Configuration.GetConnectionString(name);
+
         var match = Regex.Match(connectionString, CONNECTION_STRING_PATTERN);
         if (!match.Success)
         {
@@ -133,5 +129,33 @@ public class RepositoryModule : ModuleContextBase
         {
             throw new ArgumentException($"Unknown database type alias: '{databaseType}'");
         }
+
+        if (seeding != null)
+        {
+            options.UseAsyncSeeding(async (context, _, cancellationToken) =>
+            {
+                await seeding(context);
+            });
+        }
+
+    }
+
+    private async Task SeedAccountDataAsync(DbContext context)
+    {
+        var username = "admin";
+        var password = "nerosoft.8888";
+
+        var exists = await context.Set<User>().AnyAsync(u => u.Username == username);
+        if (exists)
+        {
+            return;
+        }
+
+        var user = User.Create(username, 0);
+        user.SetPassword(password);
+        user.SetRoles("SA");
+
+        await context.Set<User>().AddAsync(user);
+        await context.SaveChangesAsync(true);
     }
 }

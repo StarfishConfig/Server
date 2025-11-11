@@ -12,7 +12,6 @@ internal class TokenRefreshedEvent : ApplicationEvent
         OriginToken = originToken;
     }
 
-
     /// <summary>
     /// The origin access token.
     /// </summary>
