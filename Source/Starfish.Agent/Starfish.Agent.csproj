@@ -3,9 +3,6 @@
 	<Import Project="..\common.props" />
 
 	<PropertyGroup>
-		<TargetFramework>net9.0</TargetFramework>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>disable</Nullable>
 		<Description>A lightweight powerful distributed configuration server for .NET application.</Description>
 	</PropertyGroup>
 

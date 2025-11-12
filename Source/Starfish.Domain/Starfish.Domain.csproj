@@ -3,9 +3,6 @@
 	<Import Project="..\common.props" />
 
 	<PropertyGroup>
-		<TargetFramework>net9.0</TargetFramework>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>disable</Nullable>
         <NoWarn>CS2002</NoWarn>
 	</PropertyGroup>
 
@@ -42,7 +39,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Using Include="Nerosoft.Starfish.Toolkit" />
         <Using Include="$(RootNamespace).Properties" />
         <Using Include="Microsoft.Extensions.DependencyInjection" />
         <Using Include="System.Diagnostics.CodeAnalysis" />

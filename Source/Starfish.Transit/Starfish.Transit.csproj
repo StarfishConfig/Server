@@ -2,12 +2,6 @@
 
 	<Import Project="..\common.props" />
 
-	<PropertyGroup>
-		<TargetFramework>net9.0</TargetFramework>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>disable</Nullable>
-	</PropertyGroup>
-
 	<ItemGroup>
 		<ProjectReference Include="..\Starfish.Shared\Starfish.Shared.csproj" />
 	</ItemGroup>
