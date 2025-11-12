@@ -36,7 +36,7 @@ internal sealed class MicrosoftAuthProvider(IConfiguration configuration) : Base
     /// <param name="token"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    private static async ValueTask<JsonObject> GetUserAsync(string token, CancellationToken cancellationToken = default)
+    private static async Task<JsonObject> GetUserAsync(string token, CancellationToken cancellationToken = default)
     {
         using var client = new HttpClient();
         return await client.UsingRoute("https://graph.microsoft.com/v1.0/me")

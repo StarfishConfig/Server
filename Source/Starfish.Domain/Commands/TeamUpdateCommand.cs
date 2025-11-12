@@ -2,7 +2,20 @@
 
 namespace Nerosoft.Starfish.Domain;
 
+/// <summary>
+/// Command to update a team.
+/// </summary>
+/// <param name="id"></param>
 internal class TeamUpdateCommand(long id) : Command<long>(id)
 {
+    /// <summary>
+    /// Gets the team identifier.
+    /// </summary>
     public long TeamId => Item1;
+
+    /// <inheritdoc cref="Team.Name"/>
+    public string Name { get; set; }
+
+    /// <inheritdoc cref="Team.Description"/>
+    public string Description { get; set; }
 }

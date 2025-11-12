@@ -4,7 +4,7 @@ using Nerosoft.Euonia.Bus;
 namespace Nerosoft.Starfish.Application;
 
 internal sealed class LoggingEventSubscriber(ILoggerFactory logger) : IHandler<UserAuthSucceedEvent>,
-                                               IHandler<UserAuthFailedEvent>
+                                                                      IHandler<UserAuthFailedEvent>
 {
     private readonly ILogger<LoggingEventSubscriber> _logger = logger.CreateLogger<LoggingEventSubscriber>();
 

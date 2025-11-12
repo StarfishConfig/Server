@@ -2,6 +2,14 @@ using Nerosoft.Euonia.Domain;
 
 namespace Nerosoft.Starfish.Domain;
 
-internal sealed class TeamDeleteCommand : Command
+/// <summary>
+/// Command to delete a team.
+/// </summary>
+/// <param name="id"></param>
+internal sealed class TeamDeleteCommand(long id) : Command<long>(id)
 {
+    /// <summary>
+    /// Gets the team identifier.
+    /// </summary>
+    public long TeamId => Item1;
 }

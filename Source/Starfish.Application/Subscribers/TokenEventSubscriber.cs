@@ -36,7 +36,6 @@ internal sealed class TokenEventSubscriber(IBus bus, IConfiguration configuratio
 
     public async Task HandleAsync(UserAuthFailedEvent message, MessageContext context, CancellationToken cancellationToken = default)
     {
-
     }
 
     public Task HandleAsync(TokenRefreshedEvent message, MessageContext context, CancellationToken cancellationToken = new CancellationToken())

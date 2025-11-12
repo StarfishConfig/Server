@@ -10,5 +10,5 @@ internal interface ITokenRepository : IBaseRepository<Token, long>
     /// <param name="tracking"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    ValueTask<Token> FindByKeyAsync(string key, bool tracking, CancellationToken cancellationToken = default);
+    Task<Token> FindByKeyAsync(string key, bool tracking, CancellationToken cancellationToken = default);
 }

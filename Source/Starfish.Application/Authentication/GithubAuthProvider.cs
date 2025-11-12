@@ -36,7 +36,7 @@ internal sealed class GithubAuthProvider(IConfiguration configuration) : BaseAut
     /// <param name="token"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    private static async ValueTask<JsonObject> GetUserAsync(string token, CancellationToken cancellationToken = default)
+    private static async Task<JsonObject> GetUserAsync(string token, CancellationToken cancellationToken = default)
     {
         using var client = new HttpClient();
         client.BaseAddress = new Uri("https://api.github.com");

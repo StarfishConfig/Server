@@ -32,7 +32,7 @@ internal sealed class FacebookAuthProvider(IConfiguration configuration) : BaseA
     /// <param name="token"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    private static async ValueTask<JsonObject> GetUserAsync(string token, CancellationToken cancellationToken = default)
+    private static async Task<JsonObject> GetUserAsync(string token, CancellationToken cancellationToken = default)
     {
         using var client = new HttpClient();
         return await client.UsingRoute("https://graph.facebook.com/v12.0/me?fields=id,name")

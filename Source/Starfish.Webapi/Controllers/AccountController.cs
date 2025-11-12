@@ -21,7 +21,7 @@ public class AccountController(IUserApplicationService service) : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [AllowAnonymous]
-    public async ValueTask<IActionResult> CreateAsync([FromBody] UserCreateRequestDto data, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> CreateAsync([FromBody] UserCreateRequestDto data, CancellationToken cancellationToken = default)
     {
         var userId = await service.CreateAsync(data, cancellationToken);
         return Ok(userId);
@@ -33,7 +33,7 @@ public class AccountController(IUserApplicationService service) : ControllerBase
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     [HttpGet("profile")]
-    public async ValueTask<IActionResult> GetProfileAsync(CancellationToken cancellationToken = default)
+    public async Task<IActionResult> GetProfileAsync(CancellationToken cancellationToken = default)
     {
         var profile = await service.GetProfileAsync(cancellationToken);
         return Ok(profile);

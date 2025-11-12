@@ -14,7 +14,7 @@ public interface IUserApplicationService : IApplicationService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    ValueTask<UserProfileResultDto> GetProfileAsync(CancellationToken cancellationToken = default);
+    Task<UserProfileResultDto> GetProfileAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new user asynchronously.
@@ -22,7 +22,7 @@ public interface IUserApplicationService : IApplicationService
     /// <param name="data"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    ValueTask<long> CreateAsync(UserCreateRequestDto data, CancellationToken cancellationToken = default);
+    Task<long> CreateAsync(UserCreateRequestDto data, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the phone number of an existing user asynchronously.

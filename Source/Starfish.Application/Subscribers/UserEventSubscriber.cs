@@ -40,6 +40,7 @@ internal sealed class UserEventSubscriber(IBus bus)
                 return bus.SendAsync(new UserFailureIncreaseCommand(username), cancellationToken);
             }
         }
+
         {
             // preserve for other auth types in the future
         }

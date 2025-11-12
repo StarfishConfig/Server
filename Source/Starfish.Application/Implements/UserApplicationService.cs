@@ -13,7 +13,7 @@ namespace Nerosoft.Starfish.Application;
 internal sealed class UserApplicationService : BaseApplicationService, IUserApplicationService
 {
     /// <inheritdoc />
-    public ValueTask<UserProfileResultDto> GetProfileAsync(CancellationToken cancellationToken = default)
+    public Task<UserProfileResultDto> GetProfileAsync(CancellationToken cancellationToken = default)
     {
         var request = new UserProfileQueryRequest(User.GetUserIdOfInt64());
         return Bus.RequestAsync(request, cancellationToken)
@@ -21,16 +21,15 @@ internal sealed class UserApplicationService : BaseApplicationService, IUserAppl
             {
                 task.WaitAndUnwrapException(cancellationToken);
                 return TypeAdapter.ProjectedAs<UserProfileResultDto>(task.Result);
-            })
-            .AsValueTask();
+            });
     }
 
     /// <inheritdoc />
-    public ValueTask<long> CreateAsync(UserCreateRequestDto data, CancellationToken cancellationToken = default)
+    public Task<long> CreateAsync(UserCreateRequestDto data, CancellationToken cancellationToken = default)
     {
         var command = TypeAdapter.ProjectedAs<UserCreateCommand>(data);
         command.Source = 2;
-        return Bus.SendAsync<UserCreateCommand, long>(command, cancellationToken).AsValueTask();
+        return Bus.SendAsync<UserCreateCommand, long>(command, cancellationToken);
     }
 
     /// <inheritdoc />
