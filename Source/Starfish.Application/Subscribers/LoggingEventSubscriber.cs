@@ -1,17 +1,20 @@
+using Microsoft.Extensions.Logging;
 using Nerosoft.Euonia.Bus;
 
 namespace Nerosoft.Starfish.Application;
 
-internal sealed class LoggingEventSubscriber : IHandler<UserAuthSucceedEvent>,
+internal sealed class LoggingEventSubscriber(ILoggerFactory logger) : IHandler<UserAuthSucceedEvent>,
                                                IHandler<UserAuthFailedEvent>
 {
-    public Task HandleAsync(UserAuthSucceedEvent message, MessageContext context, CancellationToken cancellationToken = default)
+    private readonly ILogger<LoggingEventSubscriber> _logger = logger.CreateLogger<LoggingEventSubscriber>();
+
+    public async Task HandleAsync(UserAuthSucceedEvent message, MessageContext context, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        _logger.LogInformation("Received UserAuthSucceedEvent {Message}", message);
     }
 
-    public Task HandleAsync(UserAuthFailedEvent message, MessageContext context, CancellationToken cancellationToken = default)
+    public async Task HandleAsync(UserAuthFailedEvent message, MessageContext context, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        _logger.LogInformation("Received UserAuthFailedEvent {Message}", message);
     }
 }

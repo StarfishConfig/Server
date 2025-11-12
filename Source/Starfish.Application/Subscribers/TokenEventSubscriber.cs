@@ -34,13 +34,14 @@ internal sealed class TokenEventSubscriber(IBus bus, IConfiguration configuratio
         return bus.SendAsync(command, cancellationToken);
     }
 
-    public Task HandleAsync(UserAuthFailedEvent message, MessageContext context, CancellationToken cancellationToken = default)
+    public async Task HandleAsync(UserAuthFailedEvent message, MessageContext context, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+
     }
 
     public Task HandleAsync(TokenRefreshedEvent message, MessageContext context, CancellationToken cancellationToken = new CancellationToken())
     {
-        throw new NotImplementedException();
+        var command = new TokenRevokeCommand(message.OriginToken);
+        return bus.SendAsync(command, cancellationToken);
     }
 }

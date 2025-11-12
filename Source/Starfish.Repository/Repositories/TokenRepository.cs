@@ -18,10 +18,10 @@ internal class TokenRepository : BaseRepository<AccountDataContext, Token, long>
     }
 
     /// <inheritdoc />
-    public ValueTask<Token> FindByKeyAsync(string key, CancellationToken cancellationToken = default)
+    public ValueTask<Token> FindByKeyAsync(string key, bool tracking, CancellationToken cancellationToken = default)
     {
         var specification = TokenSpecification.KeyEquals(key);
         var predicate = specification.Satisfy();
-        return GetAsync(predicate, false, null, cancellationToken).AsValueTask();
+        return GetAsync(predicate, tracking, null, cancellationToken).AsValueTask();
     }
 }

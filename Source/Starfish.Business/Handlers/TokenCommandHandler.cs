@@ -32,6 +32,6 @@ internal sealed class TokenCommandHandler(IUnitOfWorkManager unitOfWork, IObject
 
     public Task HandleAsync(TokenRevokeCommand message, MessageContext context, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        return ExecuteAsync(() => Factory.ExecuteAsync<TokenRevokeBusiness>(message.Token, cancellationToken), cancellationToken);
     }
 }

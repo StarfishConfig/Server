@@ -2,7 +2,14 @@ using Nerosoft.Euonia.Domain;
 
 namespace Nerosoft.Starfish.Domain;
 
+/// <summary>
+/// Command to create a team.
+/// </summary>
 internal sealed class TeamCreateCommand : Command
 {
+    /// <inheritdoc cref="Team.Name"/>
+    public string Name { get; set; }
 
+    /// <inheritdoc cref="Team.Description"/>
+    public string Description { get; set; }
 }

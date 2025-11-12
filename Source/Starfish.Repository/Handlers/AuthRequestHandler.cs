@@ -16,9 +16,6 @@ internal class AuthRequestHandler(IServiceProvider provider)
       IHandler<AuthenticateWithRefreshTokenRequest>,
       IHandler<AuthenticateWithAuthProviderRequest>
 {
-    private IConfiguration _configuration;
-    private IConfiguration Configuration => _configuration ??= provider.GetRequiredService<IConfiguration>();
-
     private IUserRepository _userRepository;
     private IUserRepository UserRepository => _userRepository ??= provider.GetRequiredService<IUserRepository>();
 
@@ -70,7 +67,7 @@ internal class AuthRequestHandler(IServiceProvider provider)
 
         var key = message.Token.ToSha256();
 
-        var token = await TokenRepository.FindByKeyAsync(key, cancellationToken);
+        var token = await TokenRepository.FindByKeyAsync(key, false, cancellationToken);
 
         if (token == null)
         {
