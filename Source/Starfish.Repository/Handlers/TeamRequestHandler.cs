@@ -10,7 +10,7 @@ namespace Nerosoft.Starfish.Repository;
 internal sealed class TeamRequestHandler(ITeamRepository repository)
     : IHandler<TeamDetailQueryRequest>,
       IHandler<TeamListQueryRequest>,
-    IHandler<TeamCountQueryRequest>
+      IHandler<TeamCountQueryRequest>
 {
     /// <summary>
     /// Handles the team detail query request.
@@ -27,7 +27,7 @@ internal sealed class TeamRequestHandler(ITeamRepository repository)
 
     public Task HandleAsync(TeamListQueryRequest message, MessageContext context, CancellationToken cancellationToken = default)
     {
-        var specification = TeamSpecification.Matches(message.Keyword);
+        var specification = TeamSpecification.Matches(message.Criteria.Keyword);
         specification &= TeamSpecification.HasMember(0);
         var predicate = specification.Satisfy();
         return repository.FindAsync(predicate, query => query.Include(t => t.Members), cancellationToken);
@@ -35,7 +35,7 @@ internal sealed class TeamRequestHandler(ITeamRepository repository)
 
     public Task HandleAsync(TeamCountQueryRequest message, MessageContext context, CancellationToken cancellationToken = default)
     {
-        var specification = TeamSpecification.Matches(message.Keyword);
+        var specification = TeamSpecification.Matches(message.Criteria.Keyword);
         specification &= TeamSpecification.HasMember(0);
         var predicate = specification.Satisfy();
 

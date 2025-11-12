@@ -16,5 +16,5 @@ internal sealed class TeamTransferCommand(long id) : Command<long>(id)
     /// <summary>
     /// Gets or sets the user identifier to transfer the team to.
     /// </summary>
-    public long UserId { get; set; }
+    public required long UserId { get; init; }
 }

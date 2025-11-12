@@ -13,7 +13,7 @@ public interface ITeamApplicationService : IApplicationService
     /// <param name="take"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task<List<TeamListDto>> FindAsync(TeamCriteriaDto criteria, int skip, int take, CancellationToken cancellationToken = default);
+    Task<List<TeamListDto>> ListAsync(TeamCriteriaDto criteria, int skip, int take, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Counts teams by criteria.
@@ -43,10 +43,10 @@ public interface ITeamApplicationService : IApplicationService
     /// Updates an existing team.
     /// </summary>
     /// <param name="id"></param>
-    /// <param name="dto"></param>
+    /// <param name="data"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task UpdateAsync(long id, TeamUpdateDto dto, CancellationToken cancellationToken = default);
+    Task UpdateAsync(long id, TeamUpdateDto data, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a team.
@@ -55,4 +55,59 @@ public interface ITeamApplicationService : IApplicationService
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     Task DeleteAsync(long id, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Transfers a team to another user.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="data"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task TransferAsync(long id, TeamTransferDto data, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Gets team members by criteria.
+    /// </summary>
+    /// <param name="teamId"></param>
+    /// <param name="criteria"></param>
+    /// <param name="skip"></param>
+    /// <param name="take"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task<List<TeamMemberInfoDto>> GetMemberListAsync(long teamId, TeamMemberCriteriaDto criteria, int skip, int take, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Gets the count of team members by criteria.
+    /// </summary>
+    /// <param name="teamId"></param>
+    /// <param name="criteria"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task<int> GetMemberCountAsync(long teamId, TeamMemberCriteriaDto criteria, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Appends members to a team.
+    /// </summary>
+    /// <param name="teamId"></param>
+    /// <param name="userIds"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task AppendMemberAsync(long teamId, List<long> userIds, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Removes members from a team.
+    /// </summary>
+    /// <param name="teamId"></param>
+    /// <param name="userIds"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task RemoveMemberAsync(long teamId, List<long> userIds, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Quits the team.
+    /// </summary>
+    /// <param name="teamId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task QuitAsync(long teamId, CancellationToken cancellationToken = default);
 }
