@@ -12,27 +12,37 @@ internal sealed class UserEventSubscriber(IBus bus)
     : IHandler<UserAuthSucceedEvent>,
       IHandler<UserAuthFailedEvent>
 {
+    /// <summary>
+    /// Handles user authentication success events.
+    /// </summary>
+    /// <param name="message"></param>
+    /// <param name="context"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     public Task HandleAsync(UserAuthSucceedEvent message, MessageContext context, CancellationToken cancellationToken = default)
     {
         return bus.SendAsync(new UserFailureResetCommand(message.UserId), cancellationToken);
     }
 
-    public async Task HandleAsync(UserAuthFailedEvent message, MessageContext context, CancellationToken cancellationToken = default)
+    /// <summary>
+    /// Handles user authentication failure events.
+    /// </summary>
+    /// <param name="message"></param>
+    /// <param name="context"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task HandleAsync(UserAuthFailedEvent message, MessageContext context, CancellationToken cancellationToken = default)
     {
-        if (!string.Equals(message.AuthType, AuthenticationConstant.Provider.Username))
+        if (string.Equals(message.AuthType, AuthenticationConstant.Provider.Username))
         {
-            return;
+            if (message.Data?.TryGetValue("Username", out var username) == true && !string.IsNullOrWhiteSpace(username))
+            {
+                return bus.SendAsync(new UserFailureIncreaseCommand(username), cancellationToken);
+            }
         }
-
-        var username = message.Data != null && message.Data.TryGetValue("Username", out var name)
-            ? name
-            : string.Empty;
-
-        if (string.IsNullOrWhiteSpace(username))
         {
-            return;
+            // preserve for other auth types in the future
         }
-
-        await bus.SendAsync(new UserFailureIncreaseCommand(username), cancellationToken);
+        return Task.CompletedTask;
     }
 }
