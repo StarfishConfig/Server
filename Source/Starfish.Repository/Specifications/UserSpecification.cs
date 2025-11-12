@@ -1,5 +1,4 @@
 using Nerosoft.Euonia.Linq;
-using Nerosoft.Starfish.Domain;
 
 namespace Nerosoft.Starfish.Repository;
 
@@ -8,6 +7,15 @@ namespace Nerosoft.Starfish.Repository;
 /// </summary>
 internal static class UserSpecification
 {
+    /// <summary>
+    /// Specification to check if User is valid (Id > 0).
+    /// </summary>
+    /// <returns></returns>
+    public static Specification<User> Valid()
+    {
+        return new DirectSpecification<User>(t => t.Id > 0);
+    }
+
     /// <summary>
     /// Specification to check if User Id equals the given id.
     /// </summary>
@@ -136,5 +144,33 @@ internal static class UserSpecification
         ];
 
         return new CompositeSpecification<User>(PredicateOperator.OrElse, specifications);
+    }
+
+    /// <summary>
+    /// Specification to check if Source equals the given source.
+    /// </summary>
+    /// <param name="source"></param>
+    /// <returns></returns>
+    public static Specification<User> SourceEquals(int source)
+    {
+        return new DirectSpecification<User>(t => t.Source == source);
+    }
+
+    /// <summary>
+    /// Specification to check if User is locked out.
+    /// </summary>
+    /// <returns></returns>
+    public static Specification<User> IsLockedOut()
+    {
+        return new DirectSpecification<User>(t => t.LockoutEnd.HasValue && t.LockoutEnd.Value > DateTimeOffset.UtcNow);
+    }
+
+    /// <summary>
+    /// Specification to check if User is not locked out.
+    /// </summary>
+    /// <returns></returns>
+    public static Specification<User> IsNotLockedOut()
+    {
+        return new DirectSpecification<User>(t => !t.LockoutEnd.HasValue || t.LockoutEnd.Value <= DateTimeOffset.UtcNow);
     }
 }

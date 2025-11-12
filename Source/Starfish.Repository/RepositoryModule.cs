@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Nerosoft.Euonia.Modularity;
 using Nerosoft.Euonia.Repository;
+using Nerosoft.Starfish.Shared;
 
 namespace Nerosoft.Starfish.Repository;
 
@@ -49,17 +50,17 @@ public class RepositoryModule : ModuleContextBase
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         context.Services.AddContextProvider()
-                        .AddUnitOfWork();
+               .AddUnitOfWork();
 
         context.Services.AddDbContextFactory<ProjectDataContext>((provider, options) => ConfigureDataContext("ProjectConnection", provider, options))
-                        .AddDbContextFactory<SupportDataContext>((provider, options) => ConfigureDataContext("SupportConnection", provider, options))
-                        .AddDbContextFactory<LoggingDataContext>((provider, options) => ConfigureDataContext("LoggingConnection", provider, options))
-                        .AddDbContextFactory<AccountDataContext>((provider, options) => ConfigureDataContext("AccountConnection", provider, options, SeedAccountDataAsync));
+               .AddDbContextFactory<SupportDataContext>((provider, options) => ConfigureDataContext("SupportConnection", provider, options))
+               .AddDbContextFactory<LoggingDataContext>((provider, options) => ConfigureDataContext("LoggingConnection", provider, options))
+               .AddDbContextFactory<AccountDataContext>((provider, options) => ConfigureDataContext("AccountConnection", provider, options, SeedAccountDataAsync));
 
         context.Services.AddScoped<IUserRepository, UserRepository>()
-                        .AddScoped<ITokenRepository, TokenRepository>()
-                        .AddScoped<IProjectRepository, ProjectRepository>()
-                        .AddScoped<ITeamRepository, TeamRepository>();
+               .AddScoped<ITokenRepository, TokenRepository>()
+               .AddScoped<IProjectRepository, ProjectRepository>()
+               .AddScoped<ITeamRepository, TeamRepository>();
     }
 
     /// <summary>
@@ -137,9 +138,12 @@ public class RepositoryModule : ModuleContextBase
                 await seeding(context);
             });
         }
-
     }
 
+    /// <summary>
+    /// Seeds initial account data into the database.
+    /// </summary>
+    /// <param name="context"></param>
     private async Task SeedAccountDataAsync(DbContext context)
     {
         var username = "admin";
@@ -151,7 +155,7 @@ public class RepositoryModule : ModuleContextBase
             return;
         }
 
-        var user = User.Create(username, 0);
+        var user = User.Create(username, UserCreationSource.InitialImport);
         user.SetPassword(password);
         user.SetRoles("SA");
 

@@ -10,6 +10,29 @@ namespace Nerosoft.Starfish.Application;
 public interface IUserApplicationService : IApplicationService
 {
     /// <summary>
+    /// Lists users based on specified criteria asynchronously.
+    /// </summary>
+    /// <param name="criteria"></param>
+    /// <param name="skip"></param>
+    /// <param name="take"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [Authorize(Roles = "SA")]
+    Task<List<UserListDto>> ListAsync(UserCriteriaDto criteria, int skip, int take, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Counts users based on specified criteria asynchronously.
+    /// </summary>
+    /// <param name="criteria"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [Authorize(Roles = "SA")]
+    Task<int> CountAsync(UserCriteriaDto criteria, CancellationToken cancellationToken = default);
+
+    [Authorize(Roles = "SA")]
+    Task<UserDetailDto> GetAsync(long id, CancellationToken cancellationToken = default);
+    
+    /// <summary>
     /// Retrieves the profile of a user by their username asynchronously.
     /// </summary>
     /// <param name="cancellationToken"></param>
@@ -60,12 +83,11 @@ public interface IUserApplicationService : IApplicationService
     /// Resets the password of a user by their ID asynchronously.
     /// </summary>
     /// <param name="id">The id of user whose password to be reset.</param>
-    /// <param name="password"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     [Authorize(Roles = "SA")]
-    Task ResetPasswordAsync(long id, string password, CancellationToken cancellationToken = default);
-    
+    Task<string> ResetPasswordAsync(long id, CancellationToken cancellationToken = default);
+
     /// <summary>
     /// Unlock a user account asynchronously.
     /// </summary>

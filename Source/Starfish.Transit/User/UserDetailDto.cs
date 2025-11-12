@@ -1,9 +1,6 @@
 namespace Nerosoft.Starfish.Transit;
 
-/// <summary>
-/// Data Transfer Object for listing users.
-/// </summary>
-public class UserListDto : UserDisplayDto
+public class UserDetailDto : UserDisplayDto
 {
     /// <summary>
     /// Gets or sets the number of failed access attempts.

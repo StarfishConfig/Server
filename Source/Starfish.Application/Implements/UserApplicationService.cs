@@ -13,6 +13,37 @@ namespace Nerosoft.Starfish.Application;
 internal sealed class UserApplicationService : BaseApplicationService, IUserApplicationService
 {
     /// <inheritdoc />
+    public Task<List<UserListDto>> ListAsync(UserCriteriaDto criteria, int skip, int take, CancellationToken cancellationToken = default)
+    {
+        var request = new UserListQueryRequest(criteria, skip, take);
+        return Bus.RequestAsync(request, cancellationToken)
+                  .ContinueWith(task =>
+                  {
+                      task.WaitAndUnwrapException(cancellationToken);
+                      return TypeAdapter.ProjectedAs<List<UserListDto>>(task.Result);
+                  }, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public Task<int> CountAsync(UserCriteriaDto criteria, CancellationToken cancellationToken = default)
+    {
+        var request = new UserCountQueryRequest(criteria);
+        return Bus.RequestAsync(request, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public Task<UserDetailDto> GetAsync(long id, CancellationToken cancellationToken = default)
+    {
+        var request = new UserProfileQueryRequest(id);
+        return Bus.RequestAsync(request, cancellationToken)
+                  .ContinueWith(task =>
+                  {
+                      task.WaitAndUnwrapException(cancellationToken);
+                      return TypeAdapter.ProjectedAs<UserDetailDto>(task.Result);
+                  }, cancellationToken);
+    }
+
+    /// <inheritdoc />
     public Task<UserProfileDto> GetProfileAsync(CancellationToken cancellationToken = default)
     {
         var request = new UserProfileQueryRequest(User.GetUserIdOfInt64());
@@ -21,14 +52,14 @@ internal sealed class UserApplicationService : BaseApplicationService, IUserAppl
                   {
                       task.WaitAndUnwrapException(cancellationToken);
                       return TypeAdapter.ProjectedAs<UserProfileDto>(task.Result);
-                  });
+                  }, cancellationToken);
     }
 
     /// <inheritdoc />
     public Task<long> CreateAsync(UserCreateDto data, CancellationToken cancellationToken = default)
     {
         var command = TypeAdapter.ProjectedAs<UserCreateCommand>(data);
-        command.Source = 2;
+        command.Source = UserCreationSource.SelfRegistered;
         return Bus.SendAsync<UserCreateCommand, long>(command, cancellationToken);
     }
 
@@ -66,10 +97,17 @@ internal sealed class UserApplicationService : BaseApplicationService, IUserAppl
     }
 
     /// <inheritdoc />
-    public Task ResetPasswordAsync(long id, string password, CancellationToken cancellationToken = default)
+    public Task<string> ResetPasswordAsync(long id, CancellationToken cancellationToken = default)
     {
+        var password = PasswordGenerator.GeneratePassword(PasswordGenerator.Complexity.All);
+
         var command = new UserPasswordUpdateCommand(id, password, UserPasswordChangeTypeConstant.Reset);
-        return Bus.SendAsync(command, cancellationToken);
+        return Bus.SendAsync(command, cancellationToken)
+                  .ContinueWith(task =>
+                  {
+                      task.WaitAndUnwrapException(cancellationToken);
+                      return password;
+                  }, cancellationToken);
     }
 
     /// <inheritdoc />

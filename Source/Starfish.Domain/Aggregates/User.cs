@@ -88,9 +88,10 @@ internal sealed class User : Aggregate<long>, IHasCreateTime, IHasUpdateTime, IT
     /// Gets or sets the source of the user account.
     /// </summary>
     /// <value>
-    /// <para>0 - Initial</para>
-    /// <para>1 - Created by administrator</para>
-    /// <para>2 - User self-registration</para>
+    /// <see cref="Shared.UserCreationSource"/>
+    /// <para>1 - Initial</para>
+    /// <para>2 - Created by administrator</para>
+    /// <para>3 - User self-registration</para>
     /// </value>
     public int Source { get; set; }
 
