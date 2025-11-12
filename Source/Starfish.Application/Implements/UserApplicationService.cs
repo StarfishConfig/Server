@@ -13,19 +13,19 @@ namespace Nerosoft.Starfish.Application;
 internal sealed class UserApplicationService : BaseApplicationService, IUserApplicationService
 {
     /// <inheritdoc />
-    public Task<UserProfileResultDto> GetProfileAsync(CancellationToken cancellationToken = default)
+    public Task<UserProfileDto> GetProfileAsync(CancellationToken cancellationToken = default)
     {
         var request = new UserProfileQueryRequest(User.GetUserIdOfInt64());
         return Bus.RequestAsync(request, cancellationToken)
-            .ContinueWith(task =>
-            {
-                task.WaitAndUnwrapException(cancellationToken);
-                return TypeAdapter.ProjectedAs<UserProfileResultDto>(task.Result);
-            });
+                  .ContinueWith(task =>
+                  {
+                      task.WaitAndUnwrapException(cancellationToken);
+                      return TypeAdapter.ProjectedAs<UserProfileDto>(task.Result);
+                  });
     }
 
     /// <inheritdoc />
-    public Task<long> CreateAsync(UserCreateRequestDto data, CancellationToken cancellationToken = default)
+    public Task<long> CreateAsync(UserCreateDto data, CancellationToken cancellationToken = default)
     {
         var command = TypeAdapter.ProjectedAs<UserCreateCommand>(data);
         command.Source = 2;
@@ -33,9 +33,9 @@ internal sealed class UserApplicationService : BaseApplicationService, IUserAppl
     }
 
     /// <inheritdoc />
-    public Task UpdatePhoneAsync(long id, string phone, CancellationToken cancellationToken = default)
+    public Task UpdatePhoneAsync(string phone, CancellationToken cancellationToken = default)
     {
-        var command = new UserUpdateCommand(id)
+        var command = new UserUpdateCommand(User.GetUserIdOfInt64())
         {
             Phone = phone
         };
@@ -43,9 +43,9 @@ internal sealed class UserApplicationService : BaseApplicationService, IUserAppl
     }
 
     /// <inheritdoc />
-    public Task UpdateEmailAsync(long id, string email, CancellationToken cancellationToken = default)
+    public Task UpdateEmailAsync(string email, CancellationToken cancellationToken = default)
     {
-        var command = new UserUpdateCommand(id)
+        var command = new UserUpdateCommand(User.GetUserIdOfInt64())
         {
             Email = email
         };
@@ -53,22 +53,23 @@ internal sealed class UserApplicationService : BaseApplicationService, IUserAppl
     }
 
     /// <inheritdoc />
-    public Task ChangePasswordAsync(UserPasswordChangeRequestDto data, CancellationToken cancellationToken = default)
+    public Task ChangePasswordAsync(UserPasswordChangeDto data, CancellationToken cancellationToken = default)
     {
         var command = new UserPasswordUpdateCommand(User.GetUserIdOfInt64(), data.Password, UserPasswordChangeTypeConstant.Change);
         return Bus.SendAsync(command, cancellationToken);
     }
 
     /// <inheritdoc />
-    public Task ResetPasswordAsync(UserPasswordResetRequestDto data, CancellationToken cancellationToken = default)
+    public Task ResetPasswordAsync(UserPasswordResetDto data, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }
 
     /// <inheritdoc />
-    public Task ResetPasswordAsync(long id, CancellationToken cancellationToken = default)
+    public Task ResetPasswordAsync(long id, string password, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var command = new UserPasswordUpdateCommand(id, password, UserPasswordChangeTypeConstant.Reset);
+        return Bus.SendAsync(command, cancellationToken);
     }
 
     /// <inheritdoc />

@@ -3,7 +3,7 @@ namespace Nerosoft.Starfish.Transit;
 /// <summary>
 /// Data transfer object for user password reset.
 /// </summary>
-public class UserPasswordResetRequestDto
+public class UserPasswordResetDto
 {
     /// <summary>
     /// Gets or sets the password reset operation token.

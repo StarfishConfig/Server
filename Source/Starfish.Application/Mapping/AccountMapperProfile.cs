@@ -8,9 +8,9 @@ internal class AccountMapperProfile : Profile
 {
     public AccountMapperProfile()
     {
-        CreateMap<UserCreateRequestDto, UserCreateCommand>();
+        CreateMap<UserCreateDto, UserCreateCommand>();
 
-        CreateMap<User, UserProfileResultDto>();
+        CreateMap<User, UserProfileDto>();
 
         CreateMap<Team, TeamDetailDto>();
         CreateMap<Team, TeamListDto>();

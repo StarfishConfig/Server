@@ -14,7 +14,7 @@ public interface IUserApplicationService : IApplicationService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task<UserProfileResultDto> GetProfileAsync(CancellationToken cancellationToken = default);
+    Task<UserProfileDto> GetProfileAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new user asynchronously.
@@ -22,25 +22,23 @@ public interface IUserApplicationService : IApplicationService
     /// <param name="data"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task<long> CreateAsync(UserCreateRequestDto data, CancellationToken cancellationToken = default);
+    Task<long> CreateAsync(UserCreateDto data, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the phone number of an existing user asynchronously.
     /// </summary>
-    /// <param name="id"></param>
     /// <param name="phone"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task UpdatePhoneAsync(long id, string phone, CancellationToken cancellationToken = default);
+    Task UpdatePhoneAsync(string phone, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the email address of an existing user asynchronously.
     /// </summary>
-    /// <param name="id"></param>
     /// <param name="email"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task UpdateEmailAsync(long id, string email, CancellationToken cancellationToken = default);
+    Task UpdateEmailAsync(string email, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Changes the password of the current user asynchronously.
@@ -48,7 +46,7 @@ public interface IUserApplicationService : IApplicationService
     /// <param name="data"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task ChangePasswordAsync(UserPasswordChangeRequestDto data, CancellationToken cancellationToken = default);
+    Task ChangePasswordAsync(UserPasswordChangeDto data, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Resets the password of a user asynchronously.
@@ -56,16 +54,17 @@ public interface IUserApplicationService : IApplicationService
     /// <param name="data"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task ResetPasswordAsync(UserPasswordResetRequestDto data, CancellationToken cancellationToken = default);
+    Task ResetPasswordAsync(UserPasswordResetDto data, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Resets the password of a user by their ID asynchronously.
     /// </summary>
     /// <param name="id">The id of user whose password to be reset.</param>
+    /// <param name="password"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     [Authorize(Roles = "SA")]
-    Task ResetPasswordAsync(long id, CancellationToken cancellationToken = default);
+    Task ResetPasswordAsync(long id, string password, CancellationToken cancellationToken = default);
     
     /// <summary>
     /// Unlock a user account asynchronously.
