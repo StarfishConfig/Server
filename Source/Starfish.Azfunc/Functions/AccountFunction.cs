@@ -27,7 +27,7 @@ public class AccountFunction(ILoggerFactory logger, IUserApplicationService serv
     {
         return await ExecuteAsync(async () =>
         {
-            var datamodel = await request.ReadFromJsonAsync<UserCreateRequestDto>();
+            var datamodel = await request.ReadFromJsonAsync<UserCreateDto>();
             if (datamodel == null)
             {
                 throw new BadRequestException("Invalid request body.");
