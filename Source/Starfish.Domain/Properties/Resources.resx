@@ -123,8 +123,26 @@
   <data name="IDS_ERROR_EMAIL_ALREADY_TAKEN" xml:space="preserve">
     <value>The email address '{0}' is already taken.</value>
   </data>
+  <data name="IDS_ERROR_EXTERNAL_NAME_REQUIRED" xml:space="preserve">
+    <value>The external name cannot be null or whitespace.</value>
+  </data>
   <data name="IDS_ERROR_PHONE_ALREADY_TAKEN" xml:space="preserve">
     <value>The phone number '{0}' is already taken.</value>
+  </data>
+  <data name="IDS_ERROR_PROJECT_IMAGE_REQUIRED" xml:space="preserve">
+    <value>The project image cannot be null or empty.</value>
+  </data>
+  <data name="IDS_ERROR_PROJECT_NAME_REQUIRED" xml:space="preserve">
+    <value>The project name cannot be null or empty.</value>
+  </data>
+  <data name="IDS_ERROR_PROJECT_TEAMID_INVALID" xml:space="preserve">
+    <value>The associated team id of project is invalid.</value>
+  </data>
+  <data name="IDS_ERROR_ROLE_NAME_REQUIRED" xml:space="preserve">
+    <value>The role name cannot be null or empty.</value>
+  </data>
+  <data name="IDS_ERROR_TEAM_MEMBER_USERID_INVALID" xml:space="preserve">
+    <value>The user id of the team member is invalid.</value>
   </data>
   <data name="IDS_ERROR_USERNAME_NOT_AVAILABLE" xml:space="preserve">
     <value>The username '{0}' is not available.</value>

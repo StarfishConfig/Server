@@ -39,8 +39,19 @@ internal sealed class TeamMember : Entity<long>, IHasCreateTime
     /// </summary>
     public User User { get; set; }
 
+    /// <summary>
+    /// Creates a new <see cref="TeamMember"/> entity instance with specified user ID.
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     internal static TeamMember Create(long userId)
     {
+        if (userId <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(userId), Resources.IDS_ERROR_TEAM_MEMBER_USERID_INVALID);
+        }
+
         var entity = new TeamMember
         {
             UserId = userId

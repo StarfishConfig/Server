@@ -83,7 +83,7 @@ internal sealed class UserAuthority : Entity<long>, IHasCreateTime
     {
         if (string.IsNullOrWhiteSpace(name))
         {
-            throw new ArgumentException("Name cannot be null or whitespace.", nameof(name));
+            throw new ArgumentNullException(nameof(name), Resources.IDS_ERROR_EXTERNAL_NAME_REQUIRED);
         }
 
         Name = name.Trim();

@@ -48,6 +48,10 @@ internal class UserRole : Entity<long>, IHasCreateTime
     /// <returns></returns>
     internal static UserRole Create(string name)
     {
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            throw new ArgumentNullException(nameof(name), Resources.IDS_ERROR_ROLE_NAME_REQUIRED);
+        }
         name = name.Trim().ToLowerInvariant();
         return new UserRole(name);
     }

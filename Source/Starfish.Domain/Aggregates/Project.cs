@@ -63,6 +63,14 @@ internal sealed class Project : Aggregate<long>
     /// <returns></returns>
     internal static Project Create(long teamId, string name)
     {
+        if (teamId <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(teamId), Resources.IDS_ERROR_PROJECT_TEAMID_INVALID);
+        }
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            throw new ArgumentNullException(nameof(name), Resources.IDS_ERROR_PROJECT_NAME_REQUIRED);
+        }
         var project = new Project(teamId, name);
         project.RaiseEvent(new ProjectCreatedEvent(teamId, name));
         return project;
@@ -74,7 +82,10 @@ internal sealed class Project : Aggregate<long>
     /// <param name="name"></param>
     internal void SetName(string name)
     {
-        Check.EnsureNotNullOrWhiteSpace(name, nameof(name));
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            throw new ArgumentNullException(nameof(name), Resources.IDS_ERROR_PROJECT_NAME_REQUIRED);
+        }
 
         if (string.Equals(Name, name, StringComparison.InvariantCultureIgnoreCase))
         {
@@ -118,7 +129,10 @@ internal sealed class Project : Aggregate<long>
     /// <param name="image"></param>
     internal void SetImage(string image)
     {
-        Check.EnsureNotNullOrWhiteSpace(image, nameof(image));
+        if (string.IsNullOrWhiteSpace(image))
+        {
+            throw new ArgumentNullException(nameof(image), Resources.IDS_ERROR_PROJECT_IMAGE_REQUIRED);
+        }
 
         if (string.Equals(Image, image, StringComparison.InvariantCultureIgnoreCase))
         {
