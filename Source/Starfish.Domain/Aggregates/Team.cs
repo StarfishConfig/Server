@@ -5,7 +5,7 @@ namespace Nerosoft.Starfish.Domain;
 /// <summary>
 /// Defines a team within the system.
 /// </summary>
-internal sealed class Team : Aggregate<long>
+internal sealed class Team : Aggregate<long>, IHasCreateTime, IHasUpdateTime
 {
     /// <summary>
     /// Default constructor for ORM.
@@ -52,6 +52,16 @@ internal sealed class Team : Aggregate<long>
     /// Gets or sets the number of projects associated with the team.
     /// </summary>
     public int ProjectCount { get; set; }
+
+    /// <summary>
+    /// Gets or sets the date and time when the team was created.
+    /// </summary>
+    public DateTime CreateTime { get; set; }
+
+    /// <summary>
+    /// Gets or sets the date and time when the team was last updated.
+    /// </summary>
+    public DateTime UpdateTime { get; set; }
 
     /// <summary>
     /// Gets or sets the collection of team members.

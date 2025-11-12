@@ -4,6 +4,10 @@ using Nerosoft.Starfish.Shared;
 
 namespace Nerosoft.Starfish.Application;
 
+/// <summary>
+/// Handler for user authentication events.
+/// </summary>
+/// <param name="bus"></param>
 internal sealed class UserEventSubscriber(IBus bus)
     : IHandler<UserAuthSucceedEvent>,
       IHandler<UserAuthFailedEvent>
