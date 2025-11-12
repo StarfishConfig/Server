@@ -1,6 +1,8 @@
+using Nerosoft.Euonia.Domain;
+
 namespace Nerosoft.Starfish.Domain;
 
-public class TeamCreateCommand
+internal sealed class TeamCreateCommand : Command
 {
-    
+
 }

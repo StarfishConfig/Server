@@ -3,7 +3,7 @@ using Nerosoft.Euonia.Business;
 using Nerosoft.Euonia.Claims;
 using Nerosoft.Euonia.Modularity;
 
-namespace Nerosoft.Starfish.Domain;
+namespace Nerosoft.Starfish.Business;
 
 /// <summary>
 /// Command object base class with lazy service provider support.

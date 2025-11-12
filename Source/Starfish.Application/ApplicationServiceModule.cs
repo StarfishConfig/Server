@@ -11,6 +11,7 @@ using Nerosoft.Euonia.Caching.Memory;
 using Nerosoft.Euonia.Mapping;
 using Nerosoft.Euonia.Modularity;
 using Nerosoft.Euonia.Validation;
+using Nerosoft.Starfish.Business;
 using Nerosoft.Starfish.Domain;
 using Nerosoft.Starfish.Repository;
 using Nerosoft.Starfish.Shared;
@@ -22,7 +23,7 @@ namespace Nerosoft.Starfish.Application;
 /// </summary>
 [DependsOn(typeof(ApplicationModule))]
 [DependsOn(typeof(AutomapperModule), typeof(ValidationModule))]
-[DependsOn(typeof(RepositoryModule), typeof(DomainServiceModule))]
+[DependsOn(typeof(RepositoryModule), typeof(BusinessServiceModule))]
 internal class ApplicationServiceModule : ModuleContextBase
 {
     /// <inheritdoc />

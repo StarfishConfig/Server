@@ -1,6 +1,8 @@
+using Nerosoft.Euonia.Domain;
+
 namespace Nerosoft.Starfish.Domain;
 
-public class TeamMemberJoinCommand
+internal sealed class TeamMemberJoinCommand : Command
 {
-    
+
 }

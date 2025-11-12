@@ -1,5 +1,7 @@
+using Nerosoft.Euonia.Domain;
+
 namespace Nerosoft.Starfish.Domain;
 
-public class TeamMemberQuitCommand
+internal sealed class TeamMemberQuitCommand : Command
 {
 }

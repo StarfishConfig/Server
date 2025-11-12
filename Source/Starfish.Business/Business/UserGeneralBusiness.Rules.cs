@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Nerosoft.Euonia.Business;
+﻿using Nerosoft.Euonia.Business;
 
-namespace Nerosoft.Starfish.Domain;
+namespace Nerosoft.Starfish.Business;
 
 internal partial class UserGeneralBusiness
 {

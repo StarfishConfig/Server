@@ -1,7 +1,8 @@
 using Nerosoft.Euonia.Business;
 using Nerosoft.Euonia.Domain;
+using Nerosoft.Starfish.Domain;
 
-namespace Nerosoft.Starfish.Domain;
+namespace Nerosoft.Starfish.Business;
 
 /// <summary>
 /// Business object for general token operations.

@@ -4,7 +4,7 @@ using Nerosoft.Euonia.Claims;
 using Nerosoft.Euonia.Domain;
 using Nerosoft.Euonia.Modularity;
 
-namespace Nerosoft.Starfish.Domain;
+namespace Nerosoft.Starfish.Business;
 
 /// <summary>
 /// Editable object base class with lazy service provider support.

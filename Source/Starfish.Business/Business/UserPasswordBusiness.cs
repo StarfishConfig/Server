@@ -1,8 +1,9 @@
 ﻿using Nerosoft.Euonia.Business;
 using Nerosoft.Euonia.Domain;
+using Nerosoft.Starfish.Domain;
 using Nerosoft.Starfish.Shared;
 
-namespace Nerosoft.Starfish.Domain;
+namespace Nerosoft.Starfish.Business;
 
 /// <summary>
 /// The user password business object.

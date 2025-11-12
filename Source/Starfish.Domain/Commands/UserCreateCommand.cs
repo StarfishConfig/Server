@@ -1,4 +1,3 @@
-using Nerosoft.Euonia.Bus;
 using Nerosoft.Euonia.Domain;
 
 namespace Nerosoft.Starfish.Domain;

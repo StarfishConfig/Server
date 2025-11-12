@@ -1,6 +1,8 @@
+using Nerosoft.Euonia.Domain;
+
 namespace Nerosoft.Starfish.Domain;
 
-public class ProjectCreateCommand
+internal sealed class ProjectCreateCommand : Command
 {
-    
+
 }

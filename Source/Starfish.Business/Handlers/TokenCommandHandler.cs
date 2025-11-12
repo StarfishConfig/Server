@@ -1,8 +1,9 @@
 using Nerosoft.Euonia.Bus;
 using Nerosoft.Euonia.Business;
 using Nerosoft.Euonia.Repository;
+using Nerosoft.Starfish.Domain;
 
-namespace Nerosoft.Starfish.Domain;
+namespace Nerosoft.Starfish.Business;
 
 /// <summary>
 /// Command handler for token-related commands.

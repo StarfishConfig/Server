@@ -2,7 +2,7 @@ using Nerosoft.Euonia.Business;
 using Nerosoft.Euonia.Domain;
 using Nerosoft.Euonia.Repository;
 
-namespace Nerosoft.Starfish.Domain;
+namespace Nerosoft.Starfish.Business;
 
 /// <summary>
 /// Command handler base class.

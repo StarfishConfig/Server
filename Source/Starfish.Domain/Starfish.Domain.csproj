@@ -7,8 +7,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Euonia.Bus" />
-		<PackageReference Include="Euonia.Business" />
 		<PackageReference Include="Euonia.Domain" />
 		<PackageReference Include="Euonia.Repository " />
 		<PackageReference Include="IdentityModel" />
@@ -18,9 +16,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Starfish.Shared\Starfish.Shared.csproj" />
 		<ProjectReference Include="..\Starfish.Toolkit\Starfish.Toolkit.csproj" />
-		<ProjectReference Include="..\Starfish.Transit\Starfish.Transit.csproj" />
 	</ItemGroup>
-
     
     <ItemGroup>
         <Compile Update="Properties\Resources.Designer.cs">

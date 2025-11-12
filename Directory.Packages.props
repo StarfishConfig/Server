@@ -64,6 +64,7 @@
 		<PackageVersion Include="Euonia.Validation" Version="$(EuoniaPackageVersion)" />
 		<PackageVersion Include="Euonia.Repository" Version="$(EuoniaPackageVersion)" />
 		<PackageVersion Include="Euonia.Repository.EfCore" Version="$(EuoniaPackageVersion)" />
+		<PackageVersion Include="Euonia.Threading.Redis" Version="$(EuoniaPackageVersion)" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageVersion Include="Microsoft.Azure.AppConfiguration.AspNetCore" Version="8.4.0" />
