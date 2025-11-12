@@ -1,5 +1,7 @@
 ﻿using System.Reflection;
+using System.Threading;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Nerosoft.Euonia.Bus;
 using Nerosoft.Euonia.Domain;
@@ -66,6 +68,79 @@ internal abstract class DataContextWithBus<TContext> : DataContextBase<TContext>
         }
 
         return result;
+    }
+
+    protected override void SetEntryValues(IEnumerable<EntityEntry> entries)
+    {
+        if (!AutoSetEntryValues)
+        {
+            return;
+        }
+
+        foreach (EntityEntry entry in entries)
+        {
+            DateTime dateTime = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Unspecified);
+            switch (entry.State)
+            {
+                case EntityState.Added:
+                    if (entry.Entity is IHasCreateTime)
+                    {
+                        entry.CurrentValues["CreateTime"] = dateTime;
+                    }
+
+                    if (entry.Entity is IHasUpdateTime)
+                    {
+                        entry.CurrentValues["UpdateTime"] = dateTime;
+                    }
+
+                    if (entry.Entity is ITombstone)
+                    {
+                        entry.CurrentValues["IsDeleted"] = false;
+                    }
+
+                    if (entry.Entity is IAuditing auditing)
+                    {
+                        var userId = _request.Context.User?.Identity?.Name ?? "Anonymous";
+                        auditing.CreatedBy = userId;
+                        auditing.UpdatedBy = userId;
+                    }
+
+                    break;
+                case EntityState.Deleted:
+                    if (entry.Entity is ITombstone)
+                    {
+                        entry.State = EntityState.Modified;
+                        entry.CurrentValues["IsDeleted"] = true;
+                        entry.CurrentValues["DeleteTime"] = dateTime;
+                    }
+
+                    break;
+                case EntityState.Modified:
+                    SetModifiedEntry(entry, dateTime);
+                    break;
+            }
+        }
+    }
+
+    private void SetModifiedEntry(EntityEntry entry, DateTime time)
+    {
+        if (entry.State == EntityState.Modified)
+        {
+            switch (entry.Entity)
+            {
+                case ITombstone entity:
+                    entity.IsDeleted = true;
+                    entity.DeleteTime = time;
+                    break;
+                case IAuditing entity:
+                    entity.UpdatedBy = _request.Context.User?.Identity?.Name ?? "Anonymous";
+                    entity.UpdateTime = time;
+                    break;
+                case IHasUpdateTime entity:
+                    entity.UpdateTime = time;
+                    break;
+            }
+        }
     }
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
