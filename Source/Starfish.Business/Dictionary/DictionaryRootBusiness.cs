@@ -7,7 +7,7 @@ namespace Nerosoft.Starfish.Business;
 /// The general business of dictionary.
 /// </summary>
 /// <param name="repository"></param>
-internal class DictionaryRootBusiness(IDictionaryRepository repository)
+internal class DictionaryRootBusiness(IDictionaryRootRepository repository)
     : EditableObjectBase<DictionaryRootBusiness, DictionaryRoot>
 {
     private DictionaryRoot _aggregate;

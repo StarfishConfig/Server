@@ -124,6 +124,54 @@ internal abstract class BaseRepository<TContext, TEntity, TKey> : EfCoreReposito
     }
 
     /// <summary>
+    /// Finds entities based on the given handle.
+    /// </summary>
+    /// <param name="handle"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public virtual Task<List<TEntity>> FindAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> handle, CancellationToken cancellationToken = default)
+    {
+        var query = Context.Set<TEntity>().AsNoTracking();
+        if (handle != null)
+        {
+            _ = handle(query);
+        }
+        return query.ToListAsync(cancellationToken);
+    }
+
+    /// <summary>
+    /// Counts entities based on the given handle.
+    /// </summary>
+    /// <param name="handle"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public virtual Task<int> CountAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> handle, CancellationToken cancellationToken = default)
+    {
+        var query = Context.Set<TEntity>().AsNoTracking();
+        if (handle != null)
+        {
+            _ = handle(query);
+        }
+        return query.CountAsync(cancellationToken);
+    }
+
+    /// <summary>
+    /// Gets a single entity based on the given handle.
+    /// </summary>
+    /// <param name="handle"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public virtual Task<TEntity> GetAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> handle, CancellationToken cancellationToken = default)
+    {
+        var query = Context.Set<TEntity>().AsNoTracking();
+        if (handle != null)
+        {
+            _ = handle(query);
+        }
+        return query.FirstOrDefaultAsync(cancellationToken);
+    }
+
+    /// <summary>
     /// Looks up entities by their IDs and selects a key-value pair using the provided selector.
     /// </summary>
     /// <param name="ids">The values of the primary key for the entity to be found.</param>
