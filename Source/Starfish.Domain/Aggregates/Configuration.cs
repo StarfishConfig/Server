@@ -2,6 +2,6 @@ using Nerosoft.Euonia.Domain;
 
 namespace Nerosoft.Starfish.Domain;
 
-public class Configuration : Aggregate<long>
+public sealed class Configuration : Aggregate<long>
 {
 }

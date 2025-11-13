@@ -5,7 +5,7 @@ namespace Nerosoft.Starfish.Domain;
 /// <summary>
 /// User Role Aggregate
 /// </summary>
-internal class UserRole : Entity<long>, IHasCreateTime
+public class UserRole : Entity<long>, IHasCreateTime
 {
     /// <summary>
     /// Default constructor for ORM.

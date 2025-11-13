@@ -6,7 +6,7 @@ namespace Nerosoft.Starfish.Domain;
 /// Command to increase user failure count.
 /// </summary>
 /// <param name="username"></param>
-internal sealed class UserFailureIncreaseCommand(string username) : Command<string>(username)
+public sealed class UserFailureIncreaseCommand(string username) : Command<string>(username)
 {
     /// <summary>
     /// Gets the username.

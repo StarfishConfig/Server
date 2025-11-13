@@ -11,7 +11,7 @@ namespace Nerosoft.Starfish.Domain;
 /// <remarks>
 /// This command is used to change a user's password, either through a reset or an update.
 /// </remarks>
-internal class UserPasswordUpdateCommand(long userId, string password, string actionType)
+public class UserPasswordUpdateCommand(long userId, string password, string actionType)
     : Command<long>(userId)
 {
     /// <summary>

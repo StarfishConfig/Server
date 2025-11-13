@@ -1,6 +1,6 @@
 namespace Nerosoft.Starfish.Domain;
 
-public class ConfigurationArchive
+public sealed class ConfigurationArchive
 {
     
 }

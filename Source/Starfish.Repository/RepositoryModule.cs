@@ -10,7 +10,6 @@ namespace Nerosoft.Starfish.Repository;
 /// <summary>
 /// Defines the repository module for the Starfish application.
 /// </summary>
-[DependsOn(typeof(DomainServiceModule))]
 public class RepositoryModule : ModuleContextBase
 {
     private const string CONNECTION_STRING_PATTERN = @"^(?<dbtype>(?:\w|\-)+):\/\/(?<conn>.*)";

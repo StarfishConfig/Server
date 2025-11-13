@@ -2,7 +2,7 @@ using Nerosoft.Euonia.Domain;
 
 namespace Nerosoft.Starfish.Domain;
 
-internal sealed class ProjectDeleteCommand : Command
+public sealed class ProjectDeleteCommand : Command
 {
 
 }

@@ -12,7 +12,6 @@ using Nerosoft.Euonia.Mapping;
 using Nerosoft.Euonia.Modularity;
 using Nerosoft.Euonia.Validation;
 using Nerosoft.Starfish.Business;
-using Nerosoft.Starfish.Domain;
 using Nerosoft.Starfish.Repository;
 using Nerosoft.Starfish.Shared;
 
@@ -113,7 +112,7 @@ internal class ApplicationServiceModule : ModuleContextBase
             });
             config.RegisterHandlers(typeof(ApplicationServiceModule).Assembly);
             config.RegisterHandlers(typeof(RepositoryModule).Assembly);
-            config.RegisterHandlers(typeof(DomainServiceModule).Assembly);
+            config.RegisterHandlers(typeof(BusinessServiceModule).Assembly);
             var provider = Configuration.GetValue<string>("ServiceBus:Provider")?.ToLower();
             switch (provider)
             {

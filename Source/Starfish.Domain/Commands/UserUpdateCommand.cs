@@ -6,7 +6,8 @@ namespace Nerosoft.Starfish.Domain;
 /// Command for updating user information.
 /// </summary>
 /// <param name="id"></param>
-internal sealed class UserUpdateCommand(long id) : Command<long>(id)
+public sealed class UserUpdateCommand(long id)
+    : Command<long>(id)
 {
     /// <summary>
     /// Gets the unique identifier of the user to be updated.

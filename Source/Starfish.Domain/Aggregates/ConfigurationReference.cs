@@ -1,6 +1,6 @@
 namespace Nerosoft.Starfish.Domain;
 
-public class ConfigurationReference
+public sealed class ConfigurationReference
 {
     
 }

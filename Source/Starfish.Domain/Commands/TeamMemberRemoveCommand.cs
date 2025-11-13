@@ -7,7 +7,7 @@ namespace Nerosoft.Starfish.Domain;
 /// </summary>
 /// <param name="teamId"></param>
 /// <param name="userIds"></param>
-internal sealed class TeamMemberRemoveCommand(long teamId, List<long> userIds)
+public sealed class TeamMemberRemoveCommand(long teamId, List<long> userIds)
     : Command<long>(teamId)
 {
     /// <summary>

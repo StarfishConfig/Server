@@ -2,7 +2,7 @@ using Nerosoft.Euonia.Domain;
 
 namespace Nerosoft.Starfish.Domain;
 
-internal sealed class ProjectCreateCommand : Command
+public sealed class ProjectCreateCommand : Command
 {
 
 }

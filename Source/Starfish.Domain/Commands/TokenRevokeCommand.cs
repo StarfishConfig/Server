@@ -6,7 +6,7 @@ namespace Nerosoft.Starfish.Domain;
 /// Command to revoke a token.
 /// </summary>
 /// <param name="token"></param>
-internal sealed class TokenRevokeCommand(string token)
+public sealed class TokenRevokeCommand(string token)
     : Command<string>(token)
 {
     /// <summary>

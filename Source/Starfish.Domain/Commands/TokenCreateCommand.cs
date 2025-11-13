@@ -5,7 +5,7 @@ namespace Nerosoft.Starfish.Domain;
 /// <summary>
 /// Command to create a token.
 /// </summary>
-internal sealed class TokenCreateCommand : Command
+public sealed class TokenCreateCommand : Command
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="TokenCreateCommand"/> class.

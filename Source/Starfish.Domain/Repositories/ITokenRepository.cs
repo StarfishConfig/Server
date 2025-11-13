@@ -1,7 +1,10 @@
 ﻿
 namespace Nerosoft.Starfish.Domain;
 
-internal interface ITokenRepository : IBaseRepository<Token, long>
+/// <summary>
+/// Defines repository interface for <see cref="Token"/> aggregate.
+/// </summary>
+public interface ITokenRepository : IBaseRepository<Token, long>
 {
     /// <summary>
     /// Find token by key

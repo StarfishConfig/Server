@@ -6,7 +6,7 @@ namespace Nerosoft.Starfish.Domain;
 /// Command to transfer a team.
 /// </summary>
 /// <param name="id"></param>
-internal sealed class TeamTransferCommand(long id) : Command<long>(id)
+public sealed class TeamTransferCommand(long id) : Command<long>(id)
 {
     /// <summary>
     /// Gets the team identifier.

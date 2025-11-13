@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("Starfish.Application")]
-[assembly: InternalsVisibleTo("Starfish.Repository")]
 [assembly: InternalsVisibleTo("Starfish.Business")]
+[assembly: InternalsVisibleTo("Starfish.Repository")]

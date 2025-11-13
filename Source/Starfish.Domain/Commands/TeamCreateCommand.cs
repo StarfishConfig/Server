@@ -5,7 +5,7 @@ namespace Nerosoft.Starfish.Domain;
 /// <summary>
 /// Command to create a team.
 /// </summary>
-internal sealed class TeamCreateCommand : Command
+public sealed class TeamCreateCommand : Command
 {
     /// <inheritdoc cref="Team.Name"/>
     public string Name { get; set; }

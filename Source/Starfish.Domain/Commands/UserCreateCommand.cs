@@ -5,7 +5,7 @@ namespace Nerosoft.Starfish.Domain;
 /// <summary>
 /// The user create command.
 /// </summary>
-internal class UserCreateCommand : Command
+public class UserCreateCommand : Command
 {
     /// <inheritdoc cref="User.Username"/>
     public string Username { get; set; }

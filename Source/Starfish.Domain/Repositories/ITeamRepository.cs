@@ -1,5 +1,8 @@
 namespace Nerosoft.Starfish.Domain;
 
-internal interface ITeamRepository : IBaseRepository<Team, long>
+/// <summary>
+/// Defines repository interface for <see cref="Team"/> aggregate.
+/// </summary>
+public interface ITeamRepository : IBaseRepository<Team, long>
 {
 }

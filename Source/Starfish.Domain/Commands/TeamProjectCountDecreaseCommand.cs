@@ -6,7 +6,7 @@ namespace Nerosoft.Starfish.Domain;
 /// Command to decrease the project count for a team.
 /// </summary>
 /// <param name="id"></param>
-internal class TeamProjectCountDecreaseCommand(long id)
+public class TeamProjectCountDecreaseCommand(long id)
     : Command<long>(id)
 {
     /// <summary>

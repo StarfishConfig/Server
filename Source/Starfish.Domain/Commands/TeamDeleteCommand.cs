@@ -6,7 +6,8 @@ namespace Nerosoft.Starfish.Domain;
 /// Command to delete a team.
 /// </summary>
 /// <param name="id"></param>
-internal sealed class TeamDeleteCommand(long id) : Command<long>(id)
+public sealed class TeamDeleteCommand(long id)
+    : Command<long>(id)
 {
     /// <summary>
     /// Gets the team identifier.

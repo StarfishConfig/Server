@@ -5,7 +5,7 @@ namespace Nerosoft.Starfish.Domain;
 /// <summary>
 /// Represents a third-party user authority linked to a user.
 /// </summary>
-internal sealed class UserAuthority : Entity<long>, IHasCreateTime
+public sealed class UserAuthority : Entity<long>, IHasCreateTime
 {
     /// <summary>
     /// Default constructor for ORM.

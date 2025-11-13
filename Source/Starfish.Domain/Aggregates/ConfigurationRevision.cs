@@ -1,6 +1,6 @@
 namespace Nerosoft.Starfish.Domain;
 
-public class ConfigurationRevision
+public sealed class ConfigurationRevision
 {
-    
+
 }

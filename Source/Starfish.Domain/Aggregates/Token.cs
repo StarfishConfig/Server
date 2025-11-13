@@ -7,7 +7,7 @@ namespace Nerosoft.Starfish.Domain;
 /// <summary>
 /// Defines the token aggregate.
 /// </summary>
-internal sealed class Token : Aggregate<long>
+public sealed class Token : Aggregate<long>
 {
     /// <summary>
     /// Default constructor for ORM.

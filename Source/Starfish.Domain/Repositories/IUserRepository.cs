@@ -1,6 +1,9 @@
 namespace Nerosoft.Starfish.Domain;
 
-internal interface IUserRepository : IBaseRepository<User, long>
+/// <summary>
+/// Defines repository interface for <see cref="User"/> aggregate.
+/// </summary>
+public interface IUserRepository : IBaseRepository<User, long>
 {
     /// <summary>
     /// Finds a user by their username.
@@ -37,7 +40,7 @@ internal interface IUserRepository : IBaseRepository<User, long>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     Task<bool> CheckPhoneExistsAsync(string phone, long ignoreId, CancellationToken cancellationToken = default);
-    
+
     /// <summary>
     /// Finds a user by an external provider.
     /// </summary>
