@@ -11,6 +11,8 @@ internal class AccountMapperProfile : Profile
         CreateMap<UserCreateDto, UserCreateCommand>();
 
         CreateMap<User, UserProfileDto>();
+        CreateMap<User, UserDetailDto>();
+        CreateMap<User, UserListDto>();
 
         CreateMap<Team, TeamDetailDto>();
         CreateMap<Team, TeamListDto>();
