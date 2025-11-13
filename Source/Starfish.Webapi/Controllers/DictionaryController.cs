@@ -46,7 +46,7 @@ public partial class DictionaryController(IDictionaryApplicationService service)
     /// </summary>
     /// <param name="codes"></param>
     /// <returns></returns>
-    [HttpPost("lockup")]
+    [HttpPost("lookup")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<DictionaryLookupDto>))]
     [AllowAnonymous]
     public async Task<IActionResult> LookupAsync([FromBody] List<string> codes)
