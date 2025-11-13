@@ -20,6 +20,7 @@ public abstract class EditableObjectBase<TTarget> : EditableObject<TTarget>, IDo
     /// This property allows for lazy loading of services, enabling dependency injection and service resolution at runtime.
     /// Please note that this property should be set by the framework or infrastructure code that manages the lifecycle of business objects.
     /// </remarks>
+    [Inject]
     public ILazyServiceProvider LazyServiceProvider { get; set; }
 
     /// <summary>

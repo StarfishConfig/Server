@@ -7,7 +7,7 @@ namespace Nerosoft.Starfish.Business;
 /// <summary>
 /// Business object for general token operations.
 /// </summary>
-internal sealed class TokenGeneralBusiness : EditableObjectBase<TokenGeneralBusiness>, IDomainService
+internal sealed class TokenGeneralBusiness : EditableObjectBase<TokenGeneralBusiness>
 {
     private ITokenRepository _repository;
     private ITokenRepository Repository => _repository ??= LazyServiceProvider.GetRequiredService<ITokenRepository>();
