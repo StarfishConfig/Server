@@ -7,24 +7,31 @@ namespace Nerosoft.Starfish.Domain;
 /// </summary>
 public class TeamMemberLeaveEvent : DomainEvent
 {
+    private readonly List<long> _userIds = new List<long>();
+
     /// <summary>
     /// Initializes a new instance of the <see cref="TeamMemberLeaveEvent"/> class.
     /// </summary>
     /// <param name="teamId"></param>
-    /// <param name="userId"></param>
-    internal TeamMemberLeaveEvent(long teamId, long userId)
+    /// <param name="userIds"></param>
+    internal TeamMemberLeaveEvent(long teamId, params long[] userIds)
     {
         TeamId = teamId;
-        UserId = userId;
+        _userIds.AddRange(userIds);
     }
 
     /// <summary>
-    /// Gets or sets the identifier of the team from which the member has left.
+    /// Gets the identifier of the team from which the member has left.
     /// </summary>
-    public long TeamId { get; set; }
+    public long TeamId { get; init; }
 
     /// <summary>
-    /// Gets or sets the identifier of the user who has left the team.
+    /// Gets the identifier of the user who has left the team.
     /// </summary>
-    public long UserId { get; set; }
+    public IReadOnlyList<long> UserIds => _userIds;
+
+    /// <summary>
+    /// Gets the reason for the member leaving the team.
+    /// </summary>
+    public string Reason { get; init; }
 }

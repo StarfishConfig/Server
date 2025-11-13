@@ -7,24 +7,26 @@ namespace Nerosoft.Starfish.Domain;
 /// </summary>
 public class TeamMemberJoinedEvent : DomainEvent
 {
+    private readonly List<long> _userIds = new();
+
     /// <summary>
     /// Initializes a new instance of the <see cref="TeamMemberJoinedEvent"/> class.
     /// </summary>
     /// <param name="teamId"></param>
-    /// <param name="userId"></param>
-    internal TeamMemberJoinedEvent(long teamId, long userId)
+    /// <param name="userIds"></param>
+    internal TeamMemberJoinedEvent(long teamId, params long[] userIds)
     {
         TeamId = teamId;
-        UserId = userId;
+        _userIds.AddRange(userIds);
     }
 
     /// <summary>
     /// Gets or sets the identifier of the team that the member has joined.
     /// </summary>
-    public long TeamId { get; set; }
+    public long TeamId { get; init; }
 
     /// <summary>
-    /// Gets or sets the identifier of the user who has joined the team.
+    /// Gets the identifier of the user who has joined the team.
     /// </summary>
-    public long UserId { get; set; }
+    public IReadOnlyList<long> UserIds => _userIds;
 }

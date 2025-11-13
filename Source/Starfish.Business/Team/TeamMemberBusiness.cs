@@ -42,11 +42,24 @@ internal class TeamMemberBusiness : EditableObjectBase<TeamMemberBusiness, Team>
     [FactoryUpdate]
     protected override async Task UpdateAsync(CancellationToken cancellationToken = default)
     {
+        if (UserIds?.Any() != true)
+        {
+            return;
+        }
+
+        Aggregate.AppendMembers(UserIds);
+        await Repository.UpdateAsync(Aggregate, true, cancellationToken);
     }
 
     [FactoryDelete]
-    protected override Task DeleteAsync(CancellationToken cancellationToken = default)
+    protected override async Task DeleteAsync(CancellationToken cancellationToken = default)
     {
-        return base.DeleteAsync(cancellationToken);
+        if (UserIds?.Any() != true)
+        {
+            return;
+        }
+
+        Aggregate.RemoveMembers(UserIds, Reason);
+        await Repository.UpdateAsync(Aggregate, true, cancellationToken);
     }
 }

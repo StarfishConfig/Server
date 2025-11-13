@@ -88,7 +88,7 @@ internal sealed class Team : Aggregate<long>, IAuditing
             MemberCount = 0,
             Members = []
         };
-        aggregate.AddMember(ownerId);
+        aggregate.AppendMember(ownerId);
         aggregate.RaiseEvent(new TeamCreatedEvent { Name = name, OwnerId = ownerId });
         return aggregate;
     }
@@ -131,7 +131,7 @@ internal sealed class Team : Aggregate<long>, IAuditing
     /// Adds a member to the team.
     /// </summary>
     /// <param name="member"></param>
-    internal void AddMember(TeamMember member)
+    internal void AppendMember(TeamMember member)
     {
         Members.Add(member);
         MemberCount = Members.Count;
@@ -142,7 +142,7 @@ internal sealed class Team : Aggregate<long>, IAuditing
     /// Adds a member to the team by user ID.
     /// </summary>
     /// <param name="userId"></param>
-    internal void AddMember(long userId)
+    internal void AppendMember(long userId)
     {
         Members ??= new HashSet<TeamMember>();
         if (Members.Any(t => t.UserId == userId))
@@ -150,7 +150,7 @@ internal sealed class Team : Aggregate<long>, IAuditing
             return;
         }
 
-        AddMember(TeamMember.Create(userId));
+        AppendMember(TeamMember.Create(userId));
     }
 
     /// <summary>
@@ -178,6 +178,42 @@ internal sealed class Team : Aggregate<long>, IAuditing
         }
 
         RemoveMember(member);
+    }
+
+    internal void AppendMembers(IEnumerable<long> userIds)
+    {
+        Members ??= [];
+
+        userIds = userIds.Distinct().Where(id => !Members.Any(t => t.UserId == id)).ToList();
+        if (userIds.Any())
+        {
+            return;
+        }
+
+        foreach (var userId in userIds)
+        {
+            Members.Add(TeamMember.Create(userId));
+        }
+
+        MemberCount = Members.Count;
+        RaiseEvent(new TeamMemberJoinedEvent(Id, userIds.ToArray()));
+    }
+
+    internal void RemoveMembers(IEnumerable<long> userIds, string reason)
+    {
+        Members ??= [];
+        var removingIds = userIds.Where(id => Members.Any(t => t.UserId == id)).ToList();
+        if (!removingIds.Any())
+        {
+            return;
+        }
+        foreach (var userId in removingIds)
+        {
+            var member = Members.First(t => t.UserId == userId);
+            Members.Remove(member);
+        }
+        MemberCount = Members.Count;
+        RaiseEvent(new TeamMemberLeaveEvent(Id, [.. removingIds]) { Reason = reason });
     }
 
     /// <summary>
