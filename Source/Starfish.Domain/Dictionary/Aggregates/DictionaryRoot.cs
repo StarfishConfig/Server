@@ -68,7 +68,7 @@ public sealed class DictionaryRoot : Aggregate<long>, IAuditing
     /// <summary>
     /// Gets or sets the collection of dictionary values associated with this dictionary root.
     /// </summary>
-    public HashSet<DictionaryValue> Values { get; set; }
+    public HashSet<DictionaryItem> Values { get; set; }
 
     /// <summary>
     /// Creates a new <see cref="DictionaryRoot"/> instance with the specified code and name.
@@ -133,7 +133,7 @@ public sealed class DictionaryRoot : Aggregate<long>, IAuditing
             }
             else
             {
-                Values.Add(DictionaryValue.Create(key, value));
+                Values.Add(DictionaryItem.Create(key, value));
             }
         }
 
@@ -156,7 +156,7 @@ public sealed class DictionaryRoot : Aggregate<long>, IAuditing
         }
         else
         {
-            Values.Add(DictionaryValue.Create(key, value));
+            Values.Add(DictionaryItem.Create(key, value));
         }
     }
 

@@ -5,12 +5,12 @@ namespace Nerosoft.Starfish.Domain;
 /// <summary>
 /// Represents a value in a dictionary.
 /// </summary>
-public class DictionaryValue : Entity<long>
+public class DictionaryItem : Entity<long>
 {
-    private DictionaryValue()
+    private DictionaryItem()
     { }
 
-    private DictionaryValue(string key, string value)
+    private DictionaryItem(string key, string value)
         : this()
     {
         Key = key;
@@ -35,22 +35,22 @@ public class DictionaryValue : Entity<long>
     public string Remark { get; set; }
 
     /// <summary>
-    /// Creates a new instance of <see cref="DictionaryValue"/> from a key and value.
+    /// Creates a new instance of <see cref="DictionaryItem"/> from a key and value.
     /// </summary>
     /// <param name="key"></param>
     /// <param name="value"></param>
     /// <returns></returns>
-    internal static DictionaryValue Create(string key, string value)
+    internal static DictionaryItem Create(string key, string value)
     {
-        return new DictionaryValue(key, value);
+        return new DictionaryItem(key, value);
     }
 
     /// <summary>
-    /// Creates a new instance of <see cref="DictionaryValue"/> from a key-value pair.
+    /// Creates a new instance of <see cref="DictionaryItem"/> from a key-value pair.
     /// </summary>
     /// <param name="kvp"></param>
     /// <returns></returns>
-    internal static DictionaryValue Create(KeyValuePair<string, string> kvp)
+    internal static DictionaryItem Create(KeyValuePair<string, string> kvp)
     {
         return Create(kvp.Key, kvp.Value);
     }
