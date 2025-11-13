@@ -100,13 +100,19 @@ internal sealed class TeamApplicationService : BaseApplicationService, ITeamAppl
 
     public Task RemoveMemberAsync(long teamId, List<long> userIds, CancellationToken cancellationToken = default)
     {
-        var command = new TeamMemberRemoveCommand(teamId, userIds);
+        var command = new TeamMemberRemoveCommand(teamId, userIds)
+        {
+            Reason = "remove"
+        };
         return Bus.SendAsync(command, cancellationToken);
     }
 
     public Task QuitAsync(long teamId, CancellationToken cancellationToken = default)
     {
-        var command = new TeamMemberRemoveCommand(teamId, [User.GetUserIdOfInt64()]);
+        var command = new TeamMemberRemoveCommand(teamId, [User.GetUserIdOfInt64()])
+        {
+            Reason = "quit"
+        };
         return Bus.SendAsync(command, cancellationToken);
     }
 }
