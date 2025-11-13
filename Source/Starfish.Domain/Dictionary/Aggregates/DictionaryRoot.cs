@@ -1,4 +1,5 @@
-﻿using Nerosoft.Euonia.Domain;
+﻿using System.Data;
+using Nerosoft.Euonia.Domain;
 
 namespace Nerosoft.Starfish.Domain;
 
@@ -120,7 +121,7 @@ public sealed class DictionaryRoot : Aggregate<long>, IAuditing
     /// Sets the dictionary values.
     /// </summary>
     /// <param name="values"></param>
-    internal void SetValues(Dictionary<string, string> values)
+    internal void SetItem(Dictionary<string, string> values)
     {
         Items ??= [];
 
@@ -129,7 +130,8 @@ public sealed class DictionaryRoot : Aggregate<long>, IAuditing
             var item = Items.FirstOrDefault(x => string.Equals(x.Key, key, StringComparison.CurrentCultureIgnoreCase));
             if (item != null)
             {
-                item.Value = value;
+                item.SetKey(key);
+                item.SetValue(value);
             }
             else
             {
@@ -146,43 +148,69 @@ public sealed class DictionaryRoot : Aggregate<long>, IAuditing
     /// </summary>
     /// <param name="key"></param>
     /// <param name="value"></param>
-    internal void SetValue(string key, string value)
+    /// <param name="remark"></param>
+    internal void SetItem(string key, string value, string remark)
     {
         Items ??= [];
         var item = Items.FirstOrDefault(x => string.Equals(x.Key, key, StringComparison.CurrentCultureIgnoreCase));
-        if (item != null)
+
+        if (item == null)
         {
-            item.Value = value;
+            throw new NotFoundException();
         }
-        else
+
+        item.SetKey(key);
+        item.SetValue(value);
+        item.SetRemark(remark);
+    }
+
+    /// <summary>
+    /// Adds a single dictionary value.
+    /// </summary>
+    /// <param name="key"></param>
+    /// <param name="value"></param>
+    /// <param name="remark"></param>
+    /// <exception cref="DuplicateNameException"></exception>
+    internal void AddItem(string key, string value, string remark)
+    {
+        Items ??= [];
+        var exists = Items.Any(x => string.Equals(x.Key, key, StringComparison.CurrentCultureIgnoreCase));
+        if (exists)
         {
-            Items.Add(DictionaryItem.Create(key, value));
+            throw new DuplicateNameException($"An item with the key '{key}' already exists.");
         }
+        var item = DictionaryItem.Create(key, value);
+        item.SetRemark(remark);
+        Items.Add(item);
     }
 
     /// <summary>
     /// Sets a single dictionary value from a key-value pair.
     /// </summary>
     /// <param name="kvp"></param>
-    internal void SetValue(KeyValuePair<string, string> kvp)
+    internal void SetItem(KeyValuePair<string, string> kvp)
     {
-        SetValue(kvp.Key, kvp.Value);
+        SetItem(kvp.Key, kvp.Value, null);
     }
 
     /// <summary>
     /// Removes a dictionary value by key.
     /// </summary>
     /// <param name="key"></param>
-    internal void RemoveValue(string key)
+    internal void RemoveItem(string key)
     {
         if (Items == null || Items.Count == 0)
         {
             return;
         }
+
         var item = Items.FirstOrDefault(x => string.Equals(x.Key, key, StringComparison.CurrentCultureIgnoreCase));
-        if (item != null)
+
+        if (item == null)
         {
-            Items.Remove(item);
+            throw new NotFoundException();
         }
+
+        Items.Remove(item);
     }
 }

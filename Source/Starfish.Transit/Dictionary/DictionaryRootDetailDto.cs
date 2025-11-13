@@ -1,6 +1,9 @@
 ﻿namespace Nerosoft.Starfish.Transit;
 
-internal class DictionaryRootDetailDto : DictionaryRootBaseDto
+/// <summary>
+/// Data Transfer Object for detailed information about a dictionary root.
+/// </summary>
+public class DictionaryRootDetailDto : DictionaryRootBaseDto
 {
     /// <summary>
     /// Gets or sets the unique identifier of the dictionary root.

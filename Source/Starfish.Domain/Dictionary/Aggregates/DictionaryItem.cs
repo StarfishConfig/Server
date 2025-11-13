@@ -17,22 +17,25 @@ public class DictionaryItem : Entity<long>
         Value = value;
     }
 
-    public long RootId { get; set; }
+    /// <summary>
+    /// Gets the ID of the dictionary root this item belongs to.
+    /// </summary>
+    public long RootId { get; private set; }
 
     /// <summary>
     /// Gets or sets the key.
     /// </summary>
-    public string Key { get; set; }
+    public string Key { get; private set; }
 
     /// <summary>
     /// Gets or sets the value.
     /// </summary>
-    public string Value { get; set; }
+    public string Value { get; private set; }
 
     /// <summary>
     /// Gets or sets the remark.
     /// </summary>
-    public string Remark { get; set; }
+    public string Remark { get; private set; }
 
     /// <summary>
     /// Gets or sets the dictionary root this item belongs to.
@@ -58,5 +61,32 @@ public class DictionaryItem : Entity<long>
     internal static DictionaryItem Create(KeyValuePair<string, string> kvp)
     {
         return Create(kvp.Key, kvp.Value);
+    }
+
+    internal void SetKey(string key)
+    {
+        if (string.Equals(Key, key))
+        {
+            return;
+        }
+        Key = key;
+    }
+
+    internal void SetValue(string value)
+    {
+        if (string.Equals(Value, value))
+        {
+            return;
+        }
+        Value = value;
+    }
+
+    /// <summary>
+    /// Sets the remark of the dictionary item.
+    /// </summary>
+    /// <param name="remark"></param>
+    internal void SetRemark(string remark)
+    {
+        Remark = remark;
     }
 }
