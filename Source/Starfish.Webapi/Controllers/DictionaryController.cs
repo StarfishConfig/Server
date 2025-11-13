@@ -9,7 +9,7 @@ namespace Nerosoft.Starfish.Webapi.Controllers;
 /// </summary>
 /// <param name="service"></param>
 [Route("api/[controller]")]
-[ApiController]
+[ApiController, ApiExplorerSettings(GroupName = ApiGroupConstants.Support)]
 [Authorize]
 public partial class DictionaryController(IDictionaryApplicationService service) : ControllerBase
 {
@@ -45,13 +45,14 @@ public partial class DictionaryController(IDictionaryApplicationService service)
     /// Looks up dictionary entries for the provided codes.
     /// </summary>
     /// <param name="codes"></param>
+    /// <param name="isValid"></param>
     /// <returns></returns>
     [HttpPost("lookup")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<DictionaryLookupDto>))]
     [AllowAnonymous]
-    public async Task<IActionResult> LookupAsync([FromBody] List<string> codes)
+    public async Task<IActionResult> LookupAsync([FromBody] List<string> codes, bool? isValid = null)
     {
-        var result = await service.LookupAsync(codes, HttpContext.RequestAborted);
+        var result = await service.LookupAsync(codes, isValid, HttpContext.RequestAborted);
         return Ok(result);
     }
 

@@ -11,6 +11,7 @@
         <PackageTags>.net, asp.net, core, configuration, config, appsettings, configuration-management, configuration-service, configuration-server, configuration-center</PackageTags>
         <Configurations>Debug;Release;Product</Configurations>
         <DeployDependsOn> $(DeployDependsOn); PrepareForBuild; Build </DeployDependsOn>
+        <NoWarn>CS2002</NoWarn>
     </PropertyGroup>
     
     <ItemGroup>

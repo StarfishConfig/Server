@@ -1,9 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<Import Project="..\common.props" />
-
-	<PropertyGroup>
-        <NoWarn>CS2002</NoWarn>
-	</PropertyGroup>
     
 	<ItemGroup>
 		<PackageReference Include="DotLiquid" />

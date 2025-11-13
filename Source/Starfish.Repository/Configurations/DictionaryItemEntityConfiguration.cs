@@ -19,13 +19,17 @@ internal class DictionaryItemEntityConfiguration : IEntityTypeConfiguration<Dict
         builder.HasKey(t => t.Id);
 
         builder.HasIndex(t => t.RootId)
-               .HasDatabaseName($"{TABLE}_idx_rootid");
+               .HasDatabaseName($"{TABLE}_idx_root_id");
 
         builder.HasIndex(t => new { t.RootId, t.Key })
                .IsUnique()
                .HasDatabaseName($"{TABLE}_idx_unique");
 
         builder.SnowflakeId();
+
+        builder.Property(t => t.RootId)
+               .HasColumnName("root_id")
+               .IsRequired();
 
         builder.Property(t => t.Key)
                .HasColumnName("key")

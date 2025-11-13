@@ -6,14 +6,14 @@
 public class DictionaryLookupDto
 {
     /// <summary>
-    /// Get or set the key
+    /// Get or set the code
     /// </summary>
-    public string Key { get; set; }
+    public string Code { get; set; }
 
     /// <summary>
-    /// Get or set the value
+    /// Get or set the name
     /// </summary>
-    public string Value { get; set; }
+    public string Name { get; set; }
 
     /// <summary>
     /// Get or set the children nodes

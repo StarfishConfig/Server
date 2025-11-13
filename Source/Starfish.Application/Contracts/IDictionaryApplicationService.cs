@@ -60,9 +60,10 @@ public interface IDictionaryApplicationService : IApplicationService
     /// Looks up dictionary entries by their codes.
     /// </summary>
     /// <param name="codes"></param>
+    /// <param name="isValid"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task<List<DictionaryLookupDto>> LookupAsync(IEnumerable<string> codes, CancellationToken cancellationToken = default);
+    Task<List<DictionaryLookupDto>> LookupAsync(IEnumerable<string> codes, bool? isValid, CancellationToken cancellationToken = default);
 
     Task<List<DictionaryItemListDto>> ListItemAsync(long id, DictionaryItemCriteriaDto criteria, int skip, int take, CancellationToken cancellationToken = default);
 

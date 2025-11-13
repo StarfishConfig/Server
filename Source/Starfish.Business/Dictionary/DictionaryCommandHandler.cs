@@ -7,12 +7,12 @@ namespace Nerosoft.Starfish.Business;
 
 internal class DictionaryCommandHandler(IUnitOfWorkManager unitOfWork, IObjectFactory factory)
     : CommandHandlerBase(unitOfWork, factory),
-    IHandler<DictionaryRootCreateCommand>,
-    IHandler<DictionaryRootUpdateCommand>,
-    IHandler<DictionaryRootDeleteCommand>,
-    IHandler<DictionaryItemCreateCommand>,
-    IHandler<DictionaryItemUpdateCommand>,
-    IHandler<DictionaryItemDeleteCommand>
+      IHandler<DictionaryRootCreateCommand>,
+      IHandler<DictionaryRootUpdateCommand>,
+      IHandler<DictionaryRootDeleteCommand>,
+      IHandler<DictionaryItemCreateCommand>,
+      IHandler<DictionaryItemUpdateCommand>,
+      IHandler<DictionaryItemDeleteCommand>
 {
     public Task HandleAsync(DictionaryRootCreateCommand message, MessageContext context, CancellationToken cancellationToken = default)
     {

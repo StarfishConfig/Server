@@ -97,6 +97,7 @@ public sealed class DictionaryRoot : Aggregate<long>, IAuditing
         {
             return;
         }
+
         RaiseEvent(new DictionaryCodeChangedEvent(Id, Code, code));
     }
 
@@ -110,6 +111,7 @@ public sealed class DictionaryRoot : Aggregate<long>, IAuditing
         {
             return;
         }
+
         RaiseEvent(new DictionaryNameChangedEvent(Id, Name, name));
     }
 
@@ -176,7 +178,7 @@ public sealed class DictionaryRoot : Aggregate<long>, IAuditing
     /// <param name="value"></param>
     /// <param name="remark"></param>
     /// <exception cref="DuplicateNameException"></exception>
-    internal void AddItem(string key, string value, string remark)
+    internal void AddItem(string key, string value, string remark = null)
     {
         Items ??= [];
         var exists = Items.Any(x => string.Equals(x.Key, key, StringComparison.CurrentCultureIgnoreCase));
@@ -184,6 +186,7 @@ public sealed class DictionaryRoot : Aggregate<long>, IAuditing
         {
             throw new DuplicateNameException($"An item with the key '{key}' already exists.");
         }
+
         var item = DictionaryItem.Create(key, value);
         item.SetRemark(remark);
         Items.Add(item);

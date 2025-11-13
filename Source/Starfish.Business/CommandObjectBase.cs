@@ -20,6 +20,7 @@ public abstract class CommandObjectBase<T> : CommandObject<T>, IDomainService, I
     /// This property allows for lazy loading of services, enabling dependency injection and service resolution at runtime.
     /// Please note that this property should be set by the framework or infrastructure code that manages the lifecycle of command objects.
     /// </remarks>
+    [Inject]
     public ILazyServiceProvider LazyServiceProvider { get; set; }
 
     /// <summary>

@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Threading;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -20,6 +19,11 @@ internal abstract class DataContextWithBus<TContext> : DataContextBase<TContext>
     private readonly IBus _bus;
     private readonly IRequestContextAccessor _request;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DataContextWithBus{TContext}"/> class.
+    /// </summary>
+    /// <param name="options"></param>
+    /// <param name="provider"></param>
     protected DataContextWithBus(DbContextOptions<TContext> options, ILazyServiceProvider provider)
         : base(options)
     {
@@ -77,6 +81,8 @@ internal abstract class DataContextWithBus<TContext> : DataContextBase<TContext>
             return;
         }
 
+        var user = GetCurrentUser();
+
         foreach (EntityEntry entry in entries)
         {
             DateTime dateTime = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Unspecified);
@@ -85,62 +91,64 @@ internal abstract class DataContextWithBus<TContext> : DataContextBase<TContext>
                 case EntityState.Added:
                     if (entry.Entity is IHasCreateTime)
                     {
-                        entry.CurrentValues["CreateTime"] = dateTime;
+                        entry.CurrentValues[nameof(IHasCreateTime.CreateTime)] = dateTime;
                     }
 
                     if (entry.Entity is IHasUpdateTime)
                     {
-                        entry.CurrentValues["UpdateTime"] = dateTime;
+                        entry.CurrentValues[nameof(IHasUpdateTime.UpdateTime)] = dateTime;
                     }
 
                     if (entry.Entity is ITombstone)
                     {
-                        entry.CurrentValues["IsDeleted"] = false;
+                        entry.CurrentValues[nameof(ITombstone.IsDeleted)] = false;
                     }
 
                     if (entry.Entity is IAuditing auditing)
                     {
-                        var userId = _request.Context.User?.Identity?.Name ?? "Anonymous";
-                        auditing.CreatedBy = userId;
-                        auditing.UpdatedBy = userId;
+                        auditing.CreatedBy = user;
+                        auditing.UpdatedBy = user;
                     }
 
                     break;
                 case EntityState.Deleted:
-                    if (entry.Entity is ITombstone)
+                    if (entry.Entity is ITombstone tombstone)
                     {
                         entry.State = EntityState.Modified;
-                        entry.CurrentValues["IsDeleted"] = true;
-                        entry.CurrentValues["DeleteTime"] = dateTime;
+                        tombstone.IsDeleted = true;
+                        tombstone.DeleteTime = dateTime;
                     }
 
                     break;
                 case EntityState.Modified:
-                    SetModifiedEntry(entry, dateTime);
+                    SetModifiedEntry(entry, dateTime, user);
                     break;
             }
         }
     }
 
-    private void SetModifiedEntry(EntityEntry entry, DateTime time)
+    private void SetModifiedEntry(EntityEntry entry, DateTime time, string user)
     {
-        if (entry.State == EntityState.Modified)
+        if (entry.State != EntityState.Modified)
         {
-            switch (entry.Entity)
-            {
-                case ITombstone entity:
-                    entity.IsDeleted = true;
-                    entity.DeleteTime = time;
-                    break;
-                case IAuditing entity:
-                    entity.UpdatedBy = _request.Context.User?.Identity?.Name ?? "Anonymous";
-                    entity.UpdateTime = time;
-                    break;
-                case IHasUpdateTime entity:
-                    entity.UpdateTime = time;
-                    break;
-            }
+            return;
         }
+
+        switch (entry.Entity)
+        {
+            case IAuditing entity:
+                entity.UpdatedBy = user;
+                entity.UpdateTime = time;
+                break;
+            case IHasUpdateTime entity:
+                entity.UpdateTime = time;
+                break;
+        }
+    }
+
+    private string GetCurrentUser()
+    {
+        return _request?.Context?.User?.Identity?.Name ?? "Anonymous";
     }
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)

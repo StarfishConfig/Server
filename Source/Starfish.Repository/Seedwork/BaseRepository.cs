@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Nerosoft.Euonia.Domain;
@@ -300,6 +301,9 @@ internal abstract class BaseRepository<TContext, TEntity, TKey> : EfCoreReposito
             query = properties.Aggregate(query, (current, property) => current.Include(property));
         }
 
+        var sql = query.ToQueryString();
+        Debug.WriteLine(sql);
+        
         return query;
     }
 }

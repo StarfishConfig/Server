@@ -48,7 +48,7 @@ internal sealed class DictionaryRootEntityConfiguration : IEntityTypeConfigurati
 
         builder.HasMany(t => t.Items)
                .WithOne(t => t.Root)
-               .HasForeignKey(t => t.Root)
+               .HasForeignKey(t => t.RootId)
                .OnDelete(DeleteBehavior.Cascade);
     }
 }

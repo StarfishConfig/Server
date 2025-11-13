@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Nerosoft.Euonia.Modularity;
 using Nerosoft.Euonia.Repository;
-using Nerosoft.Starfish.Shared;
 
 namespace Nerosoft.Starfish.Repository;
 
@@ -16,7 +15,6 @@ public class RepositoryModule : ModuleContextBase
 
     /// <summary>
     /// Defines a mapping of database type aliases to their corresponding DatabaseType enum values.
-    /// </summary>
     /// </summary>
     private static readonly Dictionary<string, DatabaseType> _databaseTypeAlias = new()
     {
@@ -51,17 +49,20 @@ public class RepositoryModule : ModuleContextBase
         context.Services.AddContextProvider()
                .AddUnitOfWork();
 
+        context.Services.AddHostedService<DataSeeder>();
+
         context.Services.AddDbContextFactory<ProjectDataContext>((provider, options) => ConfigureDataContext("ProjectConnection", provider, options))
                .AddDbContextFactory<SupportDataContext>((provider, options) => ConfigureDataContext("SupportConnection", provider, options))
                .AddDbContextFactory<LoggingDataContext>((provider, options) => ConfigureDataContext("LoggingConnection", provider, options))
-               .AddDbContextFactory<AccountDataContext>((provider, options) => ConfigureDataContext("AccountConnection", provider, options, SeedAccountDataAsync));
+               .AddDbContextFactory<AccountDataContext>((provider, options) => ConfigureDataContext("AccountConnection", provider, options));
 
         context.Services.AddScoped<IUserRepository, UserRepository>()
                .AddScoped<ITokenRepository, TokenRepository>()
                .AddScoped<IProjectRepository, ProjectRepository>()
-               .AddScoped<ITeamRepository, TeamRepository>();
+               .AddScoped<ITeamRepository, TeamRepository>()
+               .AddScoped<IDictionaryRepository, DictionaryRepository>();
     }
-
+    
     /// <summary>
     /// Configures the data context based on the provided connection string name.
     /// </summary>
@@ -71,9 +72,11 @@ public class RepositoryModule : ModuleContextBase
     /// <param name="seeding"></param>
     /// <exception cref="ArgumentException"></exception>
     /// <exception cref="NotSupportedException"></exception>
-    private void ConfigureDataContext(string name, IServiceProvider provider, DbContextOptionsBuilder options, Func<DbContext, Task> seeding = null)
+    private void ConfigureDataContext(string name, IServiceProvider provider, DbContextOptionsBuilder options, Func<DbContext, bool, CancellationToken, Task> seeding = null)
     {
         var connectionString = Configuration.GetConnectionString(name);
+
+        ArgumentException.ThrowIfNullOrWhiteSpace(connectionString);
 
         var match = Regex.Match(connectionString, CONNECTION_STRING_PATTERN);
         if (!match.Success)
@@ -132,33 +135,7 @@ public class RepositoryModule : ModuleContextBase
 
         if (seeding != null)
         {
-            options.UseAsyncSeeding(async (context, _, cancellationToken) =>
-            {
-                await seeding(context);
-            });
+            options.UseAsyncSeeding(seeding);
         }
-    }
-
-    /// <summary>
-    /// Seeds initial account data into the database.
-    /// </summary>
-    /// <param name="context"></param>
-    private async Task SeedAccountDataAsync(DbContext context)
-    {
-        var username = "admin";
-        var password = "nerosoft.8888";
-
-        var exists = await context.Set<User>().AnyAsync(u => u.Username == username);
-        if (exists)
-        {
-            return;
-        }
-
-        var user = User.Create(username, UserCreationSource.InitialImport);
-        user.SetPassword(password);
-        user.SetRoles("SA");
-
-        await context.Set<User>().AddAsync(user);
-        await context.SaveChangesAsync(true);
     }
 }

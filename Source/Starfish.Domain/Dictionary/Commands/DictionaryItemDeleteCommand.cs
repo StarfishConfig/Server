@@ -5,7 +5,7 @@ namespace Nerosoft.Starfish.Domain;
 /// <summary>
 /// Command to delete items from a dictionary.
 /// </summary>
-internal class DictionaryItemDeleteCommand : Command<long>
+public class DictionaryItemDeleteCommand : Command<long>
 {
     private readonly List<string> _keys = [];
 

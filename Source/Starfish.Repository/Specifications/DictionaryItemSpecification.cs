@@ -34,4 +34,16 @@ public static class DictionaryItemSpecification
 
         return new CompositeSpecification<DictionaryItem>(PredicateOperator.OrElse, specifications);
     }
+
+    public static Specification<DictionaryItem> ApplyCriteria(long id, DictionaryItemCriteriaDto criteria)
+    {
+        var specification = RootIdEquals(id);
+
+        if (!string.IsNullOrWhiteSpace(criteria.Keyword))
+        {
+            specification &= Matches(criteria.Keyword);
+        }
+
+        return specification;
+    }
 }

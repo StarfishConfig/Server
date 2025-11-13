@@ -4,7 +4,7 @@ using Nerosoft.Starfish.Domain;
 namespace Nerosoft.Starfish.Business;
 
 [SuppressMessage("Style", "IDE0051")]
-public sealed class DictionaryItemBusiness(IDictionaryRootRepository repository)
+public sealed class DictionaryItemBusiness(IDictionaryRepository repository)
     : EditableObjectBase<DictionaryItemBusiness, DictionaryRoot>
 {
     private DictionaryRoot _aggregate;
