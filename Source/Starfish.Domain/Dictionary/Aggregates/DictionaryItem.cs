@@ -35,6 +35,11 @@ public class DictionaryItem : Entity<long>
     public string Remark { get; set; }
 
     /// <summary>
+    /// Gets or sets the dictionary root this item belongs to.
+    /// </summary>
+    public DictionaryRoot Root { get; set; }
+
+    /// <summary>
     /// Creates a new instance of <see cref="DictionaryItem"/> from a key and value.
     /// </summary>
     /// <param name="key"></param>

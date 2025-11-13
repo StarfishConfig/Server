@@ -68,7 +68,7 @@ public sealed class DictionaryRoot : Aggregate<long>, IAuditing
     /// <summary>
     /// Gets or sets the collection of dictionary values associated with this dictionary root.
     /// </summary>
-    public HashSet<DictionaryItem> Values { get; set; }
+    public HashSet<DictionaryItem> Items { get; set; }
 
     /// <summary>
     /// Creates a new <see cref="DictionaryRoot"/> instance with the specified code and name.
@@ -122,23 +122,23 @@ public sealed class DictionaryRoot : Aggregate<long>, IAuditing
     /// <param name="values"></param>
     internal void SetValues(Dictionary<string, string> values)
     {
-        Values ??= [];
+        Items ??= [];
 
         foreach (var (key, value) in values)
         {
-            var item = Values.FirstOrDefault(x => string.Equals(x.Key, key, StringComparison.CurrentCultureIgnoreCase));
+            var item = Items.FirstOrDefault(x => string.Equals(x.Key, key, StringComparison.CurrentCultureIgnoreCase));
             if (item != null)
             {
                 item.Value = value;
             }
             else
             {
-                Values.Add(DictionaryItem.Create(key, value));
+                Items.Add(DictionaryItem.Create(key, value));
             }
         }
 
         // Remove values that are not in the new set
-        Values.RemoveWhere(x => !values.ContainsKey(x.Key));
+        Items.RemoveWhere(x => !values.ContainsKey(x.Key));
     }
 
     /// <summary>
@@ -148,15 +148,15 @@ public sealed class DictionaryRoot : Aggregate<long>, IAuditing
     /// <param name="value"></param>
     internal void SetValue(string key, string value)
     {
-        Values ??= [];
-        var item = Values.FirstOrDefault(x => string.Equals(x.Key, key, StringComparison.CurrentCultureIgnoreCase));
+        Items ??= [];
+        var item = Items.FirstOrDefault(x => string.Equals(x.Key, key, StringComparison.CurrentCultureIgnoreCase));
         if (item != null)
         {
             item.Value = value;
         }
         else
         {
-            Values.Add(DictionaryItem.Create(key, value));
+            Items.Add(DictionaryItem.Create(key, value));
         }
     }
 
@@ -175,14 +175,14 @@ public sealed class DictionaryRoot : Aggregate<long>, IAuditing
     /// <param name="key"></param>
     internal void RemoveValue(string key)
     {
-        if (Values == null || Values.Count == 0)
+        if (Items == null || Items.Count == 0)
         {
             return;
         }
-        var item = Values.FirstOrDefault(x => string.Equals(x.Key, key, StringComparison.CurrentCultureIgnoreCase));
+        var item = Items.FirstOrDefault(x => string.Equals(x.Key, key, StringComparison.CurrentCultureIgnoreCase));
         if (item != null)
         {
-            Values.Remove(item);
+            Items.Remove(item);
         }
     }
 }
