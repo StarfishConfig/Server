@@ -1,4 +1,6 @@
-﻿using Nerosoft.Euonia.Application;
+﻿using Microsoft.AspNetCore.Authorization;
+using Nerosoft.Euonia.Application;
+using Nerosoft.Starfish.Shared;
 using Nerosoft.Starfish.Transit;
 
 namespace Nerosoft.Starfish.Application;
@@ -13,6 +15,7 @@ public interface IDictionaryApplicationService : IApplicationService
     /// <param name="take"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
+    [Authorize(Roles = AuthenticationConstant.Role.Support)]
     Task<List<DictionaryRootListDto>> ListRootAsync(DictionaryRootCriteriaDto criteria, int skip, int take, CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -21,6 +24,7 @@ public interface IDictionaryApplicationService : IApplicationService
     /// <param name="criteria"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
+    [Authorize(Roles = AuthenticationConstant.Role.Support)]
     Task<int> CountRootAsync(DictionaryRootCriteriaDto criteria, CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -29,6 +33,7 @@ public interface IDictionaryApplicationService : IApplicationService
     /// <param name="id"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
+    [Authorize(Roles = AuthenticationConstant.Role.Support)]
     Task<DictionaryRootDetailDto> GetRootDetailAsync(long id, CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -37,6 +42,7 @@ public interface IDictionaryApplicationService : IApplicationService
     /// <param name="data"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
+    [Authorize(Roles = AuthenticationConstant.Role.Admin)]
     Task CreateRootAsync(DictionaryRootCreateDto data, CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -46,6 +52,7 @@ public interface IDictionaryApplicationService : IApplicationService
     /// <param name="data"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
+    [Authorize(Roles = AuthenticationConstant.Role.Admin)]
     Task UpdateRootAsync(long id, DictionaryRootUpdateDto data, CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -54,6 +61,7 @@ public interface IDictionaryApplicationService : IApplicationService
     /// <param name="id"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
+    [Authorize(Roles = AuthenticationConstant.Role.SuperUser)]
     Task DeleteRootAsync(long id, CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -65,8 +73,26 @@ public interface IDictionaryApplicationService : IApplicationService
     /// <returns></returns>
     Task<List<DictionaryLookupDto>> LookupAsync(IEnumerable<string> codes, bool? isValid, CancellationToken cancellationToken = default);
 
+    /// <summary>
+    /// Lists dictionary items under a specific root based on criteria with pagination.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="criteria"></param>
+    /// <param name="skip"></param>
+    /// <param name="take"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [Authorize(Roles = AuthenticationConstant.Role.Support)]
     Task<List<DictionaryItemListDto>> ListItemAsync(long id, DictionaryItemCriteriaDto criteria, int skip, int take, CancellationToken cancellationToken = default);
 
+    /// <summary>
+    /// Counts the total number of dictionary items under a specific root based on criteria.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="criteria"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [Authorize(Roles = AuthenticationConstant.Role.Support)]
     Task<int> CountItemAsync(long id, DictionaryItemCriteriaDto criteria, CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -76,6 +102,7 @@ public interface IDictionaryApplicationService : IApplicationService
     /// <param name="data"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
+    [Authorize(Roles = AuthenticationConstant.Role.Admin)]
     Task AppendItemAsync(long id, DictionaryItemCreateDto data, CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -85,6 +112,7 @@ public interface IDictionaryApplicationService : IApplicationService
     /// <param name="data"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
+    [Authorize(Roles = AuthenticationConstant.Role.Admin)]
     Task UpdateItemAsync(long id, DictionaryItemUpdateDto data, CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -94,5 +122,6 @@ public interface IDictionaryApplicationService : IApplicationService
     /// <param name="keys"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
+    [Authorize(Roles = AuthenticationConstant.Role.SuperUser)]
     Task DeleteItemAsync(long id, IEnumerable<string> keys, CancellationToken cancellationToken = default);
 }

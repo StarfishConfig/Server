@@ -19,7 +19,7 @@ public class UserCriteriaDto
     /// <summary>
     /// Gets or sets the source of user creation.
     /// </summary>
-    [AllowedValues(UserCreationSource.InitialImport, UserCreationSource.AdminCreated, UserCreationSource.SelfRegistered)]
+    //[AllowedValues(UserCreationSource.InitialImport, UserCreationSource.AdminCreated, UserCreationSource.SelfRegistered)]
     public int? Source { get; set; }
 
     /// <summary>

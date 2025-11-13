@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Nerosoft.Euonia.Application;
+using Nerosoft.Starfish.Shared;
 using Nerosoft.Starfish.Transit;
 
 namespace Nerosoft.Starfish.Application;
@@ -17,7 +18,7 @@ public interface IUserApplicationService : IApplicationService
     /// <param name="take"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [Authorize(Roles = "SA")]
+    [Authorize(Roles = AuthenticationConstant.Role.Support)]
     Task<List<UserListDto>> ListAsync(UserCriteriaDto criteria, int skip, int take, CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -26,10 +27,16 @@ public interface IUserApplicationService : IApplicationService
     /// <param name="criteria"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [Authorize(Roles = "SA")]
+    [Authorize(Roles = AuthenticationConstant.Role.Support)]
     Task<int> CountAsync(UserCriteriaDto criteria, CancellationToken cancellationToken = default);
 
-    [Authorize(Roles = "SA")]
+    /// <summary>
+    /// Retrieves detailed information of a user by their ID asynchronously.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [Authorize(Roles = AuthenticationConstant.Role.Support)]
     Task<UserDetailDto> GetAsync(long id, CancellationToken cancellationToken = default);
     
     /// <summary>
@@ -85,7 +92,7 @@ public interface IUserApplicationService : IApplicationService
     /// <param name="id">The id of user whose password to be reset.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [Authorize(Roles = "SA")]
+    [Authorize(Roles = AuthenticationConstant.Role.Support)]
     Task<string> ResetPasswordAsync(long id, CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -94,7 +101,7 @@ public interface IUserApplicationService : IApplicationService
     /// <param name="id"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [Authorize(Roles = "SA")]
+    [Authorize(Roles = AuthenticationConstant.Role.Support)]
     Task UnlockAsync(long id, CancellationToken cancellationToken = default);
 
     /// <summary>

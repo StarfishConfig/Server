@@ -91,17 +91,28 @@ internal class ApplicationServiceModule : ModuleContextBase
                 }
                 else
                 {
+                    const string prefix = "JwtAuthenticationOptions";
+
+                    var signingKey = Configuration.GetValue<string>($"{prefix}:SigningKey");
+                    var key = Encoding.UTF8.GetBytes(signingKey);
+
                     var validation = new TokenValidationParameters
                     {
-                        NameClaimType = JwtClaimTypes.Name,
+                        NameClaimType = ClaimTypes.Name,
                         RoleClaimType = ClaimTypes.Role,
-                        ValidIssuers = [Configuration.GetValue<string>("JwtBearerOptions:TokenIssuer")],
-                        ValidateIssuer = true,
-                        ValidateAudience = false,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetValue<string>("JwtBearerOptions:TokenKey").ToSha256()))
+                        ValidIssuers = Configuration.GetSection($"{prefix}:Issuer").Get<string[]>(),
+                        ValidateIssuer = Configuration.GetValue<bool>($"{prefix}:ValidateIssuer"),
+                        ValidateAudience = Configuration.GetValue<bool>($"{prefix}:ValidateAudience"),
+                        IssuerSigningKey = new SymmetricSecurityKey(key)
                     };
-                    principal = new JwtSecurityTokenHandler().ValidateToken(token, validation, out _);
-                    principal ??= new ClaimsPrincipal();
+                    try
+                    {
+                        principal = new JwtSecurityTokenHandler().ValidateToken(token, validation, out _);
+                    }
+                    catch
+                    {
+                        principal = new ClaimsPrincipal();
+                    }
                 }
 
                 return principal;

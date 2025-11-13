@@ -149,8 +149,7 @@ internal class AuthApplicationService(IConfiguration configuration) : BaseApplic
                                     .IssuedAt(issueTime)
                                     .AddClaim(JwtClaimTypes.Email, user.Email)
                                     .AddClaim(JwtClaimTypes.PhoneNumber, user.Phone)
-                                    .AddClaim(JwtClaimTypes.NickName, user.Nickname)
-                                    .AddClaim(JwtClaimTypes.JwtId, jti);
+                                    .AddClaim(JwtClaimTypes.NickName, user.Nickname);
 
         var accessToken = builder.Build();
 
