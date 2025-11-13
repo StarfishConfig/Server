@@ -1,8 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Nerosoft.Euonia.Repository.EfCore;
-using Nerosoft.Starfish.Domain;
 
 namespace Nerosoft.Starfish.Repository;
 
@@ -24,11 +22,7 @@ internal sealed class TeamMemberEntityConfiguration : IEntityTypeConfiguration<T
         builder.HasIndex([nameof(TeamMember.TeamId), nameof(TeamMember.UserId)], "team_member_idx_unique")
                .IsUnique();
 
-        builder.Property(t => t.Id)
-               .HasColumnName("id")
-               .IsRequired()
-               .HasValueGenerator<SnowflakeIdValueGenerator>()
-               .ValueGeneratedOnAdd();
+        builder.SnowflakeId();
 
         builder.Property(t => t.UserId)
                .HasColumnName("user_id")

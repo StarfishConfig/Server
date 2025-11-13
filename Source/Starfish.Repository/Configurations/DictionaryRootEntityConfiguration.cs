@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Nerosoft.Euonia.Repository.EfCore;
 
 namespace Nerosoft.Starfish.Repository;
 
@@ -22,10 +21,7 @@ internal sealed class DictionaryRootEntityConfiguration : IEntityTypeConfigurati
                .IsUnique()
                .HasDatabaseName($"{TABLE}_idx_code");
 
-        builder.Property(t => t.Id)
-               .HasColumnName("id")
-               .HasValueGenerator<SnowflakeIdValueGenerator>()
-               .ValueGeneratedOnAdd();
+        builder.SnowflakeId();
 
         builder.Property(t => t.Code)
                .HasColumnName("code")
@@ -43,6 +39,12 @@ internal sealed class DictionaryRootEntityConfiguration : IEntityTypeConfigurati
                .HasColumnName("remark")
                .HasMaxLength(1000)
                .IsUnicode();
+
+        builder.Property(t => t.IsValid)
+               .HasColumnName("is_valid")
+               .HasDefaultValue(true);
+
+        builder.ConfigureAuditableProperties();
 
         builder.HasMany(t => t.Items)
                .WithOne(t => t.Root)

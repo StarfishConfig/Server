@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Nerosoft.Euonia.Repository.EfCore;
 
 namespace Nerosoft.Starfish.Repository;
 
@@ -26,10 +25,7 @@ internal class DictionaryItemEntityConfiguration : IEntityTypeConfiguration<Dict
                .IsUnique()
                .HasDatabaseName($"{TABLE}_idx_unique");
 
-        builder.Property(t => t.Id)
-               .HasColumnName("id")
-               .HasValueGenerator<SnowflakeIdValueGenerator>()
-               .ValueGeneratedOnAdd();
+        builder.SnowflakeId();
 
         builder.Property(t => t.Key)
                .HasColumnName("key")

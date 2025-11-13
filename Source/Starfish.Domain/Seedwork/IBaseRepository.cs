@@ -118,4 +118,28 @@ public interface IBaseRepository<TEntity, in TKey>
     /// <returns></returns>
     Task DeleteAsync<TEvent>(TKey id, Func<TEvent> eventFactory, bool autoSave = true, CancellationToken cancellationToken = default)
         where TEvent : DomainEvent;
+
+    /// <summary>
+    /// Finds entities with additional query handling.
+    /// </summary>
+    /// <param name="handle"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task<List<TEntity>> FindAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> handle, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Counts entities with additional query handling.
+    /// </summary>
+    /// <param name="handle"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task<int> CountAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> handle, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Gets a single entity with additional query handling.
+    /// </summary>
+    /// <param name="handle"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task<TEntity> GetAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> handle, CancellationToken cancellationToken = default);
 }

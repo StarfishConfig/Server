@@ -24,11 +24,7 @@ internal sealed class TeamEntityConfiguration : IEntityTypeConfiguration<Team>
         builder.HasIndex(t => t.Name).HasDatabaseName("team_idx_name");
         builder.HasIndex(t => t.OwnerId).HasDatabaseName("team_idx_owner_id");
 
-        builder.Property(t => t.Id)
-               .HasColumnName("id")
-               .IsRequired()
-               .HasValueGenerator<SnowflakeIdValueGenerator>()
-               .ValueGeneratedOnAdd();
+        builder.SnowflakeId();
 
         builder.Property(t => t.Name)
                .HasColumnName("name")
@@ -52,6 +48,8 @@ internal sealed class TeamEntityConfiguration : IEntityTypeConfiguration<Team>
         builder.Property(t => t.ProjectCount)
                .HasColumnName("project_count")
                .HasDefaultValue(0);
+
+        builder.ConfigureAuditableProperties();
 
         builder.HasMany(t => t.Members)
                .WithOne(t => t.Team)

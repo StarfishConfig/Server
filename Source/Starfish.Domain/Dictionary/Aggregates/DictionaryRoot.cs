@@ -51,6 +51,11 @@ public sealed class DictionaryRoot : Aggregate<long>, IAuditing
     public string Remark { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the <see cref="DictionaryRoot"/> is valid.
+    /// </summary>
+    public bool IsValid { get; set; }
+
+    /// <summary>
     /// Gets or sets the date and time when the <see cref="DictionaryRoot"/> was created.
     /// </summary>
     public DateTime CreateTime { get; set; }

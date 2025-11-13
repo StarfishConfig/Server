@@ -1,8 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Nerosoft.Euonia.Repository.EfCore;
-using Nerosoft.Starfish.Domain;
 
 namespace Nerosoft.Starfish.Repository;
 
@@ -34,10 +32,7 @@ internal sealed class UserEntityConfiguration : IEntityTypeConfiguration<User>
                .HasDatabaseName("user_idx_phone")
                .IsUnique();
 
-        builder.Property(t => t.Id)
-               .HasColumnName("id")
-               .HasValueGenerator<SnowflakeIdValueGenerator>()
-               .IsRequired();
+        builder.SnowflakeId();
 
         builder.Property(t => t.Username)
                .HasColumnName("username")

@@ -1,8 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Nerosoft.Euonia.Repository.EfCore;
-using Nerosoft.Starfish.Domain;
 
 namespace Nerosoft.Starfish.Repository;
 
@@ -25,10 +23,7 @@ internal sealed class TokenEntityConfiguration : IEntityTypeConfiguration<Token>
         builder.HasIndex(t => t.Key).HasDatabaseName("token_idx_key");
         builder.HasIndex(t => t.Expires).HasDatabaseName("token_idx_expires");
 
-        builder.Property(t => t.Id)
-               .HasColumnName("id")
-               .IsRequired()
-               .HasValueGenerator<SnowflakeIdValueGenerator>();
+        builder.SnowflakeId();
 
         builder.Property(t => t.Type)
                .HasColumnName("type")
