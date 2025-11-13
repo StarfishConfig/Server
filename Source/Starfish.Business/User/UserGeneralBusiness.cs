@@ -7,10 +7,9 @@ namespace Nerosoft.Starfish.Business;
 /// <summary>
 /// The user general business object.
 /// </summary>
-internal partial class UserGeneralBusiness : EditableObjectBase<UserGeneralBusiness, User>, IDomainService
+internal partial class UserGeneralBusiness : EditableObjectBase<UserGeneralBusiness, User>
 {
-    private IUserRepository _repository;
-    private IUserRepository Repository => _repository ??= LazyServiceProvider.GetService<IUserRepository>();
+    private IUserRepository Repository => LazyServiceProvider.GetService<IUserRepository>();
 
     private User _aggregate;
     protected override User Aggregate => _aggregate;

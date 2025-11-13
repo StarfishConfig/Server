@@ -38,7 +38,7 @@ internal sealed class TokenEventSubscriber(IBus bus, IConfiguration configuratio
     {
     }
 
-    public Task HandleAsync(TokenRefreshedEvent message, MessageContext context, CancellationToken cancellationToken = new CancellationToken())
+    public Task HandleAsync(TokenRefreshedEvent message, MessageContext context, CancellationToken cancellationToken = default)
     {
         var command = new TokenRevokeCommand(message.OriginToken);
         return bus.SendAsync(command, cancellationToken);

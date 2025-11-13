@@ -15,7 +15,11 @@ internal sealed class TeamCommandHandler(IUnitOfWorkManager unitOfWork, IObjectF
       IHandler<TeamCreateCommand>,
       IHandler<TeamUpdateCommand>,
       IHandler<TeamDeleteCommand>,
-      IHandler<TeamTransferCommand>
+      IHandler<TeamTransferCommand>,
+      IHandler<TeamProjectCountIncreaseCommand>,
+      IHandler<TeamProjectCountDecreaseCommand>,
+      IHandler<TeamMemberAppendCommand>,
+      IHandler<TeamMemberRemoveCommand>
 {
     /// <summary>
     /// Handle the team create command.
@@ -84,5 +88,38 @@ internal sealed class TeamCommandHandler(IUnitOfWorkManager unitOfWork, IObjectF
     public Task HandleAsync(TeamTransferCommand message, MessageContext context, CancellationToken cancellationToken = default)
     {
         return ExecuteAsync(() => Factory.ExecuteAsync<TeamTransferBusiness>(message.TeamId, message.UserId, cancellationToken), cancellationToken);
+    }
+
+    public Task HandleAsync(TeamProjectCountIncreaseCommand message, MessageContext context, CancellationToken cancellationToken = default)
+    {
+        return ExecuteAsync(() => Factory.ExecuteAsync<TeamProjectCountChangeBusiness>(message.TeamId, "+", cancellationToken), cancellationToken);
+    }
+
+    public Task HandleAsync(TeamProjectCountDecreaseCommand message, MessageContext context, CancellationToken cancellationToken = default)
+    {
+        return ExecuteAsync(() => Factory.ExecuteAsync<TeamProjectCountChangeBusiness>(message.TeamId, "-", cancellationToken), cancellationToken);
+    }
+
+    public Task HandleAsync(TeamMemberAppendCommand message, MessageContext context, CancellationToken cancellationToken = default)
+    {
+        return ExecuteAsync(async () =>
+        {
+            var business = await Factory.FetchAsync<TeamMemberBusiness>(message.TeamId, cancellationToken);
+            business.UserIds = message.UserIds;
+            business.MarkAsUpdate();
+            await business.SaveAsync(true, cancellationToken);
+        }, cancellationToken);
+    }
+
+    public Task HandleAsync(TeamMemberRemoveCommand message, MessageContext context, CancellationToken cancellationToken = default)
+    {
+        return ExecuteAsync(async () =>
+        {
+            var business = await Factory.FetchAsync<TeamMemberBusiness>(message.TeamId, cancellationToken);
+            business.UserIds = message.UserIds;
+            business.Reason = message.Reason;
+            business.MarkAsDelete();
+            await business.SaveAsync(true, cancellationToken);
+        }, cancellationToken);
     }
 }

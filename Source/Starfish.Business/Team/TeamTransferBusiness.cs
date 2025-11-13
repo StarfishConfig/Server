@@ -9,7 +9,7 @@ namespace Nerosoft.Starfish.Business;
 /// </summary>
 /// <param name="repository"></param>
 internal sealed class TeamTransferBusiness(ITeamRepository repository)
-    : CommandObjectBase<TeamTransferBusiness>, IDomainService
+    : CommandObjectBase<TeamTransferBusiness>
 {
     /// <summary>
     /// Transfers the ownership of a team to another user.

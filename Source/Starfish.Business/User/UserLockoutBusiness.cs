@@ -7,10 +7,9 @@ namespace Nerosoft.Starfish.Business;
 /// <summary>
 /// The user lockout business object.
 /// </summary>
-internal sealed class UserLockoutBusiness : CommandObjectBase<UserLockoutBusiness>, IDomainService
+internal sealed class UserLockoutBusiness : CommandObjectBase<UserLockoutBusiness>
 {
-    private IUserRepository _repository;
-    private IUserRepository Repository => _repository ??= LazyServiceProvider.GetRequiredService<IUserRepository>();
+    private IUserRepository Repository => LazyServiceProvider.GetRequiredService<IUserRepository>();
 
     /// <summary>
     /// Execute the user lockout operation.

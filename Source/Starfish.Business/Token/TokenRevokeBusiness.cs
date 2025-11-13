@@ -8,10 +8,9 @@ namespace Nerosoft.Starfish.Business;
 /// <summary>
 /// Business logic for revoking tokens.
 /// </summary>
-internal sealed class TokenRevokeBusiness : CommandObjectBase<TokenRevokeBusiness>, IDomainService
+internal sealed class TokenRevokeBusiness : CommandObjectBase<TokenRevokeBusiness>
 {
-    private ITokenRepository _repository;
-    private ITokenRepository Repository => _repository ??= LazyServiceProvider.GetRequiredService<ITokenRepository>();
+    private ITokenRepository Repository => LazyServiceProvider.GetRequiredService<ITokenRepository>();
 
     [FactoryExecute]
     public async Task ExecuteAsync(string token, string reason, CancellationToken cancellationToken = default)

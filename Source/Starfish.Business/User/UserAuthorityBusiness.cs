@@ -7,10 +7,9 @@ namespace Nerosoft.Starfish.Business;
 /// <summary>
 /// The user authority business object.
 /// </summary>
-internal sealed class UserAuthorityBusiness : EditableObjectBase<UserAuthorityBusiness, User>, IDomainService
+internal sealed class UserAuthorityBusiness : EditableObjectBase<UserAuthorityBusiness, User>
 {
-    private IUserRepository _repository;
-    private IUserRepository Repository => _repository ??= LazyServiceProvider.GetService<IUserRepository>();
+    private IUserRepository Repository => LazyServiceProvider.GetService<IUserRepository>();
 
     private User _aggregate;
     protected override User Aggregate => _aggregate;

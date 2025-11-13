@@ -186,6 +186,11 @@ internal sealed class Team : Aggregate<long>, IAuditing
     /// <param name="count"></param>
     internal void SetProjectCount(int count)
     {
+        if (count < 0)
+        {
+            count = 0;
+        }
+
         ProjectCount = count;
     }
 

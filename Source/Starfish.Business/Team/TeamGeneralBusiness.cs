@@ -4,7 +4,10 @@ using Nerosoft.Starfish.Domain;
 
 namespace Nerosoft.Starfish.Business;
 
-internal partial class TeamGeneralBusiness : EditableObjectBase<TeamGeneralBusiness, Team>, IDomainService
+/// <summary>
+/// Business object for general team operations.s
+/// </summary>
+internal partial class TeamGeneralBusiness : EditableObjectBase<TeamGeneralBusiness, Team>
 {
     private ITeamRepository _repository;
     private ITeamRepository Repository => _repository ??= LazyServiceProvider.GetService<ITeamRepository>();

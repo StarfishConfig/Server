@@ -5,35 +5,45 @@ using Nerosoft.Starfish.Domain;
 
 namespace Nerosoft.Starfish.Business;
 
-internal sealed class TeamProjectCountChangeBusiness : CommandObjectBase<TeamProjectCountChangeBusiness>, IDomainService
+/// <summary>
+/// Business logic for changing the project count of a team.
+/// </summary>
+internal sealed class TeamProjectCountChangeBusiness : CommandObjectBase<TeamProjectCountChangeBusiness>
 {
-    private ITeamRepository _repository;
-    private ILockFactory _lock;
-
-    private ITeamRepository Repository => _repository ??= LazyServiceProvider.GetService<ITeamRepository>();
-    private ILockFactory Lock => _lock ??= LazyServiceProvider.GetService<ILockFactory>();
+    private ITeamRepository Repository => LazyServiceProvider.GetService<ITeamRepository>();
+    private ILockFactory Lock => LazyServiceProvider.GetService<ILockFactory>();
 
     [FactoryExecute]
-    public async Task ExecuteAsync(long teamId, int changeType, CancellationToken cancellationToken = default)
+    public async Task ExecuteAsync(long teamId, string changeType, CancellationToken cancellationToken = default)
     {
-        if (teamId <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(teamId));
-        }
-        if (changeType == 0)
-        {
-            return;
-        }
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(teamId);
+
         var lockKey = $"TeamProjectCountChangeBusiness_Team_{teamId}";
 
-        using (await Lock.TryAcquireLockAsync(lockKey, TimeSpan.FromSeconds(5), cancellationToken))
+        var handle = await Lock.TryAcquireLockAsync(lockKey, TimeSpan.FromSeconds(5), cancellationToken);
+
+        await using (handle)
         {
             var team = await Repository.GetAsync(teamId, true, cancellationToken);
             if (team == null)
             {
                 throw new NotFoundException();
             }
-            team.SetProjectCount(team.ProjectCount + changeType);
+
+            switch (changeType)
+            {
+                case "increase":
+                case "+":
+                    team.SetProjectCount(team.ProjectCount + 1);
+                    break;
+                case "decrease":
+                case "-":
+                    team.SetProjectCount(team.ProjectCount - 1);
+                    break;
+                default:
+                    throw new InvalidOperationException();
+            }
+
             await Repository.UpdateAsync(team, true, cancellationToken);
         }
     }

@@ -19,14 +19,14 @@ internal sealed class UserRequestHandler(IUserRepository repository)
                          .ContinueWith(task => context.Response(task.Result), cancellationToken);
     }
 
-    public Task HandleAsync(UserListQueryRequest message, MessageContext context, CancellationToken cancellationToken = new CancellationToken())
+    public Task HandleAsync(UserListQueryRequest message, MessageContext context, CancellationToken cancellationToken = default)
     {
         var predicate = BuildPredicate(message.Criteria);
         return repository.FindAsync(predicate, null, message.Skip, message.Take, cancellationToken)
                          .ContinueWith(task => context.Response(task.Result), cancellationToken);
     }
 
-    public Task HandleAsync(UserCountQueryRequest message, MessageContext context, CancellationToken cancellationToken = new CancellationToken())
+    public Task HandleAsync(UserCountQueryRequest message, MessageContext context, CancellationToken cancellationToken = default)
     {
         var predicate = BuildPredicate(message.Criteria);
         return repository.CountAsync(predicate, null, cancellationToken)

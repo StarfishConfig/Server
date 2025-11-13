@@ -8,10 +8,9 @@ namespace Nerosoft.Starfish.Business;
 /// <summary>
 /// The user password business object.
 /// </summary>
-internal class UserPasswordBusiness : EditableObjectBase<UserPasswordBusiness, User>, IDomainService
+internal class UserPasswordBusiness : EditableObjectBase<UserPasswordBusiness, User>
 {
-    private IUserRepository _repository;
-    private IUserRepository Repository => _repository ??= LazyServiceProvider.GetService<IUserRepository>();
+    private IUserRepository Repository => LazyServiceProvider.GetService<IUserRepository>();
 
     private User _aggregate;
     protected override User Aggregate => _aggregate;

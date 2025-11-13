@@ -1,6 +1,7 @@
 using Nerosoft.Euonia.Bus;
 using Nerosoft.Euonia.Business;
 using Nerosoft.Euonia.Claims;
+using Nerosoft.Euonia.Domain;
 using Nerosoft.Euonia.Modularity;
 
 namespace Nerosoft.Starfish.Business;
@@ -9,7 +10,7 @@ namespace Nerosoft.Starfish.Business;
 /// Command object base class with lazy service provider support.
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public abstract class CommandObjectBase<T> : CommandObject<T>, IHasLazyServiceProvider
+public abstract class CommandObjectBase<T> : CommandObject<T>, IDomainService, IHasLazyServiceProvider
     where T : CommandObjectBase<T>
 {
     /// <summary>

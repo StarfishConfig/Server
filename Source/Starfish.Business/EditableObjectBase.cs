@@ -9,8 +9,8 @@ namespace Nerosoft.Starfish.Business;
 /// <summary>
 /// Editable object base class with lazy service provider support.
 /// </summary>
-/// <typeparam name="T"></typeparam>
-public abstract class EditableObjectBase<TTarget> : EditableObject<TTarget>, IHasLazyServiceProvider
+/// <typeparam name="TTarget"></typeparam>
+public abstract class EditableObjectBase<TTarget> : EditableObject<TTarget>, IDomainService, IHasLazyServiceProvider
     where TTarget : EditableObjectBase<TTarget>
 {
     /// <summary>
@@ -26,20 +26,6 @@ public abstract class EditableObjectBase<TTarget> : EditableObject<TTarget>, IHa
     /// Gets the current user identity from the lazy service provider.
     /// </summary>
     protected virtual UserPrincipal Identity => LazyServiceProvider.GetRequiredService<UserPrincipal>();
-}
-
-/// <summary>
-/// Editable object base class with lazy service provider support.
-/// </summary>
-/// <typeparam name="T"></typeparam>
-public abstract class EditableObjectBase<TTarget, TAggregate> : EditableObjectBase<TTarget>
-    where TTarget : EditableObjectBase<TTarget, TAggregate>
-    where TAggregate : class, IAggregateRoot
-{
-    /// <summary>
-    /// Gets the message bus from the lazy service provider.
-    /// </summary>
-    protected virtual IBus Bus => LazyServiceProvider.GetRequiredService<IBus>();
 
     /// <summary>
     /// Gets the request context accessor from the lazy service provider.
@@ -47,25 +33,22 @@ public abstract class EditableObjectBase<TTarget, TAggregate> : EditableObjectBa
     protected virtual IRequestContextAccessor RequestContextAccessor => LazyServiceProvider.GetRequiredService<IRequestContextAccessor>();
 
     /// <summary>
+    /// Gets the message bus from the lazy service provider.
+    /// </summary>
+    protected virtual IBus Bus => LazyServiceProvider.GetRequiredService<IBus>();
+}
+
+/// <summary>
+/// Editable object base class with lazy service provider support.
+/// </summary>
+/// <typeparam name="TTarget"></typeparam>
+/// <typeparam name="TAggregate"></typeparam>
+public abstract class EditableObjectBase<TTarget, TAggregate> : EditableObjectBase<TTarget>
+    where TTarget : EditableObjectBase<TTarget, TAggregate>
+    where TAggregate : class, IAggregateRoot
+{
+    /// <summary>
     /// Gets the aggregate root associated with this business object.
     /// </summary>
-    protected virtual TAggregate Aggregate { get; }
-
-    protected override async void OnSaved(TTarget newObject, Exception error, object userState)
-    {
-        base.OnSaved(newObject, error, userState);
-
-        if (error == null && Aggregate is IHasDomainEvents aggregate)
-        {
-            var events = aggregate.GetEvents();
-
-            if (events != null && events.Any())
-            {
-                await Parallel.ForEachAsync(events, async (@event, _) =>
-                {
-                    await Bus.PublishAsync(@event, _);
-                });
-            }
-        }
-    }
+    protected abstract TAggregate Aggregate { get; }
 }

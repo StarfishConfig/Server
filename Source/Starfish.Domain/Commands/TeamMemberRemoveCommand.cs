@@ -19,4 +19,6 @@ internal sealed class TeamMemberRemoveCommand(long teamId, List<long> userIds)
     /// Gets or sets the user identifiers to be removed from the team.
     /// </summary>
     public List<long> UserIds { get; init; } = userIds;
+
+    public string Reason { get; init; }
 }
