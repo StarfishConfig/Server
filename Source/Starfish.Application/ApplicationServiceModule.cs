@@ -1,6 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using IdentityModel;
+using System.Text.RegularExpressions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Nerosoft.Euonia.Application;
@@ -45,10 +45,10 @@ internal class ApplicationServiceModule : ModuleContextBase
                .AddKeyedScoped<IAuthProvider, MicrosoftAuthProvider>(AuthenticationConstant.Provider.Microsoft)
                .AddKeyedScoped<IAuthProvider, GoogleAuthProvider>(AuthenticationConstant.Provider.Google)
                .AddKeyedScoped<IAuthProvider, FacebookAuthProvider>(AuthenticationConstant.Provider.Facebook);
+        
+        context.Services.AddServiceBus(ConfigureBusServices);
 
         ConfigureCachingServices(context.Services);
-
-        ConfigureBusServices(context.Services);
     }
 
     private void ConfigureCachingServices(IServiceCollection services)
@@ -70,84 +70,81 @@ internal class ApplicationServiceModule : ModuleContextBase
 
         services.AddDefaultCacheManager<ApplicationServiceContext>();
     }
-
-    private void ConfigureBusServices(IServiceCollection services)
+    
+    private void ConfigureBusServices(BusConfigurator config)
     {
-        services.AddServiceBus(config =>
+        config.SetConventions(builder =>
         {
-            config.SetConventions(builder =>
-            {
-                builder.Add<DefaultMessageConvention>();
-                builder.Add<AttributeMessageConvention>();
-                builder.Add<DomainMessageConvention>();
-            });
-            config.SetIdentityProvider(jwt =>
-            {
-                var token = jwt?.Replace("Bearer ", string.Empty);
-                ClaimsPrincipal principal;
-                if (string.IsNullOrWhiteSpace(token))
-                {
-                    principal = new ClaimsPrincipal(); //GenericPrincipal(null, null);
-                }
-                else
-                {
-                    const string prefix = "JwtAuthenticationOptions";
-
-                    var signingKey = Configuration.GetValue<string>($"{prefix}:SigningKey");
-                    var key = Encoding.UTF8.GetBytes(signingKey);
-
-                    var validation = new TokenValidationParameters
-                    {
-                        NameClaimType = ClaimTypes.Name,
-                        RoleClaimType = ClaimTypes.Role,
-                        ValidIssuers = Configuration.GetSection($"{prefix}:Issuer").Get<string[]>(),
-                        ValidateIssuer = Configuration.GetValue<bool>($"{prefix}:ValidateIssuer"),
-                        ValidateAudience = Configuration.GetValue<bool>($"{prefix}:ValidateAudience"),
-                        IssuerSigningKey = new SymmetricSecurityKey(key)
-                    };
-                    try
-                    {
-                        principal = new JwtSecurityTokenHandler().ValidateToken(token, validation, out _);
-                    }
-                    catch
-                    {
-                        principal = new ClaimsPrincipal();
-                    }
-                }
-
-                return principal;
-
-                // var handler = new JwtSecurityTokenHandler().ReadJwtToken(token);
-                // var identity = new ClaimsPrincipal(new ClaimsIdentity(handler.Claims, null, null, JwtClaimTypes.Role));
-                // return identity;
-            });
-            config.RegisterHandlers(typeof(ApplicationServiceModule).Assembly);
-            config.RegisterHandlers(typeof(RepositoryModule).Assembly);
-            config.RegisterHandlers(typeof(BusinessServiceModule).Assembly);
-            var provider = Configuration.GetValue<string>("ServiceBus:Provider")?.ToLower();
-            switch (provider)
-            {
-                case null:
-                case "":
-                case "inmemory":
-                    config.UseInMemory(options =>
-                    {
-                        options.MultipleSubscriberInstance = Configuration.GetValue<bool>("ServiceBus:InMemory:MultipleSubscriberInstance");
-                    });
-                    break;
-                case "rabbitmq":
-                    config.UseRabbitMq(options =>
-                    {
-                        options.Connection = Configuration.GetValue<string>("ServiceBus:RabbitMq:Connection");
-                        options.ExchangeName = Configuration.GetValue<string>("ServiceBus:RabbitMq:ExchangeName");
-                        options.ExchangeType = Configuration.GetValue<string>("ServiceBus:RabbitMq:ExchangeType");
-                        options.QueueName = Configuration.GetValue<string>("ServiceBus:RabbitMq:QueueName");
-                        options.TopicName = Configuration.GetValue<string>("ServiceBus:RabbitMq:TopicName");
-                    });
-                    break;
-                default:
-                    throw new NotSupportedException(string.Format(Resources.IDS_ERROR_UNSUPPORTED_SERVICE_BUS_PROVIDER, provider));
-            }
+            builder.Add<DefaultMessageConvention>();
+            builder.Add<AttributeMessageConvention>();
+            builder.Add<DomainMessageConvention>();
         });
+        config.SetIdentityProvider(jwt =>
+        {
+            var token = Regex.Match(jwt ?? "Bearer ", @"^Bearer\s+(.*)").Groups[1].Value;
+            ClaimsPrincipal principal;
+            if (string.IsNullOrWhiteSpace(token))
+            {
+                principal = new ClaimsPrincipal(); //GenericPrincipal(null, null);
+            }
+            else
+            {
+                const string prefix = "JwtAuthenticationOptions";
+
+                var signingKey = Configuration.GetValue<string>($"{prefix}:SigningKey");
+                var key = Encoding.UTF8.GetBytes(signingKey);
+
+                var validation = new TokenValidationParameters
+                {
+                    NameClaimType = ClaimTypes.Name,
+                    RoleClaimType = ClaimTypes.Role,
+                    ValidIssuers = Configuration.GetSection($"{prefix}:Issuer").Get<string[]>(),
+                    ValidateIssuer = Configuration.GetValue<bool>($"{prefix}:ValidateIssuer"),
+                    ValidateAudience = Configuration.GetValue<bool>($"{prefix}:ValidateAudience"),
+                    IssuerSigningKey = new SymmetricSecurityKey(key)
+                };
+                try
+                {
+                    principal = new JwtSecurityTokenHandler().ValidateToken(token, validation, out _);
+                }
+                catch
+                {
+                    principal = new ClaimsPrincipal();
+                }
+            }
+
+            return principal;
+
+            // var handler = new JwtSecurityTokenHandler().ReadJwtToken(token);
+            // var identity = new ClaimsPrincipal(new ClaimsIdentity(handler.Claims, null, null, JwtClaimTypes.Role));
+            // return identity;
+        });
+        config.RegisterHandlers(typeof(ApplicationServiceModule).Assembly);
+        config.RegisterHandlers(typeof(RepositoryModule).Assembly);
+        config.RegisterHandlers(typeof(BusinessServiceModule).Assembly);
+        var provider = Configuration.GetValue<string>("ServiceBus:Provider")?.ToLower();
+        switch (provider)
+        {
+            case null:
+            case "":
+            case "inmemory":
+                config.UseInMemory(options =>
+                {
+                    options.MultipleSubscriberInstance = Configuration.GetValue<bool>("ServiceBus:InMemory:MultipleSubscriberInstance");
+                });
+                break;
+            case "rabbitmq":
+                config.UseRabbitMq(options =>
+                {
+                    options.Connection = Configuration.GetValue<string>("ServiceBus:RabbitMq:Connection");
+                    options.ExchangeName = Configuration.GetValue<string>("ServiceBus:RabbitMq:ExchangeName");
+                    options.ExchangeType = Configuration.GetValue<string>("ServiceBus:RabbitMq:ExchangeType");
+                    options.QueueName = Configuration.GetValue<string>("ServiceBus:RabbitMq:QueueName");
+                    options.TopicName = Configuration.GetValue<string>("ServiceBus:RabbitMq:TopicName");
+                });
+                break;
+            default:
+                throw new NotSupportedException(string.Format(Resources.IDS_ERROR_UNSUPPORTED_SERVICE_BUS_PROVIDER, provider));
+        }
     }
 }
