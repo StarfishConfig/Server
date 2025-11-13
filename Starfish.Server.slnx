@@ -8,16 +8,22 @@
   <Folder Name="/Source/">
     <File Path="Source/common.props" />
     <File Path="Source/README.md" />
+  </Folder>
+  <Folder Name="/Source/Facades/">
     <Project Path="Source/Starfish.Agent/Starfish.Agent.csproj" />
-    <Project Path="Source/Starfish.Application/Starfish.Application.csproj" />
     <Project Path="Source/Starfish.Azfunc/Starfish.Azfunc.csproj" />
-    <Project Path="Source/Starfish.Business/Starfish.Business.csproj" Id="009c1b20-10f2-47b4-a7b4-b7434c6282ab" />
-    <Project Path="Source/Starfish.Domain/Starfish.Domain.csproj" />
-    <Project Path="Source/Starfish.Repository/Starfish.Repository.csproj" />
+    <Project Path="Source/Starfish.Webapi/Starfish.Webapi.csproj" />
+  </Folder>
+  <Folder Name="/Source/Infrastructure/">
     <Project Path="Source/Starfish.Shared/Starfish.Shared.csproj" />
     <Project Path="Source/Starfish.Toolkit/Starfish.Toolkit.csproj" />
+  </Folder>
+  <Folder Name="/Source/Services/">
+    <Project Path="Source/Starfish.Application/Starfish.Application.csproj" />
+    <Project Path="Source/Starfish.Business/Starfish.Business.csproj" />
+    <Project Path="Source/Starfish.Domain/Starfish.Domain.csproj" />
+    <Project Path="Source/Starfish.Repository/Starfish.Repository.csproj" />
     <Project Path="Source/Starfish.Transit/Starfish.Transit.csproj" />
-    <Project Path="Source/Starfish.Webapi/Starfish.Webapi.csproj" />
   </Folder>
   <Folder Name="/Tests/" />
 </Solution>
