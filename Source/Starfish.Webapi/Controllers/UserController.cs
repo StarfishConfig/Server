@@ -20,7 +20,7 @@ public class UserController(IUserApplicationService service) : ControllerBase
     /// <param name="take"></param>
     /// <returns></returns>
     [HttpGet("list")]
-    public async Task<IActionResult> ListAsync([FromQuery] UserCriteriaDto criteria, int skip = 0, int take = 20)
+    public async Task<IActionResult> FindAsync([FromQuery] UserCriteriaDto criteria, int skip = 0, int take = 20)
     {
         var result = await service.FindAsync(criteria, skip, take, HttpContext.RequestAborted);
         return Ok(result);
@@ -55,7 +55,7 @@ public class UserController(IUserApplicationService service) : ControllerBase
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    [HttpPut("{id:long}/password")]
+    [HttpPut("{id:long}/password/reset")]
     public async Task<IActionResult> ResetPasswordAsync(long id)
     {
         var password = await service.ResetPasswordAsync(id, HttpContext.RequestAborted);
