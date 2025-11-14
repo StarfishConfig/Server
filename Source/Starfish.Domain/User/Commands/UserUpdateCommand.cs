@@ -12,7 +12,7 @@ public sealed class UserUpdateCommand(long id)
     /// <summary>
     /// Gets the unique identifier of the user to be updated.
     /// </summary>
-    public long UserId => Item1;
+    public long EntryId => Item1;
 
     /// <inheritdoc cref="User.Nickname"/>
     public string Nickname { get; set; }

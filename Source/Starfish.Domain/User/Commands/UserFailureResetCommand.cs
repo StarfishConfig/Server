@@ -10,5 +10,5 @@ public sealed class UserFailureResetCommand(long id) : Command<long>(id)
     /// <summary>
     /// Gets the user identifier.
     /// </summary>
-    public long UserId => Item1;
+    public long EntryId => Item1;
 }

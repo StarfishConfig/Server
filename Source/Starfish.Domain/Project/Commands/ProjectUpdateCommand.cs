@@ -2,12 +2,17 @@ using Nerosoft.Euonia.Domain;
 
 namespace Nerosoft.Starfish.Domain;
 
-public sealed class ProjectCreateCommand : Command
+/// <summary>
+/// Defines the command to update a project.
+/// </summary>
+/// <param name="id"></param>
+public sealed class ProjectUpdateCommand(long id)
+	: Command<long>(id)
 {
 	/// <summary>
-	/// Gets or sets the team ID associated with the project.
+	/// Gets the entry ID.
 	/// </summary>
-	public long TeamId { get; set; }
+	public long EntryId => Item1;
 
 	/// <summary>
 	/// Gets or sets the project name.

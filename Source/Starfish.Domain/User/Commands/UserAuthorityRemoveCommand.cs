@@ -8,7 +8,7 @@ namespace Nerosoft.Starfish.Domain;
 public sealed class UserAuthorityRemoveCommand(long userId, string provider, string openId)
     : Command<long>(userId)
 {
-    public long UserId => Item1;
+    public long EntryId => Item1;
 
     public string Provider { get; set; } = provider;
 

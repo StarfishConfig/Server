@@ -21,7 +21,7 @@ public class DictionaryItemDeleteCommand : Command<long>
         _keys.AddRange(keys);
     }
 
-    public long RootId => Item1;
+    public long EntryId => Item1;
 
     /// <summary>
     /// Gets the keys of the items to be deleted.

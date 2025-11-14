@@ -52,7 +52,7 @@ internal sealed class TeamCommandHandler(IUnitOfWorkManager unitOfWork, IObjectF
     {
         return ExecuteAsync(async () =>
         {
-            var business = await Factory.FetchAsync<TeamGeneralBusiness>(message.TeamId, cancellationToken);
+            var business = await Factory.FetchAsync<TeamGeneralBusiness>(message.EntryId, cancellationToken);
             business.Name = message.Name;
             business.Description = message.Description;
             business.MarkAsUpdate();
@@ -72,7 +72,7 @@ internal sealed class TeamCommandHandler(IUnitOfWorkManager unitOfWork, IObjectF
     {
         return ExecuteAsync(async () =>
         {
-            var business = await Factory.FetchAsync<TeamGeneralBusiness>(message.TeamId, cancellationToken);
+            var business = await Factory.FetchAsync<TeamGeneralBusiness>(message.EntryId, cancellationToken);
             business.MarkAsDelete();
             await business.SaveAsync(true, cancellationToken);
         }, cancellationToken);
@@ -87,24 +87,24 @@ internal sealed class TeamCommandHandler(IUnitOfWorkManager unitOfWork, IObjectF
     /// <returns></returns>
     public Task HandleAsync(TeamTransferCommand message, MessageContext context, CancellationToken cancellationToken = default)
     {
-        return ExecuteAsync(() => Factory.ExecuteAsync<TeamTransferBusiness>(message.TeamId, message.UserId, cancellationToken), cancellationToken);
+        return ExecuteAsync(() => Factory.ExecuteAsync<TeamTransferBusiness>(message.EntryId, message.UserId, cancellationToken), cancellationToken);
     }
 
     public Task HandleAsync(TeamProjectCountIncreaseCommand message, MessageContext context, CancellationToken cancellationToken = default)
     {
-        return ExecuteAsync(() => Factory.ExecuteAsync<TeamProjectCountChangeBusiness>(message.TeamId, "+", cancellationToken), cancellationToken);
+        return ExecuteAsync(() => Factory.ExecuteAsync<TeamProjectCountChangeBusiness>(message.EntryId, "+", cancellationToken), cancellationToken);
     }
 
     public Task HandleAsync(TeamProjectCountDecreaseCommand message, MessageContext context, CancellationToken cancellationToken = default)
     {
-        return ExecuteAsync(() => Factory.ExecuteAsync<TeamProjectCountChangeBusiness>(message.TeamId, "-", cancellationToken), cancellationToken);
+        return ExecuteAsync(() => Factory.ExecuteAsync<TeamProjectCountChangeBusiness>(message.EntryId, "-", cancellationToken), cancellationToken);
     }
 
     public Task HandleAsync(TeamMemberAppendCommand message, MessageContext context, CancellationToken cancellationToken = default)
     {
         return ExecuteAsync(async () =>
         {
-            var business = await Factory.FetchAsync<TeamMemberBusiness>(message.TeamId, cancellationToken);
+            var business = await Factory.FetchAsync<TeamMemberBusiness>(message.EntryId, cancellationToken);
             business.UserIds = message.UserIds;
             business.MarkAsUpdate();
             await business.SaveAsync(true, cancellationToken);
@@ -115,7 +115,7 @@ internal sealed class TeamCommandHandler(IUnitOfWorkManager unitOfWork, IObjectF
     {
         return ExecuteAsync(async () =>
         {
-            var business = await Factory.FetchAsync<TeamMemberBusiness>(message.TeamId, cancellationToken);
+            var business = await Factory.FetchAsync<TeamMemberBusiness>(message.EntryId, cancellationToken);
             business.UserIds = message.UserIds;
             business.Reason = message.Reason;
             business.MarkAsDelete();

@@ -9,13 +9,13 @@ namespace Nerosoft.Starfish.Domain;
 /// <param name="provider"></param>
 /// <param name="openId"></param>
 public sealed class UserAuthorityCreateCommand(long userId, string provider, string openId)
-    : Command<long>(userId)
+	: Command<long>(userId)
 {
-    public long UserId => Item1;
+	public long EntryId => Item1;
 
-    public string Provider { get; set; } = provider;
+	public string Provider { get; } = provider;
 
-    public string OpenId { get; set; } = openId;
+	public string OpenId { get; } = openId;
 
-    public string Name { get; set; }
+	public string Name { get; set; }
 }

@@ -17,7 +17,7 @@ public class UserPasswordUpdateCommand(long userId, string password, string acti
     /// <summary>
     /// Gets the user identifier.
     /// </summary>
-    public long UserId => Item1;
+    public long EntryId => Item1;
 
     /// <summary>
     /// Gets or sets the new password.

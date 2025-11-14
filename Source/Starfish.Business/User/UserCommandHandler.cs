@@ -49,7 +49,7 @@ internal class UserCommandHandler(IUnitOfWorkManager unitOfWork, IObjectFactory 
     {
         return ExecuteAsync(async () =>
         {
-            var business = await Factory.FetchAsync<UserGeneralBusiness>(message.UserId, cancellationToken);
+            var business = await Factory.FetchAsync<UserGeneralBusiness>(message.EntryId, cancellationToken);
 
             if (message.Nickname is not null)
             {
@@ -82,7 +82,7 @@ internal class UserCommandHandler(IUnitOfWorkManager unitOfWork, IObjectFactory 
     {
         return ExecuteAsync(async () =>
         {
-            var business = await Factory.FetchAsync<UserPasswordBusiness>(message.UserId, cancellationToken);
+            var business = await Factory.FetchAsync<UserPasswordBusiness>(message.EntryId, cancellationToken);
             business.Password = message.Password;
             business.ActionType = message.ActionType;
             business.MarkAsUpdate();
@@ -101,7 +101,7 @@ internal class UserCommandHandler(IUnitOfWorkManager unitOfWork, IObjectFactory 
     {
         return ExecuteAsync(async () =>
         {
-            await Factory.ExecuteAsync<UserLockoutBusiness>(message.UserId, "reset", cancellationToken);
+            await Factory.ExecuteAsync<UserLockoutBusiness>(message.EntryId, "reset", cancellationToken);
         }, cancellationToken);
     }
 
@@ -131,7 +131,7 @@ internal class UserCommandHandler(IUnitOfWorkManager unitOfWork, IObjectFactory 
     {
         return ExecuteAsync(async () =>
         {
-            var business = await Factory.FetchAsync<UserAuthorityBusiness>(message.UserId, cancellationToken);
+            var business = await Factory.FetchAsync<UserAuthorityBusiness>(message.EntryId, cancellationToken);
             business.Provider = message.Provider;
             business.OpenId = message.OpenId;
             business.Name = message.Name;
@@ -151,7 +151,7 @@ internal class UserCommandHandler(IUnitOfWorkManager unitOfWork, IObjectFactory 
     {
         return ExecuteAsync(async () =>
         {
-            var business = await Factory.FetchAsync<UserAuthorityBusiness>(message.UserId, cancellationToken);
+            var business = await Factory.FetchAsync<UserAuthorityBusiness>(message.EntryId, cancellationToken);
             business.Provider = message.Provider;
             business.OpenId = message.OpenId;
             business.MarkAsDelete();

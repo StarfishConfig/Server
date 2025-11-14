@@ -13,7 +13,7 @@ public sealed class TeamMemberAppendCommand(long teamId, List<long> userIds)
     /// <summary>
     /// Gets the team identifier.
     /// </summary>
-    public long TeamId => Item1;
+    public long EntryId => Item1;
 
     /// <summary>
     /// Gets the user identifiers to be added as team members.

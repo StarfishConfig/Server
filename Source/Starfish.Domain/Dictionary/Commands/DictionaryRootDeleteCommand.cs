@@ -12,5 +12,5 @@ public class DictionaryRootDeleteCommand(long id)
     /// <summary>
     /// Gets the aggregate root identifier.
     /// </summary>
-    public long RootId => Item1;
+    public long EntryId => Item1;
 }

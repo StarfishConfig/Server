@@ -11,7 +11,7 @@ public class TeamUpdateCommand(long id) : Command<long>(id)
     /// <summary>
     /// Gets the team identifier.
     /// </summary>
-    public long TeamId => Item1;
+    public long EntryId => Item1;
 
     /// <inheritdoc cref="Team.Name"/>
     public string Name { get; set; }

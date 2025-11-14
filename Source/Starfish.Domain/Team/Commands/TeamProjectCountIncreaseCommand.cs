@@ -11,5 +11,5 @@ public class TeamProjectCountIncreaseCommand(long id) : Command<long>(id)
     /// <summary>
     /// Gets the team identifier which the project belongs to.
     /// </summary>
-    public long TeamId => Item1;
+    public long EntryId => Item1;
 }

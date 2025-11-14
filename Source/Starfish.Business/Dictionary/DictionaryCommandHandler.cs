@@ -31,7 +31,7 @@ internal class DictionaryCommandHandler(IUnitOfWorkManager unitOfWork, IObjectFa
     {
         return ExecuteAsync(async () =>
         {
-            var business = await Factory.FetchAsync<DictionaryRootBusiness>(message.RootId, cancellationToken);
+            var business = await Factory.FetchAsync<DictionaryRootBusiness>(message.EntryId, cancellationToken);
             business.Code = message.Code;
             business.Name = message.Name;
             business.Remark = message.Remark;
@@ -44,7 +44,7 @@ internal class DictionaryCommandHandler(IUnitOfWorkManager unitOfWork, IObjectFa
     {
         return ExecuteAsync(async () =>
         {
-            var business = await Factory.FetchAsync<DictionaryRootBusiness>(message.RootId, cancellationToken);
+            var business = await Factory.FetchAsync<DictionaryRootBusiness>(message.EntryId, cancellationToken);
             business.MarkAsDelete();
             await business.SaveAsync(true, cancellationToken);
         }, cancellationToken);
@@ -54,7 +54,7 @@ internal class DictionaryCommandHandler(IUnitOfWorkManager unitOfWork, IObjectFa
     {
         return ExecuteAsync(async () =>
         {
-            var business = await Factory.FetchAsync<DictionaryItemBusiness>(message.RootId, cancellationToken);
+            var business = await Factory.FetchAsync<DictionaryItemBusiness>(message.EntryId, cancellationToken);
             business.Key = message.Key;
             business.Value = message.Value;
             business.Remark = message.Remark;
@@ -67,7 +67,7 @@ internal class DictionaryCommandHandler(IUnitOfWorkManager unitOfWork, IObjectFa
     {
         return ExecuteAsync(async () =>
         {
-            var business = await Factory.FetchAsync<DictionaryItemBusiness>(message.RootId, cancellationToken);
+            var business = await Factory.FetchAsync<DictionaryItemBusiness>(message.EntryId, cancellationToken);
             business.Key = message.Key;
             business.Value = message.Value;
             business.Remark = message.Remark;
@@ -78,6 +78,6 @@ internal class DictionaryCommandHandler(IUnitOfWorkManager unitOfWork, IObjectFa
 
     public Task HandleAsync(DictionaryItemDeleteCommand message, MessageContext context, CancellationToken cancellationToken = default)
     {
-        return ExecuteAsync(() => Factory.DeleteAsync<DictionaryItemBusiness>(message.RootId, message.Keys, cancellationToken), cancellationToken);
+        return ExecuteAsync(() => Factory.DeleteAsync<DictionaryItemBusiness>(message.EntryId, message.Keys, cancellationToken), cancellationToken);
     }
 }

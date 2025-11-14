@@ -13,7 +13,7 @@ public sealed class TeamMemberRemoveCommand(long teamId, List<long> userIds)
     /// <summary>
     /// Gets the team identifier.
     /// </summary>
-    public long TeamId => Item1;
+    public long EntryId => Item1;
 
     /// <summary>
     /// Gets or sets the user identifiers to be removed from the team.
