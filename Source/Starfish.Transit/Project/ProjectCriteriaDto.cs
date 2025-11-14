@@ -14,4 +14,9 @@ public class ProjectCriteriaDto
 	/// Gets or sets the keyword to search projects by name or description.
 	/// </summary>
 	public string Keyword { get; set; }
+
+	/// <summary>
+	/// Gets or sets the creator's name to filter projects by creator.
+	/// </summary>
+	public string Creator { get; set; }
 }

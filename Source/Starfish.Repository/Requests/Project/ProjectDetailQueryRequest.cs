@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Nerosoft.Euonia.Bus;
 
 namespace Nerosoft.Starfish.Repository;
 
-internal class ProjectDetailQueryRequest
-{
-}
+internal sealed record ProjectDetailQueryRequest(long Id) : IRequest<Project>;

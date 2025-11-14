@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Nerosoft.Euonia.Bus;
 
 namespace Nerosoft.Starfish.Repository;
 
-internal class ProjectListQueryRequest
-{
-}
+internal sealed record ProjectListQueryRequest(ProjectCriteriaDto Criteria, int Skip, int Take)
+	: IRequest<IList<Project>>;

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Nerosoft.Euonia.Bus;
 
 namespace Nerosoft.Starfish.Repository;
 
-internal class ProjectCountQueryRequest
-{
-}
+/// <summary>
+/// Defines the request to count projects based on criteria
+/// </summary>
+/// <param name="Criteria"></param>
+internal sealed record ProjectCountQueryRequest(ProjectCriteriaDto Criteria) : IRequest<int>;
