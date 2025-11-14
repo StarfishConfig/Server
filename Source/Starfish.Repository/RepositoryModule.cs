@@ -26,7 +26,7 @@ public class RepositoryModule : ModuleContextBase
 		       .AddHostedService<DataSeeder>();
 
 		context.Services
-		       .AddDataContextFactory<PrimaryDataContext>()
+		       .AddDataContextFactory<CorebizDataContext>()
 		       .AddDataContextFactory<SystemDataContext>()
 		       .AddDataContextFactory<IdentityDataContext>()
 		       .AddDataContextFactory<LoggingDataContext>();

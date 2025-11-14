@@ -7,7 +7,7 @@ namespace Nerosoft.Starfish.Repository;
 /// <summary>
 /// Configures the Project entity.
 /// </summary>
-[DbContext(typeof(PrimaryDataContext))]
+[DbContext(typeof(CorebizDataContext))]
 internal class ProjectEntityConfiguration : IEntityTypeConfiguration<Project>
 {
 	private const string TABLE = "project";

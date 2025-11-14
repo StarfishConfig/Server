@@ -24,4 +24,5 @@ public class ApiGroupConstants
 	public const string System = "system";
 	public const string Maintenance = "maintenance";
 	public const string Primary = "primary";
+	public const string CoreBusiness = "corebiz";
 }
