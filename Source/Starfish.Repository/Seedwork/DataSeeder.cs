@@ -39,7 +39,7 @@ internal class DataSeeder(IConfiguration configuration, IServiceProvider provide
     /// <param name="cancellationToken"></param>
     public async Task SeedingAccountDataAsync(CancellationToken cancellationToken = default)
     {
-        var context = provider.CreateScope().ServiceProvider.GetService<AccountDataContext>();
+        var context = provider.CreateScope().ServiceProvider.GetService<IdentityDataContext>();
 
         var username = "admin";
         var password = "nerosoft.8888";
@@ -60,7 +60,7 @@ internal class DataSeeder(IConfiguration configuration, IServiceProvider provide
 
     private async Task SeedingDictionaryDataAsync(CancellationToken cancellationToken = default)
     {
-        var context = provider.CreateScope().ServiceProvider.GetService<SupportDataContext>();
+        var context = provider.CreateScope().ServiceProvider.GetService<SystemDataContext>();
 
         var exists = await context.Set<DictionaryRoot>().AnyAsync(cancellationToken);
         if (exists)

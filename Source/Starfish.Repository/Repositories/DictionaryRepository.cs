@@ -7,7 +7,7 @@ namespace Nerosoft.Starfish.Repository;
 /// <summary>
 /// Dictionary root repository
 /// </summary>
-internal class DictionaryRepository : BaseRepository<SupportDataContext, DictionaryRoot, long>, IDictionaryRepository
+internal class DictionaryRepository : BaseRepository<SystemDataContext, DictionaryRoot, long>, IDictionaryRepository
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="DictionaryRepository"/> class.

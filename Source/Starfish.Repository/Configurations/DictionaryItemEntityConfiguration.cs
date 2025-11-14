@@ -7,7 +7,7 @@ namespace Nerosoft.Starfish.Repository;
 /// <summary>
 /// The entity configuration for <see cref="DictionaryItem"/>.
 /// </summary>
-[DbContext(typeof(SupportDataContext))]
+[DbContext(typeof(SystemDataContext))]
 internal class DictionaryItemEntityConfiguration : IEntityTypeConfiguration<DictionaryItem>
 {
     private const string TABLE = "dictionary_item";

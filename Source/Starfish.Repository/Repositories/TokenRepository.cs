@@ -6,7 +6,7 @@ namespace Nerosoft.Starfish.Repository;
 /// <summary>
 /// Repository for managing Token entities.
 /// </summary>
-internal class TokenRepository : BaseRepository<AccountDataContext, Token, long>, ITokenRepository
+internal class TokenRepository : BaseRepository<IdentityDataContext, Token, long>, ITokenRepository
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="TokenRepository"/> class.

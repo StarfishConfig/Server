@@ -7,7 +7,7 @@ namespace Nerosoft.Starfish.Repository;
 /// <summary>
 /// Configures the TeamMember entity.
 /// </summary>
-[DbContext(typeof(AccountDataContext))]
+[DbContext(typeof(IdentityDataContext))]
 internal sealed class TeamMemberEntityConfiguration : IEntityTypeConfiguration<TeamMember>
 {
     /// <summary>

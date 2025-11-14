@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Nerosoft.Starfish.Shared;
 
@@ -7,7 +8,8 @@ namespace Nerosoft.Starfish.Webapi.Controllers;
 /// Controller for managing team-related operations.
 /// </summary>
 [Route("api/[controller]")]
-[ApiController, ApiExplorerSettings(GroupName = ApiGroupConstants.Account)]
+[ApiController, ApiExplorerSettings(GroupName = ApiGroupConstants.Identity)]
+[Authorize]
 public partial class TeamController(ITeamApplicationService service) : ControllerBase
 {
     /// <summary>

@@ -9,7 +9,7 @@ namespace Nerosoft.Starfish.Webapi.Controllers;
 /// Controller for managing project-related operations.
 /// </summary>
 [Route("api/[controller]")]
-[ApiController, ApiExplorerSettings(GroupName = ApiGroupConstants.Project)]
+[ApiController, ApiExplorerSettings(GroupName = ApiGroupConstants.Primary)]
 [Authorize]
 public class ProjectController(IProjectApplicationService service) : ControllerBase
 {

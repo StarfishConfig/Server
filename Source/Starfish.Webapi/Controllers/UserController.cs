@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Nerosoft.Starfish.Shared;
 
 namespace Nerosoft.Starfish.Webapi.Controllers;
 
@@ -7,7 +8,7 @@ namespace Nerosoft.Starfish.Webapi.Controllers;
 /// Controller for managing user-related operations.
 /// </summary>
 [Route("api/[controller]")]
-[ApiController, ApiExplorerSettings(GroupName = "account")]
+[ApiController, ApiExplorerSettings(GroupName = ApiGroupConstants.Identity)]
 [Authorize]
 public class UserController(IUserApplicationService service) : ControllerBase
 {

@@ -6,7 +6,7 @@ namespace Nerosoft.Starfish.Repository;
 /// <summary>
 /// Repository for managing Team entities.
 /// </summary>
-internal sealed class TeamRepository : BaseRepository<AccountDataContext, Team, long>, ITeamRepository
+internal sealed class TeamRepository : BaseRepository<IdentityDataContext, Team, long>, ITeamRepository
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="TeamRepository"/> class.

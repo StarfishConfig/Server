@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Nerosoft.Starfish.Repository;
 
-[DbContext(typeof(AccountDataContext))]
+[DbContext(typeof(IdentityDataContext))]
 internal class UserRoleEntityConfiguration : IEntityTypeConfiguration<UserRole>
 {
     /// <summary>

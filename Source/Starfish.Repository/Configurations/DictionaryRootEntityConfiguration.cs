@@ -7,7 +7,7 @@ namespace Nerosoft.Starfish.Repository;
 /// <summary>
 /// The entity configuration for <see cref="DictionaryRoot"/>.
 /// </summary>
-[DbContext(typeof(SupportDataContext))]
+[DbContext(typeof(SystemDataContext))]
 internal sealed class DictionaryRootEntityConfiguration : IEntityTypeConfiguration<DictionaryRoot>
 {
     private const string TABLE = "dictionary_root";

@@ -7,7 +7,7 @@ namespace Nerosoft.Starfish.Repository;
 /// <summary>
 /// Configures the Token entity.
 /// </summary>
-[DbContext(typeof(AccountDataContext))]
+[DbContext(typeof(IdentityDataContext))]
 internal sealed class TokenEntityConfiguration : IEntityTypeConfiguration<Token>
 {
     /// <summary>

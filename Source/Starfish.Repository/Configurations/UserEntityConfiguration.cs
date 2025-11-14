@@ -7,7 +7,7 @@ namespace Nerosoft.Starfish.Repository;
 /// <summary>
 /// Configures the User entity.
 /// </summary>
-[DbContext(typeof(AccountDataContext))]
+[DbContext(typeof(IdentityDataContext))]
 internal sealed class UserEntityConfiguration : IEntityTypeConfiguration<User>
 {
     /// <summary>
