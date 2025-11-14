@@ -26,7 +26,7 @@ public partial class TeamFunction(ILoggerFactory logger, ITeamApplicationService
 	/// <param name="take"></param>
 	/// <returns></returns>
 	[Function($"{FUNCTION_NAME}-Find")]
-	public Task<IActionResult> FindAsync([HttpTrigger(AuthorizationLevel.Function, "get", Route = $"{ROUTE_PREFIX}/list")] HttpRequest request, FunctionContext context, int skip = RequestConstant.Defaults.Skip, int take = RequestConstant.Defaults.Take)
+	public Task<IActionResult> FindAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = $"{ROUTE_PREFIX}/list")] HttpRequest request, FunctionContext context, int skip = RequestConstant.Defaults.Skip, int take = RequestConstant.Defaults.Take)
 	{
 		return ExecuteAsync(async () =>
 		{
@@ -43,7 +43,7 @@ public partial class TeamFunction(ILoggerFactory logger, ITeamApplicationService
 	/// <param name="context"></param>
 	/// <returns></returns>
 	[Function($"{FUNCTION_NAME}-Count")]
-	public Task<IActionResult> CountAsync([HttpTrigger(AuthorizationLevel.Function, "get", Route = $"{ROUTE_PREFIX}/count")] HttpRequest request, FunctionContext context)
+	public Task<IActionResult> CountAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = $"{ROUTE_PREFIX}/count")] HttpRequest request, FunctionContext context)
 	{
 		return ExecuteAsync(async () =>
 		{
@@ -54,7 +54,7 @@ public partial class TeamFunction(ILoggerFactory logger, ITeamApplicationService
 	}
 
 	[Function($"{FUNCTION_NAME}-Detail")]
-	public Task<IActionResult> GetAsync([HttpTrigger(AuthorizationLevel.Function, "get", Route = $"{ROUTE_PREFIX}/{{id:long}}")] HttpRequest request, FunctionContext context, long id)
+	public Task<IActionResult> GetAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = $"{ROUTE_PREFIX}/{{id:long}}")] HttpRequest request, FunctionContext context, long id)
 	{
 		return ExecuteAsync(async () =>
 		{
@@ -64,7 +64,7 @@ public partial class TeamFunction(ILoggerFactory logger, ITeamApplicationService
 	}
 
 	[Function($"{FUNCTION_NAME}-Create")]
-	public Task<IActionResult> CreateAsync([HttpTrigger(AuthorizationLevel.Function, "post", Route = ROUTE_PREFIX)] HttpRequest request, FunctionContext context)
+	public Task<IActionResult> CreateAsync([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = ROUTE_PREFIX)] HttpRequest request, FunctionContext context)
 	{
 		return ExecuteAsync(async () =>
 		{
@@ -79,7 +79,7 @@ public partial class TeamFunction(ILoggerFactory logger, ITeamApplicationService
 	}
 
 	[Function($"{FUNCTION_NAME}-Update")]
-	public Task<IActionResult> UpdateAsync([HttpTrigger(AuthorizationLevel.Function, "put", Route = $"{ROUTE_PREFIX}/{{id:long}}")] HttpRequest request, FunctionContext context, long id)
+	public Task<IActionResult> UpdateAsync([HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = $"{ROUTE_PREFIX}/{{id:long}}")] HttpRequest request, FunctionContext context, long id)
 	{
 		return ExecuteAsync(async () =>
 		{
@@ -93,7 +93,7 @@ public partial class TeamFunction(ILoggerFactory logger, ITeamApplicationService
 	}
 
 	[Function($"{FUNCTION_NAME}-Delete")]
-	public Task<IActionResult> DeleteAsync([HttpTrigger(AuthorizationLevel.Function, "delete", Route = $"{ROUTE_PREFIX}/{{id:long}}")] HttpRequest request, FunctionContext context, long id)
+	public Task<IActionResult> DeleteAsync([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = $"{ROUTE_PREFIX}/{{id:long}}")] HttpRequest request, FunctionContext context, long id)
 	{
 		return ExecuteAsync(async () =>
 		{
@@ -102,7 +102,7 @@ public partial class TeamFunction(ILoggerFactory logger, ITeamApplicationService
 	}
 
 	[Function($"{FUNCTION_NAME}-Transfer")]
-	public Task<IActionResult> TransferAsync([HttpTrigger(AuthorizationLevel.Function, "post", Route = $"{ROUTE_PREFIX}/{{id:long}}/transfer")] HttpRequest request, FunctionContext context, long id)
+	public Task<IActionResult> TransferAsync([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = $"{ROUTE_PREFIX}/{{id:long}}/transfer")] HttpRequest request, FunctionContext context, long id)
 	{
 		return ExecuteAsync(async () =>
 		{

@@ -18,7 +18,7 @@ public partial class TeamFunction
 	/// <param name="take"></param>
 	/// <returns></returns>
 	[Function($"{ROUTE_PREFIX}-FindMember")]
-	public async Task<IActionResult> FindMemberAsync([HttpTrigger(AuthorizationLevel.Function, "get", Route = $"{ROUTE_PREFIX}/{{id:long}}/member/list")] HttpRequest request, FunctionContext context, long id, int skip = RequestConstant.Defaults.Skip, int take = RequestConstant.Defaults.Take)
+	public async Task<IActionResult> FindMemberAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = $"{ROUTE_PREFIX}/{{id:long}}/member/list")] HttpRequest request, FunctionContext context, long id, int skip = RequestConstant.Defaults.Skip, int take = RequestConstant.Defaults.Take)
 	{
 		return await ExecuteAsync(async () =>
 		{
@@ -36,7 +36,7 @@ public partial class TeamFunction
 	/// <param name="id"></param>
 	/// <returns></returns>
 	[Function($"{ROUTE_PREFIX}-CountMember")]
-	public async Task<IActionResult> CountMemberAsync([HttpTrigger(AuthorizationLevel.Function, "get", Route = $"{ROUTE_PREFIX}/{{id:long}}/member/count")] HttpRequest request, FunctionContext context, long id)
+	public async Task<IActionResult> CountMemberAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = $"{ROUTE_PREFIX}/{{id:long}}/member/count")] HttpRequest request, FunctionContext context, long id)
 	{
 		return await ExecuteAsync(async () =>
 		{
@@ -55,7 +55,7 @@ public partial class TeamFunction
 	/// <returns></returns>
 	/// <exception cref="BadRequestException"></exception>
 	[Function($"{ROUTE_PREFIX}-AppendMember")]
-	public async Task<IActionResult> AppendMemberAsync([HttpTrigger(AuthorizationLevel.Function, "post", Route = $"{ROUTE_PREFIX}/{{id:long}}/member")] HttpRequest request, FunctionContext context, long id)
+	public async Task<IActionResult> AppendMemberAsync([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = $"{ROUTE_PREFIX}/{{id:long}}/member")] HttpRequest request, FunctionContext context, long id)
 	{
 		return await ExecuteAsync(async () =>
 		{
@@ -78,7 +78,7 @@ public partial class TeamFunction
 	/// <returns></returns>
 	/// <exception cref="BadRequestException"></exception>
 	[Function($"{ROUTE_PREFIX}-RemoveMember")]
-	public async Task<IActionResult> RemoveMemberAsync([HttpTrigger(AuthorizationLevel.Function, "delete", Route = $"{ROUTE_PREFIX}/{{id:long}}/member")] HttpRequest request, FunctionContext context, long id)
+	public async Task<IActionResult> RemoveMemberAsync([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = $"{ROUTE_PREFIX}/{{id:long}}/member")] HttpRequest request, FunctionContext context, long id)
 	{
 		return await ExecuteAsync(async () =>
 		{
@@ -100,7 +100,7 @@ public partial class TeamFunction
 	/// <param name="id"></param>
 	/// <returns></returns>
 	[Function($"{ROUTE_PREFIX}-Quit")]
-	public async Task<IActionResult> QuitMemberAsync([HttpTrigger(AuthorizationLevel.Function, "post", Route = $"{ROUTE_PREFIX}/{{id:long}}/member/quit")] HttpRequest request, FunctionContext context, long id)
+	public async Task<IActionResult> QuitMemberAsync([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = $"{ROUTE_PREFIX}/{{id:long}}/member/quit")] HttpRequest request, FunctionContext context, long id)
 	{
 		return await ExecuteAsync(async () =>
 		{
