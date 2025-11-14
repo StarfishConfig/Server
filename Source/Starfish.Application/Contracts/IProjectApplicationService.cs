@@ -5,7 +5,7 @@ using Nerosoft.Starfish.Transit;
 namespace Nerosoft.Starfish.Application;
 
 /// <summary>
-/// Application service for managing projects.
+/// Defines application service interface for managing projects.
 /// </summary>
 public interface IProjectApplicationService : IApplicationService
 {
