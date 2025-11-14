@@ -74,7 +74,7 @@ public interface ITeamApplicationService : IApplicationService
     /// <param name="take"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task<List<TeamMemberInfoDto>> GetMemberListAsync(long teamId, TeamMemberCriteriaDto criteria, int skip, int take, CancellationToken cancellationToken = default);
+    Task<List<TeamMemberInfoDto>> FindMemberAsync(long teamId, TeamMemberCriteriaDto criteria, int skip, int take, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the count of team members by criteria.
@@ -83,7 +83,7 @@ public interface ITeamApplicationService : IApplicationService
     /// <param name="criteria"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task<int> GetMemberCountAsync(long teamId, TeamMemberCriteriaDto criteria, CancellationToken cancellationToken = default);
+    Task<int> CountMemberAsync(long teamId, TeamMemberCriteriaDto criteria, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Appends members to a team.

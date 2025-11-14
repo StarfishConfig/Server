@@ -8,58 +8,66 @@ namespace Nerosoft.Starfish.Business;
 /// </summary>
 internal class TeamMemberBusiness : EditableObjectBase<TeamMemberBusiness, Team>
 {
-    private ITeamRepository Repository => LazyServiceProvider.GetRequiredService<ITeamRepository>();
+	private ITeamRepository Repository => LazyServiceProvider.GetRequiredService<ITeamRepository>();
 
-    private Team _aggregate;
-    protected override Team Aggregate => _aggregate;
+	private Team _aggregate;
+	protected override Team Aggregate => _aggregate;
 
-    #region Properties
+	#region Properties
 
-    public static readonly PropertyInfo<List<long>> UserIdsProperty = RegisterProperty<List<long>>(p => p.UserIds);
+	public static readonly PropertyInfo<List<long>> UserIdsProperty = RegisterProperty<List<long>>(p => p.UserIds);
 
-    public List<long> UserIds
-    {
-        get => GetProperty(UserIdsProperty);
-        set => SetProperty(UserIdsProperty, value);
-    }
+	public List<long> UserIds
+	{
+		get => GetProperty(UserIdsProperty);
+		set => SetProperty(UserIdsProperty, value);
+	}
 
-    public static readonly PropertyInfo<string> ReasonProperty = RegisterProperty<string>(p => p.Reason);
+	public static readonly PropertyInfo<string> ReasonProperty = RegisterProperty<string>(p => p.Reason);
 
-    public string Reason
-    {
-        get => GetProperty(ReasonProperty);
-        set => SetProperty(ReasonProperty, value);
-    }
+	public string Reason
+	{
+		get => GetProperty(ReasonProperty);
+		set => SetProperty(ReasonProperty, value);
+	}
 
-    #endregion
+	#endregion
 
-    [FactoryFetch]
-    private async Task FetchAsync(long id, CancellationToken cancellationToken = default)
-    {
-        _aggregate = await Repository.GetAsync(id, true, [nameof(Team.Members)], cancellationToken);
-    }
+	[FactoryFetch]
+	private async Task FetchAsync(long id, CancellationToken cancellationToken = default)
+	{
+		_aggregate = await Repository.GetAsync(id, true, [nameof(Team.Members)], cancellationToken);
+	}
 
-    [FactoryUpdate]
-    protected override async Task UpdateAsync(CancellationToken cancellationToken = default)
-    {
-        if (UserIds?.Any() != true)
-        {
-            return;
-        }
+	[FactoryUpdate]
+	protected override async Task UpdateAsync(CancellationToken cancellationToken = default)
+	{
+		if (UserIds?.Any() != true)
+		{
+			return;
+		}
 
-        Aggregate.AppendMembers(UserIds);
-        await Repository.UpdateAsync(Aggregate, true, cancellationToken);
-    }
+		Aggregate.AppendMembers(UserIds);
+		await Repository.UpdateAsync(Aggregate, true, cancellationToken);
+	}
 
-    [FactoryDelete]
-    protected override async Task DeleteAsync(CancellationToken cancellationToken = default)
-    {
-        if (UserIds?.Any() != true)
-        {
-            return;
-        }
+	[FactoryDelete]
+	protected override async Task DeleteAsync(CancellationToken cancellationToken = default)
+	{
+		if (UserIds?.Any() != true)
+		{
+			return;
+		}
 
-        Aggregate.RemoveMembers(UserIds, Reason);
-        await Repository.UpdateAsync(Aggregate, true, cancellationToken);
-    }
+		if (string.Equals(Reason, "remove", StringComparison.OrdinalIgnoreCase))
+		{
+			if (Aggregate.OwnerId != Identity.GetUserIdOfInt64())
+			{
+				throw new ForbiddenException("Only team owner can perform this action.");
+			}
+		}
+
+		Aggregate.RemoveMembers(UserIds, Reason);
+		await Repository.UpdateAsync(Aggregate, true, cancellationToken);
+	}
 }

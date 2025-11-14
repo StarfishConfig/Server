@@ -202,6 +202,12 @@ public sealed class Team : Aggregate<long>, IAuditing
     internal void RemoveMembers(IEnumerable<long> userIds, string reason)
     {
         Members ??= [];
+
+		if (userIds.Contains(OwnerId))
+		{
+			throw new ForbiddenException("Cannot remove the team owner from the team.");
+		}
+
         var removingIds = userIds.Where(id => Members.Any(t => t.UserId == id)).ToList();
         if (!removingIds.Any())
         {

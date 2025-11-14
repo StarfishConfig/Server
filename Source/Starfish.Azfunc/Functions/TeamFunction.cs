@@ -11,7 +11,7 @@ namespace Nerosoft.Starfish.Azfunc.Functions;
 /// </summary>
 /// <param name="logger"></param>
 /// <param name="service"></param>
-public class TeamFunction(ILoggerFactory logger, ITeamApplicationService service)
+public partial class TeamFunction(ILoggerFactory logger, ITeamApplicationService service)
 	: HttpFunctionBase<TeamFunction>(logger)
 {
 	private const string ROUTE_PREFIX = "team";
@@ -50,6 +50,68 @@ public class TeamFunction(ILoggerFactory logger, ITeamApplicationService service
 			var criteria = context.GetQueryParameter<TeamCriteriaDto>();
 			var count = await service.CountAsync(criteria, context.CancellationToken);
 			return count;
+		});
+	}
+
+	[Function($"{FUNCTION_NAME}-Detail")]
+	public Task<IActionResult> GetAsync([HttpTrigger(AuthorizationLevel.Function, "get", Route = $"{ROUTE_PREFIX}/{{id:long}}")] HttpRequest request, FunctionContext context, long id)
+	{
+		return ExecuteAsync(async () =>
+		{
+			var team = await service.GetAsync(id, context.CancellationToken);
+			return team;
+		});
+	}
+
+	[Function($"{FUNCTION_NAME}-Create")]
+	public Task<IActionResult> CreateAsync([HttpTrigger(AuthorizationLevel.Function, "post", Route = ROUTE_PREFIX)] HttpRequest request, FunctionContext context)
+	{
+		return ExecuteAsync(async () =>
+		{
+			var datamodel = await request.ReadFromJsonAsync<TeamCreateDto>();
+			if (datamodel == null)
+			{
+				throw new BadRequestException("Invalid request body.");
+			}
+			var result = await service.CreateAsync(datamodel, context.CancellationToken);
+			return new CreatedResultDto<long>(result);
+		});
+	}
+
+	[Function($"{FUNCTION_NAME}-Update")]
+	public Task<IActionResult> UpdateAsync([HttpTrigger(AuthorizationLevel.Function, "put", Route = $"{ROUTE_PREFIX}/{{id:long}}")] HttpRequest request, FunctionContext context, long id)
+	{
+		return ExecuteAsync(async () =>
+		{
+			var datamodel = await request.ReadFromJsonAsync<TeamUpdateDto>();
+			if (datamodel == null)
+			{
+				throw new BadRequestException("Invalid request body.");
+			}
+			await service.UpdateAsync(id, datamodel, context.CancellationToken);
+		});
+	}
+
+	[Function($"{FUNCTION_NAME}-Delete")]
+	public Task<IActionResult> DeleteAsync([HttpTrigger(AuthorizationLevel.Function, "delete", Route = $"{ROUTE_PREFIX}/{{id:long}}")] HttpRequest request, FunctionContext context, long id)
+	{
+		return ExecuteAsync(async () =>
+		{
+			await service.DeleteAsync(id, context.CancellationToken);
+		});
+	}
+
+	[Function($"{FUNCTION_NAME}-Transfer")]
+	public Task<IActionResult> TransferAsync([HttpTrigger(AuthorizationLevel.Function, "post", Route = $"{ROUTE_PREFIX}/{{id:long}}/transfer")] HttpRequest request, FunctionContext context, long id)
+	{
+		return ExecuteAsync(async () =>
+		{
+			var datamodel = await request.ReadFromJsonAsync<TeamTransferDto>();
+			if (datamodel == null)
+			{
+				throw new BadRequestException("Invalid request body.");
+			}
+			await service.TransferAsync(id, datamodel, context.CancellationToken);
 		});
 	}
 }

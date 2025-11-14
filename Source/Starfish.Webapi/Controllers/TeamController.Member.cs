@@ -13,9 +13,9 @@ public partial class TeamController
     /// <param name="take"></param>
     /// <returns></returns>
     [HttpGet("{id:long}/member/list")]
-    public async Task<IActionResult> GetMemberListAsync(long id, [FromQuery] TeamMemberCriteriaDto criteria, [FromQuery] int skip = 0, [FromQuery] int take = 20)
+    public async Task<IActionResult> FindMemberAsync(long id, [FromQuery] TeamMemberCriteriaDto criteria, [FromQuery] int skip = 0, [FromQuery] int take = 20)
     {
-        var members = await service.GetMemberListAsync(id, criteria, skip, take, HttpContext.RequestAborted);
+        var members = await service.FindMemberAsync(id, criteria, skip, take, HttpContext.RequestAborted);
         return Ok(members);
     }
 
@@ -26,9 +26,9 @@ public partial class TeamController
     /// <param name="criteria"></param>
     /// <returns></returns>
     [HttpGet("{id:long}/member/count")]
-    public async Task<IActionResult> GetMemberCountAsync(long id, [FromQuery] TeamMemberCriteriaDto criteria)
+    public async Task<IActionResult> CountMemberAsync(long id, [FromQuery] TeamMemberCriteriaDto criteria)
     {
-        var count = await service.GetMemberCountAsync(id, criteria, HttpContext.RequestAborted);
+        var count = await service.CountMemberAsync(id, criteria, HttpContext.RequestAborted);
         return Ok(count);
     }
 
@@ -63,7 +63,7 @@ public partial class TeamController
     /// </summary>
     /// <param name="id">The team identifier.</param>
     /// <returns></returns>
-    [HttpDelete("{id:long}/quit")]
+    [HttpPost("{id:long}/quit")]
     public async Task<IActionResult> QuitAsync(long id)
     {
         await service.QuitAsync(id, HttpContext.RequestAborted);

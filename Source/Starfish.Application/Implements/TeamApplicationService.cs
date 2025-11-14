@@ -76,7 +76,7 @@ internal sealed class TeamApplicationService : BaseApplicationService, ITeamAppl
         return Bus.SendAsync(command, cancellationToken);
     }
 
-    public Task<List<TeamMemberInfoDto>> GetMemberListAsync(long teamId, TeamMemberCriteriaDto criteria, int skip, int take, CancellationToken cancellationToken = default)
+    public Task<List<TeamMemberInfoDto>> FindMemberAsync(long teamId, TeamMemberCriteriaDto criteria, int skip, int take, CancellationToken cancellationToken = default)
     {
         return Bus.RequestAsync(new TeamMemberListQueryRequest(teamId, criteria, skip, take), cancellationToken)
                   .ContinueWith(task =>
@@ -87,7 +87,7 @@ internal sealed class TeamApplicationService : BaseApplicationService, ITeamAppl
                   }, cancellationToken);
     }
 
-    public Task<int> GetMemberCountAsync(long teamId, TeamMemberCriteriaDto criteria, CancellationToken cancellationToken = default)
+    public Task<int> CountMemberAsync(long teamId, TeamMemberCriteriaDto criteria, CancellationToken cancellationToken = default)
     {
         return Bus.RequestAsync(new TeamMemberCountQueryRequest(teamId, criteria), cancellationToken);
     }

@@ -22,7 +22,8 @@ public class TokenFunction(ILoggerFactory logger, IAuthApplicationService servic
     /// <returns></returns>
     /// <exception cref="BadRequestException"></exception>
     [Function($"{nameof(TokenFunction)}-Grant")]
-    public async Task<IActionResult> GrantAsync([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "token/grant")] HttpRequest request, FunctionContext context)
+	[AllowAnonymous]
+	public async Task<IActionResult> GrantAsync([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "token/grant")] HttpRequest request, FunctionContext context)
     {
         return await ExecuteAsync(async () =>
         {
@@ -45,7 +46,8 @@ public class TokenFunction(ILoggerFactory logger, IAuthApplicationService servic
     /// <param name="token"></param>
     /// <returns></returns>
     [Function($"{nameof(TokenFunction)}-Refresh")]
-    public async Task<IActionResult> RefreshAsync([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "token/refresh")] HttpRequest request, FunctionContext context, string token)
+	[AllowAnonymous]
+	public async Task<IActionResult> RefreshAsync([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "token/refresh")] HttpRequest request, FunctionContext context, string token)
     {
         return await ExecuteAsync(async () =>
         {
@@ -61,7 +63,6 @@ public class TokenFunction(ILoggerFactory logger, IAuthApplicationService servic
     /// <param name="context"></param>
     /// <returns></returns>
     [Function($"{nameof(TokenFunction)}-Introspect")]
-    [AllowAnonymous]
     public async Task<IActionResult> IntrospectAsync([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "token/introspect")] HttpRequest request, FunctionContext context)
     {
         return await ExecuteAsync(async () =>
