@@ -18,32 +18,32 @@ internal class ProjectEntityConfiguration : IEntityTypeConfiguration<Project>
 
 		builder.HasKey(e => e.Id);
 
-		builder.HasIndex(t => t.TeamId).HasDatabaseName("project_idx_teamid");
+		builder.HasIndex(t => t.TeamId).HasDatabaseName("project_idx_team_id");
 
 		builder.SnowflakeId();
 
 		builder.Property(t => t.TeamId)
-			.HasColumnName("team_id")
-			.IsRequired();
+		       .HasColumnName("team_id")
+		       .IsRequired();
 
 		builder.Property(t => t.Name)
-			.HasColumnName("name")
-			.HasMaxLength(128)
-			.IsRequired()
-			.IsUnicode();
+		       .HasColumnName("name")
+		       .HasMaxLength(128)
+		       .IsRequired()
+		       .IsUnicode();
 
 		builder.Property(t => t.Description)
-			.HasColumnName("description")
-			.HasMaxLength(512)
-			.IsUnicode();
+		       .HasColumnName("description")
+		       .HasMaxLength(512)
+		       .IsUnicode();
 
 		builder.Property(t => t.Url)
-			.HasColumnName("url")
-			.HasMaxLength(256);
+		       .HasColumnName("url")
+		       .HasMaxLength(256);
 
 		builder.Property(t => t.Image)
-			.HasColumnName("image")
-			.HasMaxLength(256);
+		       .HasColumnName("image")
+		       .HasMaxLength(256);
 
 		builder.ConfigureAuditableProperties();
 	}
