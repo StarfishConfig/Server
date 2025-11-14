@@ -23,7 +23,7 @@ public class ProjectController(IProjectApplicationService service) : ControllerB
     [HttpGet("list")]
     public async Task<IActionResult> ListAsync([FromQuery] ProjectCriteriaDto criteria, int skip = 0, int take = 20)
     {
-        var result = await service.ListAsync(criteria, skip, take, HttpContext.RequestAborted);
+        var result = await service.FindAsync(criteria, skip, take, HttpContext.RequestAborted);
         return Ok(result);
     }
 

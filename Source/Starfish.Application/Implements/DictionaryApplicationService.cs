@@ -19,7 +19,7 @@ internal class DictionaryApplicationService : BaseApplicationService, IDictionar
 	/// <param name="take"></param>
 	/// <param name="cancellationToken"></param>
 	/// <returns></returns>
-	public Task<List<DictionaryRootListDto>> ListRootAsync(DictionaryRootCriteriaDto criteria, int skip, int take, CancellationToken cancellationToken = default)
+	public Task<List<DictionaryRootListDto>> FindRootAsync(DictionaryRootCriteriaDto criteria, int skip, int take, CancellationToken cancellationToken = default)
 	{
 		return Bus.RequestAsync(new DictionaryRootListQueryRequest(criteria, skip, take), cancellationToken)
 		          .ContinueWith(task =>
@@ -135,7 +135,7 @@ internal class DictionaryApplicationService : BaseApplicationService, IDictionar
 	/// <param name="take"></param>
 	/// <param name="cancellationToken"></param>
 	/// <returns></returns>
-	public Task<List<DictionaryItemListDto>> ListItemAsync(long id, DictionaryItemCriteriaDto criteria, int skip, int take, CancellationToken cancellationToken = default)
+	public Task<List<DictionaryItemListDto>> FindItemAsync(long id, DictionaryItemCriteriaDto criteria, int skip, int take, CancellationToken cancellationToken = default)
 	{
 		return Bus.RequestAsync(new DictionaryItemListQueryRequest(id, criteria, skip, take), cancellationToken)
 		          .ContinueWith(task =>

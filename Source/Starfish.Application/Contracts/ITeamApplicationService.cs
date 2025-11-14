@@ -13,7 +13,7 @@ public interface ITeamApplicationService : IApplicationService
     /// <param name="take"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task<List<TeamListDto>> ListAsync(TeamCriteriaDto criteria, int skip, int take, CancellationToken cancellationToken = default);
+    Task<List<TeamListDto>> FindAsync(TeamCriteriaDto criteria, int skip, int take, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Counts teams by criteria.

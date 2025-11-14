@@ -1,5 +1,8 @@
 namespace Nerosoft.Starfish.Transit;
 
+/// <summary>
+/// Data Transfer Object for detailed project information.
+/// </summary>
 public class ProjectDetailDto : ProjectBaseDto
 {
     /// <summary>

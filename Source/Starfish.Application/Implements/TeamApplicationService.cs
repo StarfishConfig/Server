@@ -11,7 +11,7 @@ namespace Nerosoft.Starfish.Application;
 /// </summary>
 internal sealed class TeamApplicationService : BaseApplicationService, ITeamApplicationService
 {
-    public Task<List<TeamListDto>> ListAsync(TeamCriteriaDto criteria, int skip, int take, CancellationToken cancellationToken = default)
+    public Task<List<TeamListDto>> FindAsync(TeamCriteriaDto criteria, int skip, int take, CancellationToken cancellationToken = default)
     {
         return Bus.RequestAsync(new TeamListQueryRequest(criteria, skip, take), cancellationToken)
                   .ContinueWith(task =>

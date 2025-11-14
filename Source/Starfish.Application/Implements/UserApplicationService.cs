@@ -13,7 +13,7 @@ namespace Nerosoft.Starfish.Application;
 internal sealed class UserApplicationService : BaseApplicationService, IUserApplicationService
 {
     /// <inheritdoc />
-    public Task<List<UserListDto>> ListAsync(UserCriteriaDto criteria, int skip, int take, CancellationToken cancellationToken = default)
+    public Task<List<UserListDto>> FindAsync(UserCriteriaDto criteria, int skip, int take, CancellationToken cancellationToken = default)
     {
         var request = new UserListQueryRequest(criteria, skip, take);
         return Bus.RequestAsync(request, cancellationToken)

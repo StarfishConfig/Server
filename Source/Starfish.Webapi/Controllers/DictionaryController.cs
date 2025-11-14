@@ -24,7 +24,7 @@ public partial class DictionaryController(IDictionaryApplicationService service)
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<DictionaryRootListDto>))]
     public async Task<IActionResult> ListRootAsync([FromQuery] DictionaryRootCriteriaDto criteria, int skip = RequestConstant.Defaults.Skip, int take = RequestConstant.Defaults.Take)
     {
-        var result = await service.ListRootAsync(criteria, skip, take, HttpContext.RequestAborted);
+        var result = await service.FindRootAsync(criteria, skip, take, HttpContext.RequestAborted);
         return Ok(result);
     }
 

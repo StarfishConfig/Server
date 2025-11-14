@@ -19,7 +19,7 @@ public interface IUserApplicationService : IApplicationService
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     [Authorize(Roles = AuthenticationConstant.Role.Support)]
-    Task<List<UserListDto>> ListAsync(UserCriteriaDto criteria, int skip, int take, CancellationToken cancellationToken = default);
+    Task<List<UserListDto>> FindAsync(UserCriteriaDto criteria, int skip, int take, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Counts users based on specified criteria asynchronously.

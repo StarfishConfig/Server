@@ -7,6 +7,7 @@ namespace Nerosoft.Starfish.Business;
 /// The general business of dictionary.
 /// </summary>
 /// <param name="repository"></param>
+[SuppressMessage("Style", "IDE0051")]
 internal class DictionaryRootBusiness(IDictionaryRepository repository)
     : EditableObjectBase<DictionaryRootBusiness, DictionaryRoot>
 {

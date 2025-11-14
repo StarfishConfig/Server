@@ -21,7 +21,7 @@ public class UserController(IUserApplicationService service) : ControllerBase
     [HttpGet("list")]
     public async Task<IActionResult> ListAsync([FromQuery] UserCriteriaDto criteria, int skip = 0, int take = 20)
     {
-        var result = await service.ListAsync(criteria, skip, take, HttpContext.RequestAborted);
+        var result = await service.FindAsync(criteria, skip, take, HttpContext.RequestAborted);
         return Ok(result);
     }
 

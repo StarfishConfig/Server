@@ -16,7 +16,7 @@ public interface IDictionaryApplicationService : IApplicationService
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     [Authorize(Roles = AuthenticationConstant.Role.Support)]
-    Task<List<DictionaryRootListDto>> ListRootAsync(DictionaryRootCriteriaDto criteria, int skip, int take, CancellationToken cancellationToken = default);
+    Task<List<DictionaryRootListDto>> FindRootAsync(DictionaryRootCriteriaDto criteria, int skip, int take, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Counts the total number of dictionary roots based on criteria.
@@ -83,7 +83,7 @@ public interface IDictionaryApplicationService : IApplicationService
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     [Authorize(Roles = AuthenticationConstant.Role.Support)]
-    Task<List<DictionaryItemListDto>> ListItemAsync(long id, DictionaryItemCriteriaDto criteria, int skip, int take, CancellationToken cancellationToken = default);
+    Task<List<DictionaryItemListDto>> FindItemAsync(long id, DictionaryItemCriteriaDto criteria, int skip, int take, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Counts the total number of dictionary items under a specific root based on criteria.

@@ -1,5 +1,8 @@
 namespace Nerosoft.Starfish.Transit;
 
+/// <summary>
+/// The data transfer object for creating a new project.
+/// </summary>
 public class ProjectCreateDto : ProjectEditDto
 {
     /// <summary>

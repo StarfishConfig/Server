@@ -3,12 +3,12 @@ using Nerosoft.Euonia.Linq;
 namespace Nerosoft.Starfish.Repository;
 
 /// <summary>
-/// Specifications for querying Team entities.
+/// Specifications for querying <see cref="Team"/> entities.
 /// </summary>
 internal static class TeamSpecification
 {
 	/// <summary>
-	/// Specification to check if Team Id equals the given id.
+	/// Specification to check if <see cref="Team"/> Id equals the given id.
 	/// </summary>
 	/// <param name="id"></param>
 	/// <returns></returns>
@@ -18,7 +18,7 @@ internal static class TeamSpecification
 	}
 
 	/// <summary>
-	/// Specification to check if Team Name equals the given name (case insensitive).
+	/// Specification to check if <see cref="Team"/> Name equals the given name (case insensitive).
 	/// </summary>
 	/// <param name="name"></param>
 	/// <returns></returns>
@@ -29,7 +29,7 @@ internal static class TeamSpecification
 	}
 
 	/// <summary>
-	/// Specification to check if Team Name contains the given substring (case insensitive).
+	/// Specification to check if <see cref="Team"/> Name contains the given substring (case insensitive).
 	/// </summary>
 	/// <param name="name"></param>
 	/// <returns></returns>
@@ -40,7 +40,7 @@ internal static class TeamSpecification
 	}
 
 	/// <summary>
-	/// Specification to check if Team Description contains the given substring (case insensitive).
+	/// Specification to check if <see cref="Team"/> Description contains the given substring (case insensitive).
 	/// </summary>
 	/// <param name="description"></param>
 	/// <returns></returns>
@@ -51,7 +51,7 @@ internal static class TeamSpecification
 	}
 
 	/// <summary>
-	/// Specification to check if Team matches the given keyword in Name or Description.
+	/// Specification to check if <see cref="Team"/> matches the given keyword in Name or Description.
 	/// </summary>
 	/// <param name="keyword"></param>
 	/// <returns></returns>
@@ -67,7 +67,7 @@ internal static class TeamSpecification
 	}
 
 	/// <summary>
-	/// Specification to check if Team has a member with the given userId.
+	/// Specification to check if <see cref="Team"/> has a member with the given userId.
 	/// </summary>
 	/// <param name="userId"></param>
 	/// <returns></returns>

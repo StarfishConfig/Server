@@ -17,7 +17,7 @@ public partial class DictionaryController
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<DictionaryItemListDto>))]
     public async Task<IActionResult> ListItemAsync([FromRoute] long id, [FromQuery] DictionaryItemCriteriaDto criteria, int skip = RequestConstant.Defaults.Skip, int take = RequestConstant.Defaults.Take)
     {
-        var result = await service.ListItemAsync(id, criteria, skip, take, HttpContext.RequestAborted);
+        var result = await service.FindItemAsync(id, criteria, skip, take, HttpContext.RequestAborted);
         return Ok(result);
     }
 

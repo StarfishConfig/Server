@@ -5,8 +5,13 @@ namespace Nerosoft.Starfish.Transit;
 /// </summary>
 public class ProjectCriteriaDto
 {
-    /// <summary>
-    /// Gets or sets the team ID to filter projects by team.
-    /// </summary>
-    public long TeamId { get; set; }
+	/// <summary>
+	/// Gets or sets the team ID to filter projects by team.
+	/// </summary>
+	public long TeamId { get; set; }
+
+	/// <summary>
+	/// Gets or sets the keyword to search projects by name or description.
+	/// </summary>
+	public string Keyword { get; set; }
 }
