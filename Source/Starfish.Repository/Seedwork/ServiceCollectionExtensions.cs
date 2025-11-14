@@ -46,7 +46,7 @@ internal static class ServiceCollectionExtensions
 		services.AddDbContextFactory<TContext>((provider, options) =>
 		{
 			var attribute = typeof(TContext).GetCustomAttribute<ConnectionStringAttribute>();
-			if (attribute != null)
+			if (attribute == null)
 			{
 				throw new InvalidOperationException();
 			}
@@ -59,7 +59,7 @@ internal static class ServiceCollectionExtensions
 				}
 				else if (!string.IsNullOrWhiteSpace(attribute.Name))
 				{
-					var configuration = provider.GetRequiredService<IConfiguration>().GetConnectionString(attribute.Name);
+					connectionString = provider.GetRequiredService<IConfiguration>().GetConnectionString(attribute.Name);
 				}
 				else
 				{

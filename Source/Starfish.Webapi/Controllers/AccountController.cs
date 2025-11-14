@@ -71,9 +71,10 @@ public class AccountController(IUserApplicationService service) : ControllerBase
 	/// </summary>
 	/// <param name="data"></param>
 	/// <returns></returns>
-	[HttpPost("email")]
+	[HttpPatch, HttpPost]
+	[Route("email")]
 	[ProducesResponseType(StatusCodes.Status204NoContent)]
-	public async Task<IActionResult> UpdatePhoneAsync([FromBody] UserEmailUpdateDto data)
+	public async Task<IActionResult> UpdateEmailAsync([FromBody] UserEmailUpdateDto data)
 	{
 		await service.UpdateEmailAsync(data.Email, HttpContext.RequestAborted);
 		return Ok();
@@ -84,7 +85,8 @@ public class AccountController(IUserApplicationService service) : ControllerBase
 	/// </summary>
 	/// <param name="data"></param>
 	/// <returns></returns>
-	[HttpPost("phone")]
+	[HttpPatch, HttpPost]
+	[Route("phone")]
 	[ProducesResponseType(StatusCodes.Status204NoContent)]
 	public async Task<IActionResult> UpdatePhoneAsync([FromBody] UserPhoneUpdateDto data)
 	{

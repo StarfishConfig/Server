@@ -20,7 +20,7 @@ public partial class TeamController(ITeamApplicationService service) : Controlle
     /// <param name="take"></param>
     /// <returns></returns>
     [HttpGet]
-    public async Task<IActionResult> ListAsync([FromQuery] TeamCriteriaDto criteria, [FromQuery] int skip = 0, [FromQuery] int take = 20)
+    public async Task<IActionResult> FindAsync([FromQuery] TeamCriteriaDto criteria, [FromQuery] int skip = 0, [FromQuery] int take = 20)
     {
         var teams = await service.FindAsync(criteria, skip, take, HttpContext.RequestAborted);
         return Ok(teams);
