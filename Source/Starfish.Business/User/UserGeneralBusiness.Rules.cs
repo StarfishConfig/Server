@@ -7,8 +7,7 @@ internal partial class UserGeneralBusiness
     /// <summary>
     /// The username availability check rule.
     /// </summary>
-    /// <param name="repository"></param>
-    public class UsernameAvailabilityCheckRule : RuleBase
+    private class UsernameAvailabilityCheckRule : RuleBase
     {
         public override async Task ExecuteAsync(IRuleContext context, CancellationToken cancellationToken = default)
         {
@@ -29,8 +28,7 @@ internal partial class UserGeneralBusiness
     /// <summary>
     /// The email availability check rule.
     /// </summary>
-    /// <param name="repository"></param>
-    public class EmailAvailabilityCheckRule : RuleBase
+    private class EmailAvailabilityCheckRule : RuleBase
     {
         public override async Task ExecuteAsync(IRuleContext context, CancellationToken cancellationToken = default)
         {
@@ -48,7 +46,7 @@ internal partial class UserGeneralBusiness
         }
     }
 
-    internal class PhoneAvailabilityCheckRule : RuleBase
+    private class PhoneAvailabilityCheckRule : RuleBase
     {
         public override async Task ExecuteAsync(IRuleContext context, CancellationToken cancellationToken = default)
         {
