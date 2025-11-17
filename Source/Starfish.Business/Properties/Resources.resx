@@ -128,4 +128,7 @@
 	<data name="IDS_ERROR_USERNAME_NOT_AVAILABLE" xml:space="preserve">
     <value>The username '{0}' is not available.</value>
   </data>
+    <data name="IDS_ERROR_CONFIG_VERSION_NUMBER_EXISTS" xml:space="preserve">
+        <value>Version number '{0}' already exists.</value>
+    </data>
 </root>
