@@ -35,13 +35,12 @@ public sealed class Configuration : Aggregate<long>, IAuditing
 	/// Initializes a new instance of the <see cref="Configuration"/> class.
 	/// </summary>
 	/// <param name="teamId"></param>
-	/// <param name="projectId"></param>
 	/// <param name="name"></param>
-	private Configuration(long teamId, long projectId, string name)
+	/// 
+	private Configuration(long teamId, string name)
 		: this()
 	{
 		TeamId = teamId;
-		ProjectId = projectId;
 		Name = name;
 		Status = ConfigurationStatus.Pending;
 	}
@@ -51,14 +50,19 @@ public sealed class Configuration : Aggregate<long>, IAuditing
 	#region Properties
 
 	/// <summary>
-	/// Default constructor for ORM.
+	/// Gets or sets the identifier of the team associated with the <see cref="Configuration"/>.
 	/// </summary>
 	public long TeamId { get; set; }
 
 	/// <summary>
-	/// Gets or sets the identifier of the project associated with the <see cref="Configuration"/>.
+	/// Gets or sets the environment of the <see cref="Configuration"/>.
 	/// </summary>
-	public long ProjectId { get; set; }
+	public string Environment { get; set; }
+
+	/// <summary>
+	/// Gets or sets the cluster of the <see cref="Configuration"/>.
+	/// </summary>
+	public string Cluster { get; set; }
 
 	/// <summary>
 	/// Gets or sets the name of the <see cref="Configuration"/>.
@@ -69,11 +73,6 @@ public sealed class Configuration : Aggregate<long>, IAuditing
 	/// Gets or sets the description of the <see cref="Configuration"/>.
 	/// </summary>
 	public string Description { get; private set; }
-
-	/// <summary>
-	/// Gets or sets the secret to access the <see cref="Configuration"/>.
-	/// </summary>
-	public string Secret { get; private set; }
 
 	/// <summary>
 	/// Gets or sets the status of the <see cref="Configuration"/>.
@@ -130,13 +129,25 @@ public sealed class Configuration : Aggregate<long>, IAuditing
 	/// </summary>
 	public ConfigurationArchive Archive { get; set; }
 
+	/// <summary>
+	/// Gets or sets the collection of configuration secrets associated with the <see cref="Configuration"/>.
+	/// </summary>
+	public HashSet<ConfigurationSecret> Secrets { get; set; }
+
 	#endregion
 
 	#region Operations
 
+	/// <summary>
+	/// Creates a new configuration.
+	/// </summary>
+	/// <param name="teamId"></param>
+	/// <param name="projectId"></param>
+	/// <param name="name"></param>
+	/// <returns></returns>
 	internal static Configuration Create(long teamId, long projectId, string name)
 	{
-		var entity = new Configuration(teamId, projectId, name);
+		var entity = new Configuration(teamId, name);
 		entity.RaiseEvent(new ConfigurationCreatedEvent(teamId, projectId, name));
 		return entity;
 	}
@@ -181,19 +192,19 @@ public sealed class Configuration : Aggregate<long>, IAuditing
 
 		var secretHash = Cryptography.SHA.Encrypt(secret);
 
-		if (string.Equals(Secret, secretHash, StringComparison.Ordinal))
-		{
-			return;
-		}
+		//if (string.Equals(Secret, secretHash, StringComparison.Ordinal))
+		//{
+		//	return;
+		//}
 
-		if (Id > 0)
-		{
-			RaiseEvent(new ConfigurationSecretChangedEvent(Id, Secret, secretHash));
-		}
-		else
-		{
-			Secret = secretHash;
-		}
+		//if (Id > 0)
+		//{
+		//	RaiseEvent(new ConfigurationSecretChangedEvent(Id, Secret, secretHash));
+		//}
+		//else
+		//{
+		//	Secret = secretHash;
+		//}
 	}
 
 	internal void Disable()
